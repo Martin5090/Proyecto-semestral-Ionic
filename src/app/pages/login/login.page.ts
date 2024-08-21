@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
   correo: string = "";
-  password:string = "";
+  password: string = "";
 
 
   constructor(private router:Router) { }
