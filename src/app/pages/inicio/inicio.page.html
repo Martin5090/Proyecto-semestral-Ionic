@@ -4,12 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-card>
-    <ion-card-header>
-      <ion-card-title>¡Bienvenido a la app de delivery!</ion-card-title>
-    </ion-card-header>
-
+  
     <ion-card-content>
       <ion-button (click)="irMenudeli()" >Retiro en local</ion-button>
       <ion-button (click)="irMenucaja()">Envío a domicilio</ion-button>
@@ -17,7 +14,7 @@
   </ion-card>
 </ion-content>
 
-<ion-tabs>
+<ion-footer>
   <ion-tab-bar slot="bottom">
     <ion-tab-button [routerLink]="['/inicio']">
       <ion-icon name="home-outline"></ion-icon>
@@ -39,5 +36,4 @@
       <ion-label>Perfil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
-</ion-tabs>
-
+</ion-footer>

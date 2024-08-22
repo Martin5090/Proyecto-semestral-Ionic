@@ -15,14 +15,14 @@ export class InicioPage implements OnInit {
   
   irMenudeli(){
    
-    //crear el codigo dque quiera de la logica
+    
     this.router.navigate(['/menu-deli']);
 
   }
   irMenucaja(){
    
-    //crear el codigo dque quiera de la logica
-    this.router.navigate(['/menu-caja']);
+    
+    this.router.navigate(['/menu-deli']);
 
   }
 }
