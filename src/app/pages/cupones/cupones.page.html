@@ -1,20 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Inicio</ion-title>
+    <ion-title>Cupones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>¡Bienvenido a la app de delivery!</ion-card-title>
-    </ion-card-header>
+  <div class="coupon-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Ingrese su cupón</ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content>
-      <ion-button (click)="irMenudeli()" >Retiro en local</ion-button>
-      <ion-button (click)="irMenucaja()">Envío a domicilio</ion-button>
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Código del cupón</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+        <ion-button expand="full" color="primary">Aplicar Cupón</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
 
 <ion-tabs>
@@ -24,7 +29,7 @@
       <ion-label>Inicio</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button [routerLink]="['/cupones']">
+    <ion-tab-button [routerLink]="['/copones']">
       <ion-icon name="pricetags-outline"></ion-icon>
       <ion-label>Cupones</ion-label>
     </ion-tab-button>
@@ -40,4 +45,3 @@
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
-

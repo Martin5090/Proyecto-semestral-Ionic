@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioPage implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
+  
+  irMenudeli(){
+   
+    //crear el codigo dque quiera de la logica
+    this.router.navigate(['/menu-deli']);
 
+  }
+  irMenucaja(){
+   
+    //crear el codigo dque quiera de la logica
+    this.router.navigate(['/menu-caja']);
+
+  }
 }

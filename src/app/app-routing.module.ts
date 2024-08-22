@@ -54,7 +54,11 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },  {
+    path: 'cupones',
+    loadChildren: () => import('./pages/cupones/cupones.module').then( m => m.CuponesPageModule)
   },
+
 
 
  
