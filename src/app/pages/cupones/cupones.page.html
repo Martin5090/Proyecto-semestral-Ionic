@@ -1,22 +1,25 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Cupones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="coupon-container">
+  <div class="coupon-container" >
     <ion-card>
       <ion-card-header>
         <ion-card-title>Ingrese su cupón</ion-card-title>
       </ion-card-header>
-
       <ion-card-content>
         <ion-item>
-          <ion-label position="floating">Código del cupón</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
-        <ion-button expand="full" color="primary">Aplicar Cupón</ion-button>
+          <ion-input label="Codigo" labelPlacement="floating"
+            placeholder="Ingrese correo electrónico" type="email">
+          </ion-input>
+        </ion-item> 
+        <ion-button expand="full" class="submit-button">Aplicar Cupón</ion-button>
       </ion-card-content>
     </ion-card>
   </div>
