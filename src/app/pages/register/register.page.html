@@ -1,13 +1,44 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Registrarse</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  
-  <ion-button (click)="irPagina()" class="submit-button" expand="block">
-    Registrarse
-  </ion-button>
-  
+<ion-content >
+ <div class="login-container">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">Registro</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form>
+        <ion-item>
+          <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese su nombre"></ion-input>
+        </ion-item> 
+
+        <ion-item>
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido"></ion-input>
+        </ion-item> 
+
+        <ion-item>
+          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email"></ion-input>
+        </ion-item> 
+
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password"></ion-input>
+        </ion-item> 
+
+        <ion-button (click)="irPagina()" class="submit-button" expand="block">
+          Registrarse
+        </ion-button>
+        <br>
+        <a [routerLink]="['/login']">¿Ya tienes una cuenta?</a>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</div>
 </ion-content>

@@ -4,7 +4,6 @@
   align-items: center;
   height: 100%;
   padding: 16px;
-  background-color: #000000; /* Fondo negro */
 }
 
 ion-card {
@@ -50,5 +49,5 @@ ion-back-button {
   color: #FFEB3B; /* Amarillo */
 }
 ion-content {
-  --background: repeating-linear-gradient(130deg, rgb(27, 27, 27) 0px, rgb(27, 27, 27) 97px,rgb(24, 24, 24) 97px, rgb(24, 24, 24) 194px,rgb(20, 20, 20) 194px, rgb(20, 20, 20) 291px);
+  --background: url(https://i.pinimg.com/564x/dc/40/2d/dc402d794372b62f1c79dc485872639e.jpg) ;
 }
