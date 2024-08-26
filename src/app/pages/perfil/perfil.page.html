@@ -1,5 +1,9 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,7 +12,8 @@
   <ion-card class="welcome-card">
     <ion-card-content>
       <h2 class="welcome-title">¡Bienvenido/a a DeliFast!</h2>
-      <ion-button expand="block" color="primary">Ingresa con tu cuenta</ion-button>
+      <ion-button expand="block" color="primary" [routerLink]="['/login']">Iniciar Sesión</ion-button>
+      <ion-button expand="block" color="primary" [routerLink]="['/register']">Registrarse</ion-button>
 
       <div class="social-icons">
         <ion-icon name="logo-facebook" size="large"></ion-icon>
@@ -36,26 +41,3 @@
   </ion-card>
 </ion-content>
 
-<ion-footer>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button [routerLink]="['/inicio']">
-      <ion-icon name="home-outline"></ion-icon>
-      <ion-label>Inicio</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button [routerLink]="['/cupones']">
-      <ion-icon name="pricetags-outline"></ion-icon>
-      <ion-label>Cupones</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button [routerLink]="['/carrito']">
-      <ion-icon name="cart-outline"></ion-icon>
-      <ion-label>Carrito</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button [routerLink]="['/perfil']">
-      <ion-icon name="person-outline"></ion-icon>
-      <ion-label>Perfil</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-footer>

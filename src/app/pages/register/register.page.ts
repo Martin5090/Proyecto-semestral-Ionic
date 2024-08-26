@@ -7,6 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  nombre: string = "";
+  apellido: string = "";
+  correo: string = "";
+  contra: string="";
+
 
   constructor(private router:Router) { }
 
