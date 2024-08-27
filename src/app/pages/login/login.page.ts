@@ -18,7 +18,7 @@ export class LoginPage implements OnInit {
 
   irPagina(){
    
-    //crear el codigo dque quiera de la logica
+    
     this.router.navigate(['/inicio']);
 
   }

@@ -1,59 +1,91 @@
 .empty-cart-content {
     display: flex;
     justify-content: center;
-    /* Centra el contenido horizontalmente */
+   
     align-items: center;
-    /* Centra el contenido verticalmente */
+    
     flex-direction: column;
-    /* Alinea los elementos en una columna */
+    
     height: 100vh;
-    /* Asegura que ocupe toda la altura de la pantalla */
+    
     background-color: #ffffff;
-    /* Fondo blanco */
+    
     text-align: center;
-    /* Asegura que todo el contenido esté centrado */
+
 }
 
-.empty-cart {
-    color: #3b3b3b;
-    /* Color del texto */
+
+
+
+
+ion-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Centra el contenido dentro del contenedor */
+    font-size: 80px;
+    color: #FFFFFF;
+    
 }
 
-.cart-icon {
-    font-size: 80px;
-    color: #050206;
-    /* Color del ícono */
-    margin-top: 20px;
-    /* Ajusta el margen superior */
+ion-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+    
 }
 
 p {
     margin-top: 16px;
     font-size: 18px;
-    color: #9a9174;
-    /* Color del texto */
+    color: #ffffff;
+    
 }
 
 .explore-text {
     margin-top: 10px;
     font-size: 16px;
-    color: #9a9174;
+    color: #ffffff;
 }
 
 .explore-button {
     margin-top: 20px;
-    --background: #9a9174;
+    --background: #fcc309;
     --color: #ffffff;
     width: 60%;
-    /* Reduce un poco el ancho para un mejor centrado */
     max-width: 300px;
-    /* Limita el ancho máximo del botón */
     display: block;
     font-size: 16px;
     margin: 20px auto 0;
-    /* Centra el botón horizontalmente y agrega un margen superior */
+
+}
+
+ion-content {
+    --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
+}
+
+ion-toolbar {
+    background-color: #797979;
+    color: #FFFFFF;
+    --ion-background-color: #0a0a0a;
+    --ion-color-base: #FFFFFF;
+}
+
+ion-card {
+    background-color: #000000;
+    color: #3b3b3b;
+    margin-bottom: 0;
+    width: 90%;
+    padding: 20px;
+    position: center;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ion-card-title {
+    --background: #fcc309;
+    --color: #ffffff;
+
 }

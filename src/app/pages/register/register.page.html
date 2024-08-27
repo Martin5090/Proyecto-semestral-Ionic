@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Registrarse</ion-title>
   </ion-toolbar>
@@ -16,19 +17,19 @@
 
     <ion-card-content>
         <ion-item>
-          <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese su nombre"></ion-input>
+          <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese su nombre" [(ngModel)]="nombre"></ion-input>
         </ion-item> 
 
         <ion-item>
-          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido"></ion-input>
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido" [(ngModel)]="apellido"></ion-input>
         </ion-item> 
 
         <ion-item>
-          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email"></ion-input>
+          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email" [(ngModel)]="correo"></ion-input>
         </ion-item> 
 
         <ion-item>
-          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password"></ion-input>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password" [(ngModel)]="contra"></ion-input>
         </ion-item> 
 
         <ion-button (click)="irPagina()" class="submit-button" expand="block">

@@ -1,5 +1,9 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,7 +12,8 @@
   <ion-card class="welcome-card">
     <ion-card-content>
       <h2 class="welcome-title">¡Bienvenido/a a DeliFast!</h2>
-      <ion-button expand="block" color="primary">Ingresa con tu cuenta</ion-button>
+      <ion-button expand="block" color="primary" [routerLink]="['/login']">Iniciar Sesión</ion-button>
+      <ion-button expand="block" color="primary" [routerLink]="['/register']">Registrarse</ion-button>
 
       <div class="social-icons">
         <ion-icon name="logo-facebook" size="large"></ion-icon>

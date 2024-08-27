@@ -11,43 +11,43 @@ ion-card {
   max-width: 400px;
   padding: 16px;
   width: 90%;
-  background-color: #ffffff; /* Amarillo */
-  color: #000000; /* Texto negro */
+  background-color: #ffffff; 
+  color: #000000; 
 }
 
 ion-card-title {
-  color: #000000; /* Blanco */
+  color: #000000; 
   font-size: 1.8rem;
   font-weight: bold;
 }
 
 ion-item {
   --background: transparent;
-  --color: #000000; /* Blanco */
-  --border-color: #070606; /* Blanco */
-  --highlight-color-focused: #FFEB3B; /* Amarillo */
+  --color: #000000; 
+  --border-color: #070606; 
+  --highlight-color-focused: #FFEB3B; 
 }
 
 .submit-button {
-  --background: #fcc309; /* Amarillo */
-  --background-hover: #FFD700; /* Amarillo oscuro */
-  --background-activated: #adad18; /* Amarillo claro */
-  --color: #000000; /* Texto negro */
+  --background: #fcc309; 
+  --background-hover: #FFD700; 
+  --background-activated: #adad18; 
+  --color: #000000; 
   --border-radius: 6px;
   font-weight: bold;
   margin-top: 10px;
 }
 
 ion-toolbar {
-  background-color: #797979; /* Negro */
-  color: #FFFFFF; /* Blanco */
-  --ion-background-color: #5c5b5b; /* Negro */
-  --ion-color-base: #FFFFFF; /* Blanco */
+  background-color: #000000; 
+  color: #FFFFFF; 
+  --ion-background-color: #000000; 
+  --ion-color-base: #000000; 
 }
 
 ion-back-button {
-  color: #FFEB3B; /* Amarillo */
+  color: #ffffff;
 }
 ion-content {
-  --background: url(https://i.pinimg.com/564x/dc/40/2d/dc402d794372b62f1c79dc485872639e.jpg) ;
+  --background: url(https://i.pinimg.com/564x/5a/2b/1c/5a2b1c1e4ed1fc33f242a053f617ed67.jpg) ;
 }

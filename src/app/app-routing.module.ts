@@ -28,10 +28,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/nosotros/nosotros.module').then( m => m.NosotrosPageModule)
   },
   {
-    path: 'menu-deli',
-    loadChildren: () => import('./pages/menu-deli/menu-deli.module').then( m => m.MenuDeliPageModule)
-  },
-  {
     path: 'menu-caja',
     loadChildren: () => import('./pages/menu-caja/menu-caja.module').then( m => m.MenuCajaPageModule)
   },
@@ -48,13 +44,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/terminos-condi/terminos-condi.module').then( m => m.TerminosCondiPageModule)
   },
   {
-    path: 'politica-priv',
-    loadChildren: () => import('./pages/politica-priv/politica-priv.module').then( m => m.PoliticaPrivPageModule)
-  },
-  {
     path: 'perfil',
     loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
-  },  {
+  },
+  {
     path: 'cupones',
     loadChildren: () => import('./pages/cupones/cupones.module').then( m => m.CuponesPageModule)
   },

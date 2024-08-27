@@ -16,13 +16,13 @@ export class InicioPage implements OnInit {
   irMenudeli(){
    
     
-    this.router.navigate(['/menu-deli']);
+    this.router.navigate(['/menu-caja']);
 
   }
   irMenucaja(){
    
     
-    this.router.navigate(['/menu-deli']);
+    this.router.navigate(['/menu-caja']);
 
   }
 }

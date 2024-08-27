@@ -17,24 +17,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: auto; 
   padding: 0 16px;
+  position: absolute;
+  bottom: 20px; 
+  width: 90%; 
+  left: 50%; 
+  transform: translateX(-50%); 
 
   ion-button {
     margin: 10px 0;
     width: 100%;
-    
+    font-size: 1.2rem; 
+    padding: 12px; 
   }
 }
 
 ion-content {
-  --background: repeating-linear-gradient(45deg, rgb(249, 249, 249) 0px, rgb(249, 249, 249) 109px,rgb(234, 234, 234) 109px, rgb(234, 234, 234) 218px,rgb(242, 242, 242) 218px, rgb(242, 242, 242) 327px);
+  --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
 }
-
 
 ion-card {
   background-color: #000000;
   color: #3b3b3b;
+  margin-bottom: 0; 
+  width: 90%;
+  padding: 20px; 
+  position: absolute;
+  bottom: 0; 
+  left: 50%; 
+  transform: translateX(-50%); 
 }
 
 ion-tab-bar {
@@ -42,18 +54,51 @@ ion-tab-bar {
   --color: #fdfdfd;
 }
 
-ion-button {
-  --background: #fcc309;
-  --color: #ffffff;
-}
-
 ion-icon {
   color: #f1f1f1;
 }
 
 ion-toolbar {
-  background-color: #797979; /* Negro */
-  color: #FFFFFF; /* Blanco */
-  --ion-background-color: #0a0a0a; /* Negro */
-  --ion-color-base: #FFFFFF; /* Blanco */
+  background-color: #797979; 
+  color: #FFFFFF; 
+  --ion-background-color: #0a0a0a; 
+  --ion-color-base: #FFFFFF; 
 }
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  z-index: -1;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  padding: 0 16px;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+ion-button {
+  margin: 10px 0;
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 16px;
+  --background: #fcc309;
+  --color: #ffffff;
+}
+
+
+
+
+
+
+
+
