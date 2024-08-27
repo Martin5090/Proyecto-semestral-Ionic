@@ -5,9 +5,9 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <div class="logo-container">
-      <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
+      <img src="../assets/icon/DeliFast logo.png" alt="DeliFast Logo" class="header-logo">
     </div>
-    <ion-title>menuCaja</ion-title>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,4 +17,15 @@
       <ion-title size="large">menuCaja</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="cards-container">
+    <div class="card" *ngFor="let comida of Tiposdecomida">
+      <img [src]="comida.image" alt="{{comida.name}}" class="card-img">
+      <div class="card-content">
+        <h2>{{comida.name}}</h2>
+        <p>{{comida.description}}</p>
+        <ion-button expand="full " [routerLink]="['/pago']">Comprar</ion-button> 
+      </div>
+    </div>
+  </div>
 </ion-content>

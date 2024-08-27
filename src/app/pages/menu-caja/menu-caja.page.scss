@@ -29,6 +29,67 @@ ion-toolbar {
         margin-left: auto;
     }
 }
+
 ion-content {
     --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
-  }
+}
+
+/* menu-caja.page.scss */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 16px;
+}
+
+.card {
+    background: #000000;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    margin: 10px;
+    width: 300px;
+    height: 400px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 16px;
+    flex-grow: 1;
+    color: #ffffff;
+}
+
+.card-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.card-content p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.card-content ion-button {
+    --background: #FFD700;
+    /* Color de fondo amarillo */
+    --color: #000000;
+    /* Letras negras */
+    --border-radius: 10px;
+    font-weight: bold;
+    padding: 6px 12px;
+    /* Botón más pequeño */
+    width: 70%;
+    /* Reduce el ancho del botón */
+    align-self: center;
+}

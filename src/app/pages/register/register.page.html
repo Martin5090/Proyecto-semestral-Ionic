@@ -7,10 +7,9 @@
     <div class="logo-container">
       <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
     </div>
-    <ion-title>Registrarse</ion-title>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content >
  <div class="login-container">
   <ion-card>
@@ -26,16 +25,19 @@
         <ion-item>
           <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido" [(ngModel)]="apellido"></ion-input>
         </ion-item> 
+        <ion-item>
+          <ion-input label="Numero" labelPlacement="floating" placeholder="Ingrese su teléfono" [(ngModel)]="numero"></ion-input>
+        </ion-item> 
 
         <ion-item>
-          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email" [(ngModel)]="correo"></ion-input>
+          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email" [(ngModel)]="email"></ion-input>
         </ion-item> 
 
         <ion-item>
           <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password" [(ngModel)]="contra"></ion-input>
         </ion-item> 
 
-        <ion-button (click)="irPagina()" class="submit-button" expand="block">
+        <ion-button (click)="irLogin()" class="submit-button" expand="block">
           Registrarse
         </ion-button>
         <br>
