@@ -1,38 +1,91 @@
 .welcome-card {
-    margin: 20px;
-    text-align: center;
-  }
+  margin: 20px;
+  text-align: center;
   
-  .welcome-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #3b3b3b;
-  }
+}
+
+.welcome-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  --background: #fcc309;
+  --color: #fcc309;
+}
+
+.social-icons ion-icon {
+  margin: 0 10px;
+  color: #3f6bfc;
+}
+
+.account-title {
+  font-size: 20px;
+  margin-top: 30px;
+  color: #ffffff;
+}
+
+ion-button {
+  margin-top: 15px;
+  --background: #fcc309;
+  --color: #000000;
   
-  .social-icons {
+}
+
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ion-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #000000;
+  color: #FFFFFF;
+  --ion-background-color: #0a0a0a;
+  --ion-color-base: #FFFFFF;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 8px;
+    top: 0;
+    height: 100%;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
   }
-  
-  .social-icons ion-icon {
-    margin: 0 10px;
-    color: #9a9174;
+
+  .header-logo {
+    height: 50px;
+    width: auto;
+    top: 40px;
   }
-  
-  .account-title {
-    font-size: 20px;
-    margin-top: 30px;
-    color: #3b3b3b;
+
+  ion-title {
+    margin-left: auto;
   }
-  
-  ion-button {
-    margin-top: 15px;
-  }
-  
-  ion-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
+}
+ion-content {
+  --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg) ;
+}
+ion-card {
+  background-color: #000000;
+  color: #3b3b3b;
+  margin-bottom: 0;
+  width: 90%;
+  padding: 20px;
+  position: center;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+

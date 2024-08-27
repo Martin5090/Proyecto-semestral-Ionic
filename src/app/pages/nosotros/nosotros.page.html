@@ -4,14 +4,36 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>nosotros</ion-title>
+    <div class="logo-container">
+      <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
+    </div>
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">nosotros</ion-title>
+      <ion-title size="large">Nosotros</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-card class="about-card">
+    <ion-card-content>
+      <h2 class="company-title">DeliFast</h2>
+      <p class="company-description">
+        En DeliFast, nos especializamos en ofrecer la mejor comida rápida directamente a tu puerta. 
+        Fundada en 2024, nuestra misión es brindarte una experiencia de entrega rápida, eficiente y deliciosa.
+      </p>
+      <p class="company-contact">
+        <strong>Teléfono:</strong> +56 9 1234 5678<br>
+        <strong>Correo Electrónico:</strong> contacto&#64;delifast.cl<br>
+        <strong>Dirección:</strong> Av. Providencia 123, Santiago, Chile
+      </p>
+      <p class="company-mission">
+        Nuestra misión es ofrecer una amplia variedad de opciones de comida rápida, siempre con la mejor calidad y sabor. 
+        Nos esforzamos por satisfacer tus necesidades y superar tus expectativas en cada entrega.
+      </p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
