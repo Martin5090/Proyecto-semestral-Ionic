@@ -1,3 +1,29 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <!-- Contenido principal -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
+  <!-- Menú inferior que estará en todas las páginas -->
+  <ion-footer class="footer-menu">
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button [routerLink]="['/inicio']">
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button [routerLink]="['/cupones']">
+        <ion-icon name="pricetags-outline"></ion-icon>
+        <ion-label>Cupones</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button [routerLink]="['/carrito']">
+        <ion-icon name="cart-outline"></ion-icon>
+        <ion-label>Carrito</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button [routerLink]="['/perfil']">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-footer>
 </ion-app>
