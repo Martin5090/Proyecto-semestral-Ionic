@@ -1,0 +1,18 @@
+ion-app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  ion-router-outlet {
+    flex: 1;
+  }
+  
+  .footer-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Asegúrate de que el menú esté por encima de otros elementos */
+  }
+  
