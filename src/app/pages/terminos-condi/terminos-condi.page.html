@@ -1,13 +1,38 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>terminosCondi</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="logo-container">
+      <img src="../assets/icon/DeliFast logo.png" alt="DeliFast Logo" class="header-logo">
+    </div>
+    <ion-title>Términos y Condiciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">terminosCondi</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+<ion-card class="about-card">
+  <div class="terms-container">
+    <h1 class="terms-title">Términos y Condiciones</h1>
+    <p class="terms-text">
+      Bienvenido a DeliFast, el servicio de entrega de comida rápida. Al utilizar nuestros servicios, aceptas cumplir con los siguientes términos y condiciones. Estos términos pueden ser actualizados en cualquier momento, por lo que te recomendamos revisarlos periódicamente. 
+    </p>
+    <p class="terms-text">
+      DeliFast se reserva el derecho de modificar o interrumpir el servicio en cualquier momento sin previo aviso. 
+      La información proporcionada en nuestro sitio web debe ser precisa y completa. No nos hacemos responsables por errores o inexactitudes en la información publicada. 
+    </p>
+    <p class="terms-text">
+      Todos los pedidos están sujetos a disponibilidad y confirmación. 
+      Nos reservamos el derecho de rechazar cualquier pedido y de cancelar transacciones si se detectan problemas. El uso del servicio implica la aceptación de nuestra política de privacidad y de la entrega. 
+    </p>
+    <p class="terms-text">
+      Nos esforzamos por garantizar que todos los pedidos se procesen correctamente y se entreguen a tiempo. Sin embargo, no somos responsables de retrasos o errores en la entrega causados por circunstancias fuera de nuestro control. Los pedidos son confirmados al momento de la compra y están sujetos a disponibilidad.
+    </p>
+    <p class="terms-text">
+      DeliFast no se hace responsable de ningún daño o pérdida derivada del uso de nuestro servicio, incluyendo problemas con los pedidos, entregas o información en el sitio web. Utilizas nuestros servicios bajo tu propio riesgo.
+    </p>
+  </div>
+</ion-card>
 </ion-content>
