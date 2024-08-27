@@ -40,14 +40,15 @@ ion-content {
 ion-card {
   background-color: #000000;
   color: #3b3b3b;
-  margin-bottom: 0; 
+  margin: 0; /* Asegura que no haya márgenes que interfieran */
   width: 90%;
-  padding: 20px; 
+  padding: 20px;
   position: absolute;
-  bottom: 0; 
-  left: 50%; 
-  transform: translateX(-50%); 
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
 
 ion-tab-bar {
   --background: #000000;
