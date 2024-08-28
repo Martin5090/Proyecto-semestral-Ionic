@@ -51,10 +51,28 @@ const routes: Routes = [
     path: 'cupones',
     loadChildren: () => import('./pages/cupones/cupones.module').then( m => m.CuponesPageModule)
   },
+  {
+    path: 'editarperfil',
+    loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+  },
+  {
+    path: 'verpedido',
+    loadChildren: () => import('./pages/verpedido/verpedido.module').then( m => m.VerpedidoPageModule)
+  },
+  {
+    path: 'agregar',
+    loadChildren: () => import('./pages/agregar/agregar.module').then( m => m.AgregarPageModule)
+  },
+  {
+    path: 'editar',
+    loadChildren: () => import('./pages/editar/editar.module').then( m => m.EditarPageModule)
+  },
+  {
+    path: 'eliminar',
+    loadChildren: () => import('./pages/eliminar/eliminar.module').then( m => m.EliminarPageModule)
+  },
 
 
-
- 
 ];
 
 @NgModule({

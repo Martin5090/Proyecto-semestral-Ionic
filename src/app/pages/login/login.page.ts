@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,13 @@ export class LoginPage implements OnInit {
   contra: string = "";
 
 
-  constructor(private router: Router, private activedroute: ActivatedRoute) {
+  constructor(private router: Router, 
+    private activedroute: ActivatedRoute,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {
+
+
     this.activedroute.queryParams.subscribe(param => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.nombre = this.router.getCurrentNavigation()?.extras?.
@@ -45,17 +52,62 @@ export class LoginPage implements OnInit {
 
 
 
+
     })
   }
 
   ngOnInit() {
   }
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
 
   irInicio() {
+    if (!this.correo || !this.password) {
+      
+      this.presentAlert('Error', 'Por favor, ingrese su correo y contraseña.');
+    } else if (!this.isValidEmail(this.correo)) {
+     
+      this.presentAlert('Error', 'Por favor, ingrese un correo electrónico válido.');
+    } else if (this.correo === this.email && this.password === this.contra) {
+
+      let navigationextras: NavigationExtras = {
+        state: {
+          corr: this.correo,
+          pass: this.password
+  
+        }
+  
+      }
+      this.presentToast('top');
+      this.router.navigate(['/perfil'], navigationextras);
+      
+    } else {
+      
+      this.presentAlert('Error', 'Credenciales incorrectas. Por favor, inténtelo de nuevo.');
+    }
+  }
     
+  async presentAlert(titulo: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: msj,
+      buttons: ['OK'],
+    });
 
-    this.router.navigate(['/inicio']);
+    await alert.present();
+  }
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Usuario logeado con exito',
+      duration: 2500,
+      position: position,
+      color: 'success'
 
+    });
+
+    await toast.present();
   }
 
 }

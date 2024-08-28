@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pago',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pago.page.scss'],
 })
 export class PagoPage implements OnInit {
+  nombreusuario: string = '';
+  numerotarjeta!:number;
+  diaExpiracion: string = '';
+  cvv: string = '';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
+  Pagorealizado() {
+   
+    this.router.navigate(['/inicio']);
+  }
+  
+    
 }
+

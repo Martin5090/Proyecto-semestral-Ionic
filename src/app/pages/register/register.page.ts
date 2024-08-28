@@ -8,11 +8,11 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  nombre: string = "";
-  apellido: string = "";
-  numero!: number;
-  email: string = "";
-  contra: string = "";
+  nombre: string = "admin";
+  apellido: string = "admin";
+  numero: number = 123456789123;
+  email: string = "admin@gmail.com";
+  contra: string = "admin12345";
 
 
   constructor(private router: Router,
@@ -29,27 +29,28 @@ export class RegisterPage implements OnInit {
 
 
   irLogin() {
-    // Validar que todos los campos estén llenos
+    
     if (!this.nombre || !this.apellido || !this.numero || !this.email || !this.contra) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
 
-    // Validar que el número sea un número válido
-    if (isNaN(Number(this.numero))) {
-      this.presentAlert('Número inválido', 'El número de teléfono debe ser válido.');
+    
+    const numeroStr = this.numero.toString();
+    if (isNaN(Number(this.numero)) || numeroStr.length > 12) {
+      this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y no exceder los 12 dígitos.');
       return;
     }
 
-    // Validar formato del correo electrónico
+    
     if (!this.validarEmail(this.email)) {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
 
-    // Validar longitud de la contraseña
-    if (this.contra.length < 6) {
-      this.presentAlert('Contraseña corta', 'La contraseña debe tener al menos 6 caracteres.');
+    
+    if (this.contra.length < 8) {
+      this.presentAlert('Contraseña corta', 'La contraseña debe tener al menos 8 caracteres.');
       return;
     }
 
@@ -65,7 +66,7 @@ export class RegisterPage implements OnInit {
 
     };
 
-    this.presentToast('bottom');
+    this.presentToast('top');
     this.router.navigate(['/login'], navigationextras);
 
   }
@@ -85,7 +86,7 @@ export class RegisterPage implements OnInit {
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Usuario registrado con exito',
-      duration: 2000,
+      duration: 2500,
       position: position,
       color: 'success'
 

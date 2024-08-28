@@ -1,41 +1,42 @@
-
 ion-menu {
-  --background: #000000; /* Fondo negro para el menú */
-  color: #ffffff; /* Texto blanco */
+  --background: #000000;
+  /* Fondo negro para el menú */
+  color: #ffffff;
+  /* Texto blanco */
 }
 
 /* Estilo para el encabezado del menú */
 ion-menu ion-header {
-  --background: #fcc309; 
-  color: #000000; 
+  --background: #fcc309;
+  color: #000000;
 }
 
 /* Estilo para la barra de herramientas en el encabezado del menú */
 ion-menu ion-toolbar {
-  --background: #fcc309; 
-  color: #000000; 
+  --background: #fcc309;
+  color: #000000;
 }
 
 /* Estilo para los elementos de la lista en el menú */
 ion-menu ion-item {
-  --background: #000000; 
-  --color: #ffffff; 
+  --background: #000000;
+  --color: #ffffff;
 }
 
 /* Estilo para los íconos dentro de los ítems del menú */
 ion-menu ion-icon {
-  color: #fcc309; 
+  color: #fcc309;
 }
 
 /* Estilo para los ítems seleccionados o resaltados en el menú */
 ion-menu ion-item.activated {
-  --background: #fcc309; 
-  --color: #000000; 
+  --background: #fcc309;
+  --color: #000000;
 }
 
 /* Estilo para el título del menú */
 ion-menu ion-title {
-  color: #000000; 
+  color: #000000;
 }
 
 
@@ -68,26 +69,34 @@ ion-menu ion-title {
     width: 100%;
   }
 }
+
 /* Establecer el fondo principal */
 
 ion-card {
-  background-color: #9a9174; /* Fondo beige claro para tarjetas o áreas destacadas */
-  color: #3b3b3b; /* Color del texto en tarjetas */
+  background-color: #9a9174;
+  /* Fondo beige claro para tarjetas o áreas destacadas */
+  color: #3b3b3b;
+  /* Color del texto en tarjetas */
 }
 
 /* Estilo para la barra de menú inferior */
 ion-tab-bar {
-  --background: #000000; /* Barra de menú inferior gris oscuro */
-  --color: #ffffff; /* Color del texto en la barra de menú inferior (blanco para contraste) */
+  --background: #000000;
+  /* Barra de menú inferior gris oscuro */
+  --color: #ffffff;
+  /* Color del texto en la barra de menú inferior (blanco para contraste) */
 }
 
 /* Estilo para botones */
 ion-button {
-  --background: #9a9174; /* Fondo de los botones en beige claro */
-  --color: #ffffff; /* Color del texto en los botones (blanco) */
+  --background: #9a9174;
+  /* Fondo de los botones en beige claro */
+  --color: #ffffff;
+  /* Color del texto en los botones (blanco) */
 }
 
 /* Estilo para íconos en la barra de menú inferior */
 ion-icon {
-  color: #fcc309; /* Color blanco para los íconos en la barra de menú inferior */
+  color: #fcc309;
+  /* Color blanco para los íconos en la barra de menú inferior */
 }
