@@ -24,7 +24,7 @@ export class MenuCajaPage implements OnInit {
     {
       id: 3,
       name: 'EMPANADA DE PINO',
-      description: 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. Perfectas para cualquier ocasión.',
+      description: 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. ',
       image: 'https://i.postimg.cc/PxSYhQLC/empanada-de-pino.webp'
     },
 

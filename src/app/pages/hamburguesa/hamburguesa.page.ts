@@ -8,9 +8,9 @@ import { Component } from '@angular/core';
 export class HamburguesaPage {
   ingredientes = [
     { name: 'Tomate', selected: true },
-    { name: 'Lechuga', selected: true },
-    { name: 'Cebolla', selected: true },
-    { name: 'Pepinillos', selected: true }
+    { name: 'Palta', selected: true },
+    { name: 'Mayo', selected: true },
+    { name: 'Pepinillos', selected: false }
   ];
 
   bebidas = ['Agua', 'Refresco', 'Jugo', 'Cerveza'];
