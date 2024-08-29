@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Componente1Component } from './componente1/componente1.component';  // Importar el componente
+import { Componente1Component } from './componente1/componente1.component';  
 
 @NgModule({
   declarations: [Componente1Component],  

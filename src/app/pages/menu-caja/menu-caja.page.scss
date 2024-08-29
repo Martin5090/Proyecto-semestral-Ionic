@@ -47,13 +47,22 @@ ion-content {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin: 10px;
-    width: 240px;
+    width: 100%; 
+    max-width: 400px; 
     height: 480px;
     text-align: center;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 15px; 
+    box-sizing: border-box; 
+}
+@media (max-width: 768px) {
+    .card {
+        height: auto; /* Ajustar la altura en pantallas más pequeñas */
+        margin: 5px; /* Reducir el margen en pantallas pequeñas */
+    }
 }
 
 .card-img {

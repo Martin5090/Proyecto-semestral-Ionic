@@ -21,9 +21,10 @@
     <div class="card" *ngFor="let comida of Tiposdecomida">
       <img [src]="comida.image" alt="{{comida.name}}" class="card-img">
       <div class="card-content">
-        <h6>{{comida.name}}</h6>
+        <h5>{{comida.name}}</h5>
+        <h6>{{comida.precio}}</h6>
         <p>{{comida.description}}</p>
-        <ion-button expand="full " [routerLink]="['/pago']">Comprar</ion-button> 
+        <ion-button [routerLink]="['/hamburguesa']">Comprar</ion-button>
       </div>
     </div>
   </div>
