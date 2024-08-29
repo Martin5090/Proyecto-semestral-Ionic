@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>DelyFast</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Elige tus ingredientes</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div>
+        <h3>Ingredientes</h3>
+        <ion-item *ngFor="let ingrediente of ingredientes">
+          <ion-label>{{ ingrediente.name }}</ion-label>
+          <ion-checkbox [(ngModel)]="ingrediente.selected"></ion-checkbox>
+        </ion-item>
+      </div>
+
+      <div>
+        <h3>Bebida</h3>
+        <ion-item>
+          <ion-label>Selecciona tu bebida</ion-label>
+          <ion-select [(ngModel)]="selectedBebida">
+            <ion-select-option *ngFor="let bebida of bebidas" [value]="bebida">
+              {{ bebida }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+    </ion-card-content>
+
+    <ion-footer>
+      <ion-toolbar>
+        <ion-button expand="full" color="primary" (click)="confirmarOrden()">Confirmar Orden</ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ion-card>
+</ion-content>
