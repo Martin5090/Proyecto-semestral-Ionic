@@ -15,7 +15,7 @@ export class LoginPage implements OnInit {
   nombre: string = "";
   apellido: string = "";
   numero!: number;
-  email: string = "admin@gmail.com";
+  email: string = "admin@gmail.comds";
   contra: string = "Admin12345@";
 
 
