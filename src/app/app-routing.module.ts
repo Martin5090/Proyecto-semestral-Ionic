@@ -70,7 +70,8 @@ const routes: Routes = [
   {
     path: 'eliminar',
     loadChildren: () => import('./pages/eliminar/eliminar.module').then( m => m.EliminarPageModule)
-  },  {
+  },
+  {
     path: 'hamburguesa',
     loadChildren: () => import('./pages/hamburguesa/hamburguesa.module').then( m => m.HamburguesaPageModule)
   },
