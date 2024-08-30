@@ -1,62 +1,107 @@
 .crud-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-  }
-  
-  .crud-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .crud-buttons ion-button {
-    margin-bottom: 15px;
-    width: 200px; 
-    text-align: center;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  padding: 20px; /* Añade algo de padding para móviles */
+}
+
+.crud-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.crud-buttons ion-button {
+  margin-bottom: 15px;
+  width: 200px; 
+  text-align: center;
+}
+
 ion-content {
-    --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
+  --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
+  background-size: cover;
 }
-/* header */
+
+/* Header */
 ion-toolbar {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 16px; 
-    background-color: #797979; 
-    color: #FFFFFF; 
-    --ion-background-color: #0a0a0a; 
-    --ion-color-base: #FFFFFF; 
-  
-    .logo-container {
-      display: flex;
-      align-items: center;
-      position: absolute; 
-      right: 8px; 
-      top: 0; 
-      height: 100%; 
-      display: flex;
-      justify-content: center; 
-    }
-  
-    .header-logo {
-      height: 50px; 
-      width:auto; 
-      top: 40px; 
-    }
-  
-    ion-title {
-      margin-left: auto; 
-    }
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 16px; 
+  background-color: #797979; 
+  color: #FFFFFF; 
+  --ion-background-color: #0a0a0a; 
+  --ion-color-base: #FFFFFF; 
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  position: absolute; 
+  right: 8px; 
+  top: 0; 
+  height: 100%; 
+  justify-content: center; 
+}
+
+.header-logo {
+  height: 50px; 
+  width: auto; 
+}
+
+ion-title {
+  margin-left: auto; 
+}
+
+.centrar {
+  text-align: center;
+}
+
+h2 {
+  color: #ffffff;
+}
+
+ion-card {
+  background-color: #0a0a0a;
+  margin-top: 50%;
+  padding: 16px;
+  max-width: 300px;
+  margin:auto;
+}
+
+/* Adaptaciones para pantallas más grandes */
+@media (min-width: 768px) {
+  .crud-container {
+    height: 80vh; /* Reduce un poco la altura en pantallas grandes */
   }
-  .centrar{ text-align: center;
+
+  .crud-buttons {
+    flex-direction: row; /* Botones en fila en pantallas grandes */
+  }
+
+  .crud-buttons ion-button {
+    margin-right: 15px; /* Añade espacio entre los botones */
+    margin-bottom: 0; /* Elimina el margen inferior */
+    width: 150px; /* Ajusta el tamaño del botón */
+  }
+
+  ion-card {
+    margin-top: 12%;
+  }
 }
-h2{color: #ffffff}
-ion-card{
-    background-color: #0a0a0a;
-    margin-top: 50%;
+
+/* Adaptaciones para pantallas pequeñas */
+@media (max-width: 480px) {
+  .crud-buttons ion-button {
+    width: 100%; /* Botones ocupan todo el ancho en móviles */
+  }
+
+  .header-logo {
+    height: 40px; /* Logo más pequeño en móviles */
+  }
+
+  ion-card {
+    margin-top: 20%;
+  }
 }
-  
