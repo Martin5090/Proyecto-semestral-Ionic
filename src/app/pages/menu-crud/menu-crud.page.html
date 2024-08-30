@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <div class="logo-container">
+      <img src="../assets/icon/DeliFast logo.png" alt="" class="header-logo">
+    </div>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      
+    </ion-toolbar>
+  </ion-header>
+
+
+
+  <ion-content class="empty-cart-content">
+    <ion-card>
+      <br>
+      <h2 class="centrar">Menu Crud</h2>
+      <ion-card-header>
+        
+     
+      
+        <ion-button [routerLink]="['/agregar']" color="success">Agregar</ion-button>
+        <ion-button [routerLink]="['/editar']" color="warning">Editar</ion-button>
+        <ion-button [routerLink]="['/eliminar']" color="danger">Eliminar</ion-button>
+        
+      </ion-card-header>
+    </ion-card>
+  </ion-content>
+  
