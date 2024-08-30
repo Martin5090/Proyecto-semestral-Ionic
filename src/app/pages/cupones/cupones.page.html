@@ -26,5 +26,31 @@
         <ion-button (click)="Canjearcupon()" expand="full" class="submit-button">Aplicar Cupón</ion-button>
       </ion-card-content>
     </ion-card>
+    <swiper-container
+  [pagination]="{ clickable: true }"
+  [navigation]="true"
+  [loop]="true"
+  class="swiper-container"
+>
+  <swiper-slide>
+    <div class="slide-content">
+      <img src="../assets/icon/pan.png" alt="Image 1" class="responsive-img">
+    </div>
+  </swiper-slide>
+  <swiper-slide>
+    <div class="slide-content">
+      <img src="../assets/icon/sorteoo.png" alt="Image 2" class="responsive-img">
+    </div>
+  </swiper-slide>
+  <swiper-slide>
+    <div class="slide-content">
+      <img src="../assets/icon/cuponn.png" alt="Image 3" class="responsive-img">
+    </div>
+  </swiper-slide>
+
+  <!-- Flechas de navegación -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</swiper-container>
 </ion-content>
 

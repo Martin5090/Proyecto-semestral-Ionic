@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CuponesPageRoutingModule } from './cupones-routing.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 import { CuponesPage } from './cupones.page';
 
@@ -15,6 +17,7 @@ import { CuponesPage } from './cupones.page';
     IonicModule,
     CuponesPageRoutingModule
   ],
-  declarations: [CuponesPage]
+  declarations: [CuponesPage],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CuponesPageModule {}
