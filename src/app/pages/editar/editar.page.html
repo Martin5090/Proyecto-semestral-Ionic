@@ -1,13 +1,52 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>editar</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <div class="logo-container">
+      <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
+    </div>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">editar</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Editar producto</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-input label="Nombre alimento o combo" labelPlacement="floating" placeholder="Edite el nombre del alimento o combo"
+            [(ngModel)]="nombre"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Descripción" labelPlacement="floating" placeholder="Edite la descripción"
+            [(ngModel)]="descripcion"></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <input type="file" [(ngModel)]="imagen" />
+          <ion-button expand="full">
+          </ion-button>
+        </ion-item>
+        
+        <ion-item>
+          <ion-input label="Precio" labelPlacement="floating" placeholder="Edite el precio del producto" 
+            [(ngModel)]="precio"></ion-input>
+        </ion-item>
+        <br>
+        <ion-button (click)="Editar()" class="submit-button" expand="block">
+          Editar
+        </ion-button>
+        <ion-button [routerLink]="['/eliminar']" class="submit-button" expand="block">
+          Volver
+        </ion-button>
+        
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

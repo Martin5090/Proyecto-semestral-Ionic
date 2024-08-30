@@ -14,7 +14,7 @@ export class MenuCajaPage implements OnInit {
       name: 'COMPLETO ITALIANO',
       description: 'hot dog el cual se sirve con palta, tomate y mayonesa, ofreciendo una combinación deliciosa.',
       image: 'https://i.postimg.cc/zv3WfHW0/completo.jpg',
-      precio: '2500CLP'
+      precio: 2500
     },
 
     {
@@ -22,7 +22,7 @@ export class MenuCajaPage implements OnInit {
       name: 'CHACARERO',
       description: 'Está hecho con carne de vacuno, porotos verdes, tomate y ají verde. lo mejor de la gastronomía local.',
       image: 'https://i.postimg.cc/BQrDq6vB/chacarero.png',
-      precio: '3500CLP'
+      precio: 3500
     },
 
     {
@@ -30,7 +30,7 @@ export class MenuCajaPage implements OnInit {
       name: 'EMPANADA DE PINO',
       description: 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. Perfectas para cualquier ocasión.',
       image: 'https://i.postimg.cc/PxSYhQLC/empanada-de-pino.webp',
-      precio: '2000CLP'
+      precio: 2000
     },
 
     {
@@ -38,7 +38,7 @@ export class MenuCajaPage implements OnInit {
       name: 'CHURRASCO ITALIANO',
       description: 'Sándwich que se prepara con carne de vacuno, acompañado de tomate, lechuga y mayonesa en un delicioso pan.',
       image: 'https://i.postimg.cc/W3NgQH4R/churrasco-italiano.jpg',
-      precio: '3000CLP'
+      precio: 3000
     },
 
     {
@@ -46,7 +46,7 @@ export class MenuCajaPage implements OnInit {
       name: 'BARROS LUCO',
       description: 'Este sándwich que lleva carne de vacuno y queso derretido, una combinación simple pero increíblemente sabrosa.',
       image: 'https://i.postimg.cc/jjQy3btQ/barros-luco.jpg',
-      precio: '2000CLP'
+      precio: 2000
     },
 
     {
@@ -54,7 +54,7 @@ export class MenuCajaPage implements OnInit {
       name: 'SOPAIPILLA',
       description: 'Es una masa frita tradicionalmente servida con pebre o con un toque de azúcar para un bocado dulce y crujiente.',
       image: 'https://i.postimg.cc/652nJRBQ/sopaipilla.jpg',
-      precio: '500 CLP'
+      precio: 500
     },
 
     {
@@ -62,7 +62,7 @@ export class MenuCajaPage implements OnInit {
       name: 'PAPAS FRITAS',
       description: 'Las papas fritas caseras son un acompañamiento perfecto para cualquier comida rápida.',
       image: 'https://phantom-marca.unidadeditorial.es/813d16708dc72860fd3cf319c9a245b5/resize/828/f/jpg/assets/multimedia/imagenes/2023/08/04/16911461030527.jpg',
-      precio: '1500CLP'
+      precio: 1500
     },
 
     {
@@ -70,14 +70,14 @@ export class MenuCajaPage implements OnInit {
       name: 'EMPANADA DE QUESO',
       description: 'Empanada hecha con una masa crujiente y un relleno de queso fundido.',
       image: 'https://i.postimg.cc/pr7j5VJx/empanda-de-queso.jpg',
-      precio: '1500CLP'
+      precio: 1500
     },
     {
       id: 9,
       name: 'Chemilico',
       description: 'Un sándwich chileno delicioso con carne asada, lechuga fresca, tomate, cebolla y una salsa especial.',
       image: 'https://cocinachilena.cl/wp-content/uploads/2013/10/chemilico-sandwich-2-scaled.jpg',
-      precio: '3000CLP'
+      precio: 3000
     }
 
     

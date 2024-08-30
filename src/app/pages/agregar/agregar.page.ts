@@ -33,10 +33,6 @@ export class AgregarPage implements OnInit {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-    if (!nombreRegex.test(this.descripcion)) {
-      this.presentAlert('Descripción inválida', 'La descripción solo debe contener letras, espacios y guiones.');
-      return;
-    }
 
     const numeroStr = this.precio.toString();
     if (isNaN(Number(this.precio)) || numeroStr.length > 5 ) {
@@ -68,7 +64,7 @@ export class AgregarPage implements OnInit {
   //Alerta Toast
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Usuario registrado con exito',
+      message: 'El producto ha sido agregado con exito.',
       duration: 2500,
       position: position,
       color: 'success'
