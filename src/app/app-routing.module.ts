@@ -82,6 +82,10 @@ const routes: Routes = [
     path: 'cambiarcontra',
     loadChildren: () => import('./pages/cambiarcontra/cambiarcontra.module').then( m => m.CambiarcontraPageModule)
   },
+  {
+    path: 'menu-crud',
+    loadChildren: () => import('./pages/menu-crud/menu-crud.module').then( m => m.MenuCrudPageModule)
+  },
 
 
 
