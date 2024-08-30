@@ -10,39 +10,46 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
- <div class="login-container">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">Registro</ion-card-title>
-    </ion-card-header>
+<ion-content>
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Registro</ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content>
+      <ion-card-content>
         <ion-item>
-          <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese su nombre" [(ngModel)]="nombre"></ion-input>
-        </ion-item> 
-
-        <ion-item>
-          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido" [(ngModel)]="apellido"></ion-input>
-        </ion-item> 
-        <ion-item>
-          <ion-input label="Numero" labelPlacement="floating" placeholder="Ingrese su telésfono" [(ngModel)]="numero"></ion-input>
-        </ion-item> 
+          <ion-input label="Nombre" labelPlacement="floating" placeholder="Ingrese su nombre"
+            [(ngModel)]="nombre"></ion-input>
+        </ion-item>
 
         <ion-item>
-          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico" type="email" [(ngModel)]="email"></ion-input>
-        </ion-item> 
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido"
+            [(ngModel)]="apellido"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Numero" labelPlacement="floating" placeholder="Ingrese su telésfono"
+            [(ngModel)]="numero"></ion-input>
+        </ion-item>
 
         <ion-item>
-          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password" [(ngModel)]="contra"></ion-input>
-        </ion-item> 
+          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico"
+            type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password"
+            [(ngModel)]="contra"></ion-input>
+        </ion-item>
 
         <ion-button (click)="irLogin()" class="submit-button" expand="block">
           Registrarse
         </ion-button>
         <br>
-        <a [routerLink]="['/login']">¿Ya tienes una cuenta?</a>
-    </ion-card-content>
-  </ion-card>
-</div>
+        <div class="links-container">
+          <a [routerLink]="['/login']">¿Ya tienes una cuenta?</a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

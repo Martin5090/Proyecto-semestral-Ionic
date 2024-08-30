@@ -49,8 +49,8 @@ export class RegisterPage implements OnInit {
 
     // Validar número de teléfono
     const numeroStr = this.numero.toString();
-    if (isNaN(Number(this.numero)) || numeroStr.length > 12 || numeroStr.length < 6) {
-      this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y tener entre 6 y 12 dígitos.');
+    if (isNaN(Number(this.numero)) || numeroStr.length > 12 || numeroStr.length < 8) {
+      this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y tener 8 y 12 dígitos.');
       return;
     }
 

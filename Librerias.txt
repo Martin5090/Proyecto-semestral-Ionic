@@ -1,1 +1,4 @@
+
+--Es para instalar la libreria del carrusel--
+
 npm install swiper@latest

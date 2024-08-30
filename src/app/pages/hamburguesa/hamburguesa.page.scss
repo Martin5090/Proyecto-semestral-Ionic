@@ -1,19 +1,167 @@
-.image-container {
+ion-content {
+  --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
+}
+
+ion-toolbar {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 16px; 
+  background-color: #797979; 
+  color: #FFFFFF; 
+  --ion-background-color: #0a0a0a; 
+  --ion-color-base: #FFFFFF; 
+
+  .logo-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100%;
+    position: absolute; 
+    right: 8px; 
+    top: 0; 
+    height: 100%; 
+    display: flex;
+    justify-content: center; 
   }
-  
-  .image-container img {
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
+
+  .header-logo {
+    height: 50px; 
+    width:auto; 
+    top: 40px; 
   }
-  ion-content {
-    --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
+
+  ion-title {
+    margin-left: auto; 
   }
-  .titulo-centrado {
-    text-align: center;
+}
+
+.ingredient-card {
+  background-color: #ffffff;
+  color: #000000;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+  ion-card-header {
+    background-color: transparent;
+
+    ion-card-title {
+      color: #000000;
+      font-size: 1.5rem;
+      text-align: center;
+    }
   }
-  
+
+  ion-card-content {
+    padding: 0;
+
+    .dish-card {
+      background-color: #ffffff;
+      color: #000000;
+      margin-bottom: 20px;
+
+      ion-card-header {
+        ion-card-title {
+          color: #000000;
+          text-align: center;
+        }
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 10px;
+        }
+      }
+    }
+
+    .ingredient-section,
+    .beverage-section {
+      h3 {
+        color: #000000;
+        font-size: 1.2rem;
+        margin-top: 20px;
+      }
+
+      ion-item {
+        background-color: transparent;
+        color: #000000;
+
+        ion-label {
+          color: #000000;
+        }
+
+        ion-checkbox {
+          --color-checked: #000000;
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    margin-top: 20px;
+
+    ion-toolbar {
+      background-color: transparent;
+
+      .confirm-button {
+        background-color: #FFD700;
+        color: #000000;
+        font-weight: bold;
+
+        &:hover {
+          background-color: #FFC107;
+        }
+
+        &:active {
+          background-color: #FFA000;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .ingredient-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+  }
+
+  .ingredient-section,
+  .beverage-section {
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .ingredient-card {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  .ingredient-section,
+  .beverage-section {
+    h3 {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.submit-button {
+  --background: #fcc309; 
+  --background-hover: #FFD700; 
+  --background-activated: #adad18; 
+  --color: #000000; 
+  --border-radius: 6px;
+  font-weight: bold;
+  margin-top: 10px;
+}

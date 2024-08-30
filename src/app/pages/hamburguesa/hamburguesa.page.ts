@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hamburguesa',
@@ -6,6 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./hamburguesa.page.scss'],
 })
 export class HamburguesaPage {
+  constructor(private router:Router) { }
+
+  ngOnInit() {
+  }
+
+
   ingredientes = [
     { name: 'Tomate', selected: true },
     { name: 'Palta', selected: true },
@@ -20,5 +27,8 @@ export class HamburguesaPage {
     const seleccionados = this.ingredientes.filter(ingrediente => ingrediente.selected);
     console.log('Ingredientes seleccionados:', seleccionados);
     console.log('Bebida seleccionada:', this.selectedBebida);
+    this.router.navigate(['/pago']);
   }
+  
+
 }

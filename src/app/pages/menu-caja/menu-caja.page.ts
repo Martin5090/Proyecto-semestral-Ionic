@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu-caja',
@@ -59,7 +61,7 @@ export class MenuCajaPage implements OnInit {
       id: 7,
       name: 'PAPAS FRITAS',
       description: 'Las papas fritas caseras son un acompañamiento perfecto para cualquier comida rápida.',
-      image: 'https://i.postimg.cc/MZrVFt24/papasfrita.jpg',
+      image: 'https://phantom-marca.unidadeditorial.es/813d16708dc72860fd3cf319c9a245b5/resize/828/f/jpg/assets/multimedia/imagenes/2023/08/04/16911461030527.jpg',
       precio: '1500CLP'
     },
 
@@ -69,14 +71,39 @@ export class MenuCajaPage implements OnInit {
       description: 'Empanada hecha con una masa crujiente y un relleno de queso fundido.',
       image: 'https://i.postimg.cc/pr7j5VJx/empanda-de-queso.jpg',
       precio: '1500CLP'
+    },
+    {
+      id: 9,
+      name: 'Chemilico',
+      description: 'Un sándwich chileno delicioso con carne asada, lechuga fresca, tomate, cebolla y una salsa especial.',
+      image: 'https://cocinachilena.cl/wp-content/uploads/2013/10/chemilico-sandwich-2-scaled.jpg',
+      precio: '3000CLP'
     }
 
     
   ];
 
-  constructor() { }
+  constructor(private router: Router,
+    private toastController: ToastController) { }
 
   ngOnInit() {
   }
 
+  Carrito(){
+    this.presentToast('bottom');
+
+
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Tu selección fue agregada al carrito.',
+      duration: 2500,
+      position: position,
+      color: 'success'
+
+    });
+
+    await toast.present();
+  }
 }

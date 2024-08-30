@@ -88,3 +88,19 @@ ion-back-button {
 ion-content {
   --background: url(https://i.pinimg.com/564x/5a/2b/1c/5a2b1c1e4ed1fc33f242a053f617ed67.jpg);
 }
+.links-container {
+  display: flex;
+  flex-direction: column; /* Para que los enlaces estén en una columna */
+  align-items: center; /* Para centrar los enlaces horizontalmente */
+  margin-top: px; /* Espaciado superior para separar de los elementos anteriores */
+}
+
+.links-container a {
+  margin: 10px 0; /* Espaciado vertical entre los enlaces */
+  color: #3880ff; /* Color del enlace (ajusta según el diseño de tu aplicación) */
+  text-decoration: none; /* Quitar subrayado del enlace */
+}
+
+.links-container a:hover {
+  text-decoration: underline; /* Subrayar el enlace al pasar el ratón (opcional) */
+}

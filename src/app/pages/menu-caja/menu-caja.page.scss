@@ -38,7 +38,7 @@ ion-content {
 .cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-around; /* Alinea las tarjetas en el contenedor */
     padding: 16px;
 }
 
@@ -47,20 +47,21 @@ ion-content {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin: 10px;
-    width: 100%; 
-    max-width: 400px; 
-    height: 480px;
+    width: calc(33.333% - 20px); /* Ajusta el ancho para 3 tarjetas por fila */
+    min-height: 600px; /* Asegura que las tarjetas tengan una altura mínima */
     text-align: center;
     color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 15px; 
-    box-sizing: border-box; 
+    padding: 15px;
+    box-sizing: border-box;
 }
+
 @media (max-width: 768px) {
     .card {
-        height: auto; /* Ajustar la altura en pantallas más pequeñas */
+        width: 100%; /* En pantallas pequeñas, las tarjetas ocupan todo el ancho */
+        min-height: 500px; /* Ajusta la altura mínima para pantallas pequeñas */
         margin: 5px; /* Reducir el margen en pantallas pequeñas */
     }
 }
@@ -69,7 +70,7 @@ ion-content {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
-    height: 200px;
+    height: 250px; /* Aumenta la altura de la imagen para estirar la tarjeta */
     object-fit: cover;
 }
 
@@ -83,9 +84,9 @@ ion-content {
     align-items: center;
 }
 
-.card-content h2, .card-content h6  {
+.card-content h5, .card-content h6 {
     text-align: center;
-    color: #FFD700
+    color: #FFD700;
 }
 
 .card-content ion-button {
@@ -94,12 +95,24 @@ ion-content {
     --border-radius: 10px;
     font-weight: bold;
     padding: 6px 12px;
-    width: 70%;
-    align-self: center;
-    
+    width: auto; /* Ajusta el ancho automático para los botones */
+    margin: 5px; /* Añade espacio entre los botones */
 }
-ion-button {
- 
-    border-radius: 50%;
-  }
 
+.card-content .button-group {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 10px; /* Espacio entre los botones */
+    width: 100%; /* Asegura que el grupo de botones ocupe todo el ancho del contenedor */
+    margin-top: 10px; /* Añade un margen superior para separar los botones del contenido anterior */
+}
+
+@media (max-width: 768px) {
+    .card-content .button-group {
+        flex-direction: column; /* En pantallas pequeñas, coloca los botones en una columna */
+    }
+
+    .card-content ion-button {
+        width: 100%; /* Los botones ocupan todo el ancho en pantallas pequeñas */
+    }
+}

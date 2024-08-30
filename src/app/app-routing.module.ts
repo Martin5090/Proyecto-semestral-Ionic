@@ -74,7 +74,15 @@ const routes: Routes = [
   {
     path: 'hamburguesa',
     loadChildren: () => import('./pages/hamburguesa/hamburguesa.module').then( m => m.HamburguesaPageModule)
+  },  {
+    path: 'recuperarcontra',
+    loadChildren: () => import('./pages/recuperarcontra/recuperarcontra.module').then( m => m.RecuperarcontraPageModule)
   },
+  {
+    path: 'cambiarcontra',
+    loadChildren: () => import('./pages/cambiarcontra/cambiarcontra.module').then( m => m.CambiarcontraPageModule)
+  },
+
 
 
 

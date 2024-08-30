@@ -15,8 +15,8 @@ export class LoginPage implements OnInit {
   nombre: string = "";
   apellido: string = "";
   numero!: number;
-  email: string = "";
-  contra: string = "";
+  email: string = "admin@gmail.com";
+  contra: string = "Admin12345@";
 
 
   constructor(private router: Router, 

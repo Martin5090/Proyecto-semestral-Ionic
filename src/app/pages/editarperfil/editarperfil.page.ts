@@ -73,7 +73,7 @@ export class EditarperfilPage implements OnInit {
     const alert = await this.alertController.create({
       header: titulo,
       message: msj,
-      buttons: ['NO'] ,
+      buttons: ['NO ELIMINAR'] ,
       
     });
 

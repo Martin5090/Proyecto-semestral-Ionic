@@ -10,11 +10,12 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content>
   <div class="login-container">
     <ion-card>
       <ion-card-header>
-        <ion-card-title class="ion-text-center">¡Bienvenido/a a DeliFast!</ion-card-title>
+        <ion-card-title class="ion-text-center">Cambiar contraseña</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
@@ -29,16 +30,15 @@
             [(ngModel)]="password" type="password">
           </ion-input>
         </ion-item>
+        <ion-item>
+          <ion-input label="Repita contraseña" labelPlacement="floating" placeholder="Repita su contraseña"
+            [(ngModel)]="repassword" type="password">
+          </ion-input>
+        </ion-item>
 
-        <ion-button (click)="irInicio()" class="submit-button" expand="block">
-          Iniciar Sesión
+        <ion-button (click)="CambiarContra()" class="submit-button" expand="block">
+          Confirmar
         </ion-button>
-        
-        <div class="links-container">
-          <a [routerLink]="['/register']">¿No tienes cuenta?</a>
-          <a [routerLink]="['/recuperarcontra']">¿Olvidaste tu contraseña?</a>
-        </div>
-        
       </ion-card-content>
     </ion-card>
   </div>

@@ -43,6 +43,7 @@ ion-card {
     left: 50%;
     transform: translateX(-50%);
     margin: 0;
+    top: 10px;
 }
 
 ion-tab-bar {
@@ -105,32 +106,40 @@ ion-card-title {
 
 }
 
-.slide-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    position: relative;
-   margin-top: 25%;
+.my-swiper {
+  width: 100%;
+  height: auto;
+  max-width: 800px; 
+  margin: 0 auto; 
+  top: 30px;
+  --swiper-navigation-color: #fcc309;
+  --swiper-pagination-color: #000000;
+}
+.my-swiper swiper-slide div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-swiper swiper-slide img {
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+@media (max-width: 480px) {
+  .my-swiper {
+    max-width: 100%;
+    margin-top: 40px; /* Baja el carrusel en dispositivos móviles */
   }
-  
-  /* Estilo general para la imagen */
-  .responsive-img {
-    width: 100%;
-    height: auto;
-    max-height: 200px; /* Ajusta la altura máxima de la imagen en PC */
-    object-fit: cover;
+}
+@media (max-width: 480px) {
+  .my-swiper swiper-slide img {
+    max-width: 100%;
+    border-radius: 5px;
   }
-  
-  /* Ajuste para dispositivos móviles */
-  @media (max-width: 768px) {
-    .slide-content {
-      height: 250px; /* Ajusta la altura del contenedor en móviles */
-    }
-  
-    .responsive-img {
-      max-height: 250px; /* Ajusta la altura máxima de la imagen en móviles */
-    }
-  }
+}
   
   
