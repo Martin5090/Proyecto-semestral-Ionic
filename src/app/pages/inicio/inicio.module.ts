@@ -8,6 +8,8 @@ import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
 import { ComponentsModule } from '../../components/components.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 
 
@@ -17,8 +19,11 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     IonicModule,
     ComponentsModule,
-    InicioPageRoutingModule
+    InicioPageRoutingModule,
+    
   ],
-  declarations: [InicioPage]
+  declarations: [InicioPage],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class InicioPageModule {}
