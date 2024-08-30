@@ -26,14 +26,9 @@ export class MenuCajaPage implements OnInit {
     {
       id: 3,
       name: 'EMPANADA DE PINO',
-<<<<<<< HEAD
       description: 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. Perfectas para cualquier ocasión.',
       image: 'https://i.postimg.cc/PxSYhQLC/empanada-de-pino.webp',
       precio: '2000CLP'
-=======
-      description: 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. ',
-      image: 'https://i.postimg.cc/PxSYhQLC/empanada-de-pino.webp'
->>>>>>> 23533f48b160804544ae74ca38c7e36d759a51f5
     },
 
     {

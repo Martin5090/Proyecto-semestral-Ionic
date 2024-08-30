@@ -16,8 +16,14 @@
     <ion-card-content>
       <h2 class="welcome-title">¡Bienvenido {{correo | slice:0:5 | uppercase}} a DeliFast!</h2>
       
-      <ion-button expand="block" [routerLink]="['/editarperfil']">Editar Perfil</ion-button>
-      <ion-button expand="block" [routerLink]="['/login']">Cerrar Sesión</ion-button>
+      <ion-button expand="block" [routerLink]="['/editarperfil']">
+        <ion-icon name="create-outline" slot="start"></ion-icon>
+        Editar Perfil
+      </ion-button>
+      <ion-button expand="block" [routerLink]="['/login']">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        Cerrar Sesión
+      </ion-button>
 
       <div class="social-icons">
         <ion-icon name="logo-facebook" size="large"></ion-icon>

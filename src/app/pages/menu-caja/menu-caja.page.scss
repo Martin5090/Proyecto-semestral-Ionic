@@ -83,8 +83,9 @@ ion-content {
     align-items: center;
 }
 
-.card-content h2, .card-content p {
+.card-content h2, .card-content h6  {
     text-align: center;
+    color: #FFD700
 }
 
 .card-content ion-button {
@@ -101,3 +102,4 @@ ion-button {
  
     border-radius: 50%;
   }
+
