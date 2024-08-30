@@ -127,11 +127,11 @@ ion-toolbar {
 
 
 .my-swiper {
-  width: 200%;
+  width: 100%;
   height: auto;
-  max-width: 800px; 
+  max-width: 500px; 
   margin: 0 auto; 
-  top: 30px;
+  top: 0px;
   --swiper-navigation-color: #fcc309;
   --swiper-pagination-color: #000000;
 }
@@ -146,7 +146,7 @@ ion-toolbar {
   height: auto;
   max-width: 1000px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 @media (max-width: 480px) {
