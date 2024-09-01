@@ -20,7 +20,7 @@ export class HamburguesaPage {
     { name: 'Pepinillos', selected: false }
   ];
 
-  bebidas = ['Agua', 'Refresco', 'Jugo', 'Cerveza'];
+  bebidas = ['Agua', 'Bebida', 'Jugo', 'Cerveza'];
   selectedBebida: string | undefined;
 
   confirmarOrden() {
