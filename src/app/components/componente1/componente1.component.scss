@@ -1,0 +1,29 @@
+ion-card {
+  background-color: #9a9174;
+  /* Fondo beige claro para tarjetas o áreas destacadas */
+  color: #3b3b3b;
+  /* Color del texto en tarjetas */
+}
+
+/* Estilo para la barra de menú inferior */
+ion-tab-bar {
+  --background: #000000;
+  /* Barra de menú inferior gris oscuro */
+  --color: #ffffff;
+  /* Color del texto en la barra de menú inferior (blanco para contraste) */
+}
+
+/* Estilo para botones */
+ion-button {
+  --background: #9a9174;
+  /* Fondo de los botones en beige claro */
+  --color: #ffffff;
+  /* Color del texto en los botones (blanco) */
+}
+
+/* Estilo para íconos en la barra de menú inferior */
+ion-icon {
+  color: #fcc309;
+  /* Color blanco para los íconos en la barra de menú inferior */
+}
+

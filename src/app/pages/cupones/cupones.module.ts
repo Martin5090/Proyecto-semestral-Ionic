@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { CuponesPageRoutingModule } from './cupones-routing.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
+import { ComponentsModule } from '../../components/components.module';
 
 import { CuponesPage } from './cupones.page';
 
@@ -15,7 +15,8 @@ import { CuponesPage } from './cupones.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    CuponesPageRoutingModule
+    CuponesPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [CuponesPage],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA]

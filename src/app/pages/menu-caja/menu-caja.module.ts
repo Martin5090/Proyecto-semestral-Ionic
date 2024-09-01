@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { MenuCajaPageRoutingModule } from './menu-caja-routing.module';
 
 import { MenuCajaPage } from './menu-caja.page';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     MenuCajaPageRoutingModule
   ],
   declarations: [MenuCajaPage]

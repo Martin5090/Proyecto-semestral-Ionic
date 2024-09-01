@@ -8,11 +8,14 @@ import { HamburguesaPageRoutingModule } from './hamburguesa-routing.module';
 
 import { HamburguesaPage } from './hamburguesa.page';
 
+import { ComponentsModule } from '../../components/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     HamburguesaPageRoutingModule
   ],
   declarations: [HamburguesaPage]

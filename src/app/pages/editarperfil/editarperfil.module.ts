@@ -8,11 +8,14 @@ import { EditarperfilPageRoutingModule } from './editarperfil-routing.module';
 
 import { EditarperfilPage } from './editarperfil.page';
 
+
+import { ComponentsModule } from '../../components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     EditarperfilPageRoutingModule
   ],
   declarations: [EditarperfilPage]
