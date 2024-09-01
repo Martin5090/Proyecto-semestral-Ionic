@@ -8,12 +8,15 @@ import { VerpedidoPageRoutingModule } from './verpedido-routing.module';
 
 import { VerpedidoPage } from './verpedido.page';
 
+import { ComponentsModule } from '../../components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerpedidoPageRoutingModule
+    VerpedidoPageRoutingModule,
+    ComponentsModule
+    
   ],
   declarations: [VerpedidoPage]
 })
