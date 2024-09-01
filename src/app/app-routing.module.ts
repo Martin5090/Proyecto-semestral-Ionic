@@ -74,7 +74,8 @@ const routes: Routes = [
   {
     path: 'hamburguesa',
     loadChildren: () => import('./pages/hamburguesa/hamburguesa.module').then( m => m.HamburguesaPageModule)
-  },  {
+  },
+  {
     path: 'recuperarcontra',
     loadChildren: () => import('./pages/recuperarcontra/recuperarcontra.module').then( m => m.RecuperarcontraPageModule)
   },
@@ -85,6 +86,10 @@ const routes: Routes = [
   {
     path: 'menu-crud',
     loadChildren: () => import('./pages/menu-crud/menu-crud.module').then( m => m.MenuCrudPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
 
 
