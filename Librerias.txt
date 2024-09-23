@@ -2,3 +2,6 @@
 --Es para instalar la libreria del carrusel--
 
 npm install swiper@latest
+
+npm install @types/google.maps
+npm install @angular/google-maps

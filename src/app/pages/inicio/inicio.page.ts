@@ -16,7 +16,7 @@ export class InicioPage implements OnInit {
   irMenudeli(){
    
     
-    this.router.navigate(['/menu-caja']);
+    this.router.navigate(['/direcciondeli']);
 
   }
   irMenucaja(){

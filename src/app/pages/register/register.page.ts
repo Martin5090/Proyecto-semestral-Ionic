@@ -13,6 +13,7 @@ export class RegisterPage implements OnInit {
   numero: number = 123456789123;
   email: string = "admin@gmail.com";
   contra: string = "Admin12345@";
+  recontra: string = "Admin12345@";
 
 
   constructor(private router: Router,
@@ -49,8 +50,8 @@ export class RegisterPage implements OnInit {
 
     // Validar número de teléfono
     const numeroStr = this.numero.toString();
-    if (isNaN(Number(this.numero)) || numeroStr.length > 12 || numeroStr.length < 8) {
-      this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y tener 8 y 12 dígitos.');
+    if (isNaN(Number(this.numero)) || this.numero < 0 || numeroStr.length > 12 || numeroStr.length < 8) {
+      this.presentAlert('Número inválido', 'El número de teléfono debe ser positivo, válido y tener entre 8 y 12 dígitos.');
       return;
     }
 
@@ -70,6 +71,11 @@ export class RegisterPage implements OnInit {
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(this.contra)) {
       this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
+      return;
+    }
+
+    if (this.contra !== this.recontra) {
+      this.presentAlert('Contraseñas no coinciden', 'Las contraseñas no coinciden.');
       return;
     }
 

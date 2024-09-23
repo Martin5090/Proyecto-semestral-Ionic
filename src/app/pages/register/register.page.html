@@ -28,7 +28,7 @@
             [(ngModel)]="apellido"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input label="Numero" labelPlacement="floating" placeholder="Ingrese su telésfono"
+          <ion-input label="Numero" labelPlacement="floating" placeholder="Ingrese su teléfono"
             [(ngModel)]="numero"></ion-input>
         </ion-item>
 
@@ -40,6 +40,11 @@
         <ion-item>
           <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingrese su contraseña" type="password"
             [(ngModel)]="contra"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Repita la contraseña" type="password"
+            [(ngModel)]="recontra"></ion-input>
         </ion-item>
 
         <ion-button (click)="irLogin()" class="submit-button" expand="block">

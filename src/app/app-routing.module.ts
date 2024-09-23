@@ -88,9 +88,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/menu-crud/menu-crud.module').then( m => m.MenuCrudPageModule)
   },
   {
+    path: 'direcciondeli',
+    loadChildren: () => import('./pages/direcciondeli/direcciondeli.module').then( m => m.DirecciondeliPageModule)
+  },
+  
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+  
+
 
 
 
