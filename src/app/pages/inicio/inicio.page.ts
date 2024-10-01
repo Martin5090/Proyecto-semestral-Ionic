@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-inicio',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class InicioPage implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private bd: ServicebdService) { }
 
   ngOnInit() {
   }
