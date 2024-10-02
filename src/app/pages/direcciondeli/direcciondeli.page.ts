@@ -8,7 +8,9 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./direcciondeli.page.scss'],
 })
 export class DirecciondeliPage implements OnInit {
-  direccion: string = "";
+  comuna: string = "";
+  calle: string = "";
+
   constructor(private router: Router, 
     private alertController: AlertController) { }
 
@@ -16,14 +18,14 @@ export class DirecciondeliPage implements OnInit {
   }
 
   aceptardireccion(){
-    if (this.direccion.trim() === "") {
-      this.presentAlert('Error', 'Debe ingresar una dirección.');
-      return; // Detener la ejecución si la dirección está vacía
+  // Validar si los campos están vacíos
+    if (this.comuna.trim() === "" || this.calle.trim() === "") {
+      // Mostrar alerta si algún campo está vacío
+      this.presentAlert('Error', 'Por favor, completa todos los campos.');
+    } else {
+      // Si los campos están completos, navega a la siguiente página
+      this.router.navigate(['/menu-caja']);  
     }
-  
-    // Aquí puedes agregar la lógica que deseas ejecutar si la dirección no está vacía
-    console.log('Dirección aceptada:', this.direccion);
-    this.router.navigate(['/menu-caja']);  
   
   }
 

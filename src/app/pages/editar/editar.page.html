@@ -21,23 +21,29 @@
       <ion-card-content>
         <ion-item>
           <ion-input label="Nombre alimento o combo" labelPlacement="floating" placeholder="Edite el nombre del alimento o combo"
-            [(ngModel)]="nombre"></ion-input>
+            [(ngModel)]="producto.nombre_producto"></ion-input>
         </ion-item>
         <ion-item>
           <ion-input label="Descripción" labelPlacement="floating" placeholder="Edite la descripción"
-            [(ngModel)]="descripcion"></ion-input>
+            [(ngModel)]="producto.descripcion_producto"></ion-input>
         </ion-item>
         
         <ion-item>
-          <input type="file" [(ngModel)]="imagen" />
+          <input type="file" [(ngModel)]="producto.foto_producto" />
           <ion-button expand="full">
           </ion-button>
         </ion-item>
         
         <ion-item>
           <ion-input label="Precio" labelPlacement="floating" placeholder="Edite el precio del producto" 
-            [(ngModel)]="precio"></ion-input>
+            [(ngModel)]="producto.precio_producto"></ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-input label="Stock" labelPlacement="floating" placeholder="Edite el stock producto" 
+            [(ngModel)]="producto.stock_producto"></ion-input>
+        </ion-item>
+
         <br>
         <ion-button (click)="Editar()" class="submit-button" expand="block">
           Editar

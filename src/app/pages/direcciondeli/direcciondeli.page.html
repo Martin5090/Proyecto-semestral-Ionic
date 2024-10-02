@@ -11,19 +11,28 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Ingrese su direccion</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-input label="Direccion" labelPlacement="floating"
-          placeholder="Ingrese su direccion" [(ngModel)]="direccion">
-        </ion-input>
-      </ion-item>
-      <br> 
-      <ion-button (click)="aceptardireccion()" expand="full" class="submit-button">Confirmar direccion</ion-button>
-    </ion-card-content>
-  </ion-card>
+  <div class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">Ingrese su dirección</ion-card-title>
+      </ion-card-header>
 
+      <ion-card-content>
+        <ion-item>
+          <ion-input label="Comuna" labelPlacement="floating" placeholder="Ingrese su comuna" [(ngModel)]="comuna">
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Calle" labelPlacement="floating" placeholder="Ingrese su calle" [(ngModel)]="calle">
+          </ion-input>
+        </ion-item>
+
+        <ion-button (click)="aceptardireccion()" class="submit-button" expand="block">
+          Aceptar
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

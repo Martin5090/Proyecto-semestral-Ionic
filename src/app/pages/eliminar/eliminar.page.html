@@ -20,14 +20,14 @@
 
   <div class="cards-container">
     <div class="card" *ngFor="let comida of Tiposdecomida">
-      <img [src]="comida.image" alt="{{comida.name}}" class="card-img">
+      <img [src]="comida.foto_producto" class="card-img">
       <div class="card-content">
-        <h5>{{comida.name}}</h5>
-        <h6 class="price">{{comida.precio}}</h6>
-        <p>{{comida.description}}</p>
+        <h5>{{comida.nombre_producto}}</h5>
+        <h6 class="price">{{comida.precio_producto}}</h6>
+        <p>{{comida.descripcion_producto}}</p>
         <div class="button-group">
-          <ion-button color="warning" [routerLink]="['/editar']">Editar</ion-button>
-          <ion-button color="danger" (click)="Eliminar()">Eliminar</ion-button>
+          <ion-button color="warning" (click)="modificar(comida)">Editar</ion-button>
+          <ion-button color="danger" (click)="eliminar(comida)">Eliminar</ion-button>
         </div>
       </div>
     </div>

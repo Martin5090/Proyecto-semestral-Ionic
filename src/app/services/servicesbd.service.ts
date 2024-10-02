@@ -3,6 +3,7 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { AlertController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Rol } from '../model/rol';
+import { Producto } from '../model/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,106 +16,96 @@ export class ServicebdService {
 
   // Tablas sin dependencias
   tablaCupones: string = `
-    CREATE TABLE IF NOT EXISTS CUPONES (
-      cupon_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_cupon TEXT NOT NULL
-    );
-  `;
+  CREATE TABLE IF NOT EXISTS CUPONES (
+    cupon_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_cupon TEXT NOT NULL
+  );
+`;
+  tablaComuna: string = `
+CREATE TABLE IF NOT EXISTS COMUNA (
+  comuna_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nombre_comuna TEXT NOT NULL,
+  calle TEXT NOT NULL
+);
+`
 
   tablaRol: string = `
-    CREATE TABLE IF NOT EXISTS ROL (
-      rol_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_rol TEXT NOT NULL
-    );
-  `;
+  CREATE TABLE IF NOT EXISTS ROL (
+    rol_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_rol TEXT NOT NULL
+  );
+`;
 
   tablaEstados: string = `
-    CREATE TABLE IF NOT EXISTS ESTADOS (
-      estado_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_estado TEXT NOT NULL
-    );
-  `;
-
-  tablaCategoria: string = `
-    CREATE TABLE IF NOT EXISTS CATEGORIA (
-      categoria_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_categoria TEXT NOT NULL
-    );
-  `;
-
+  CREATE TABLE IF NOT EXISTS ESTADOS (
+    estado_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_estado TEXT NOT NULL
+  );
+`;
+  tablaProducto: string = `
+  CREATE TABLE IF NOT EXISTS PRODUCTO (
+    producto_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre_producto TEXT NOT NULL,
+    descripcion_producto TEXT NOT NULL,
+    foto_producto TEXT NOT NULL,
+    precio_producto REAL NOT NULL,
+    stock_producto INTEGER NOT NULL
+  );
+`;
 
   tablaUsuario: string = `
-    CREATE TABLE IF NOT EXISTS USUARIO (
-      iduser INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre TEXT NOT NULL,
-      apellido TEXT NOT NULL,
-      telefono INTERGER NOT NULL,
-      correo TEXT NOT NULL,
-      contraseña TEXT NOT NULL,
-      rut TEXT NOT NULL,
-      region_id INTEGER NOT NULL, 
-      FOREIGN KEY (region_id) REFERENCES REGIONES(region_id)
-    );
-  `;
+  CREATE TABLE IF NOT EXISTS USUARIO (
+    iduser INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    apellido TEXT NOT NULL,
+    telefono INTEGER NOT NULL,
+    correo TEXT NOT NULL,
+    contraseña TEXT NOT NULL,
+    rut TEXT NOT NULL,
+    comuna_id INTEGER NOT NULL, 
+    FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id)
+    FOREIGN KEY (rol_id) REFERENCES ROL(rol_id)
+  );
+`;
 
-  tablaProducto: string = `
-    CREATE TABLE IF NOT EXISTS PRODUCTO (
-      producto_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      precio_producto REAL NOT NULL,
-      nombre_producto TEXT NOT NULL,
-      descripcion_producto TEXT NOT NULL,
-      status TEXT NOT NULL,
-      stock_producto INTEGER NOT NULL,
-      foto_producto TEXT NOT NULL,
-      categoria_id INTEGER NOT NULL,
-      FOREIGN KEY (categoria_id) REFERENCES CATEGORIA(categoria_id)
-    );
-  `;
 
   tablaVenta: string = `
-    CREATE TABLE IF NOT EXISTS VENTA (
-      venta_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      iduser INTEGER,
-      f_venta TEXT NOT NULL,
-      total_venta REAL NOT NULL,
-      FOREIGN KEY (iduser) REFERENCES USUARIO(iduser)
-    );
-  `;
+  CREATE TABLE IF NOT EXISTS VENTA (
+    venta_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    iduser INTEGER NOT NULL,
+    f_venta TEXT NOT NULL,
+    total_venta REAL NOT NULL,
+    FOREIGN KEY (iduser) REFERENCES USUARIO(iduser)
+    FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id)
+
+  );
+`;
 
   tablaDetalle: string = `
-    CREATE TABLE IF NOT EXISTS DETALLE (
-      detalle_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      venta_id INTEGER NOT NULL,
-      producto_id INTEGER NOT NULL,
-      cantidad INTEGER NOT NULL,
-      subtotal REAL NOT NULL,
-      FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id),
-      FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
-    );
-  `;
+  CREATE TABLE IF NOT EXISTS DETALLE (
+    detalle_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    venta_id INTEGER NOT NULL,
+    producto_id INTEGER NOT NULL,
+    cantidad INTEGER NOT NULL,
+    subtotal REAL NOT NULL,
+    FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id),
+    FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
+  );
+`;
 
-  
-  tablaRegiones: string = `
-    CREATE TABLE IF NOT EXISTS REGIONES (
-      region_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_region TEXT NOT NULL
-    );
-  `;
-
-  
-  tablaComuna: string = `
-    CREATE TABLE IF NOT EXISTS COMUNA (
-      comuna_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre_comuna TEXT NOT NULL,
-      region_id INTEGER,
-      FOREIGN KEY (region_id) REFERENCES REGIONES(region_id)
-    );
-  `;
+  tablaIngredientes: string = `
+CREATE TABLE IF NOT EXISTS INGREDIENTES (
+  id_ingrediente INTEGER PRIMARY KEY AUTOINCREMENT,
+  nombre_ingrediente TEXT NOT NULL,
+  producto_id INTEGER NOT NULL,
+  FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
+);
+`;
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
 
 
-  listadoRol = new BehaviorSubject([]);
+  listado = new BehaviorSubject([]);
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -138,9 +129,15 @@ export class ServicebdService {
   }
 
   //metodos para manipular los observables
-  fetchNoticias(): Observable<Rol[]> {
-    return this.listadoRol .asObservable();
+  fetchRol(): Observable<Rol[]> {
+    return this.listado.asObservable();
   }
+
+  fetchProducto(): Observable<Producto[]> {
+    return this.listado.asObservable();
+  }
+
+
 
   dbState() {
     return this.isDBReady.asObservable();
@@ -178,13 +175,13 @@ export class ServicebdService {
       await this.database.executeSql(this.tablaCupones, []);
       await this.database.executeSql(this.tablaRol, []);
       await this.database.executeSql(this.tablaEstados, []);
-      await this.database.executeSql(this.tablaCategoria, []);
       await this.database.executeSql(this.tablaUsuario, []);
       await this.database.executeSql(this.tablaProducto, []);
       await this.database.executeSql(this.tablaVenta, []);
       await this.database.executeSql(this.tablaDetalle, []);
-      await this.database.executeSql(this.tablaRegiones, []);
       await this.database.executeSql(this.tablaComuna, []);
+      await this.database.executeSql(this.tablaIngredientes, []);
+
 
       //ejecuto los insert por defecto en el caso que existan
       await this.database.executeSql(this.registroRol, []);
@@ -199,4 +196,79 @@ export class ServicebdService {
       );
     }
   }
+
+
+  //Creacion del crud
+  seleccionarProducto() {
+    return this.database.executeSql('SELECT * FROM producto', []).then(res => {
+      //variable para almacenar el resultado de la consulta
+      let items: Producto[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+            producto_id: res.rows.item(i).producto_id,
+            precio_producto: res.rows.item(i).precio_producto,
+            nombre_producto: res.rows.item(i).nombre_producto,
+            descripcion_producto: res.rows.item(i).descripcion_producto,
+            stock_producto: res.rows.item(i).stock_producto,
+            foto_producto: res.rows.item(i).stock_producto
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listado.next(items as any);
+
+    })
+  }
+
+  insertarProducto(nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number) {
+    return this.database.executeSql('INSERT INTO producto(nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto) VALUES (?,?,?,?,?)',
+      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto]).then(res => {
+        this.presentAlert("Insertar", "Producto Registrado");
+        this.seleccionarProducto();
+      }).catch(e => {
+        this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      })
+  }
+
+
+  eliminarProducto(id: string) {
+    return this.database.executeSql('DELETE FROM producto WHERE producto_id = ?', [id]).then(res => {
+      this.presentAlert("Eliminar", "Producto Eliminado");
+      this.seleccionarProducto();
+    }).catch(e => {
+      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number) {
+    this.presentAlert("service", "ID: " + id);
+    return this.database.executeSql('UPDATE producto SET nombre_producto = ?, descripcion_producto = ?, foto_producto = ?, precio_producto = ?, stock_producto = ? WHERE producto_id = ?',
+      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, id]).then(res => {
+        this.presentAlert("Modificar", "Producto Modificado");
+        this.seleccionarProducto();
+      }).catch(e => {
+        this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      })
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

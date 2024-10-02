@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-agregar',
@@ -8,14 +9,16 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./agregar.page.scss'],
 })
 export class AgregarPage implements OnInit {
-  id: string = "";
-  nombre: string = "";
-  descripcion: string = "";
-  imagen: string = "";
-  precio!: number;
+  producto_id: string = "";
+  nombre_producto: string = "";
+  descripcion_producto: string = "";
+  foto_producto: string = "";
+  precio_producto!: number;
+  stock_producto!: number;
+    
   constructor(private router: Router,
-    private toastController: ToastController,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private bd: ServicebdService) { }
 
   ngOnInit() {
   }
@@ -24,25 +27,30 @@ export class AgregarPage implements OnInit {
 
 
   Agregar() {
-    if (!this.nombre || !this.descripcion || !this.imagen || !this.precio) {
+    if (!this.nombre_producto || !this.descripcion_producto || !this.foto_producto || !this.precio_producto || !this.stock_producto) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
-    if (!nombreRegex.test(this.nombre)) {
+    if (!nombreRegex.test(this.nombre_producto)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
 
-    const numeroStr = this.precio.toString();
-    if (isNaN(Number(this.precio)) || numeroStr.length > 5 ) {
+    const numeroStr = this.precio_producto.toString();
+    if (isNaN(Number(this.precio_producto)) || numeroStr.length > 5 ) {
+      this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado y menor a los 3 digitos o igual .');
+      return;
+    };
+
+    const numeroStock = this.stock_producto.toString();
+    if (isNaN(Number(this.stock_producto)) || numeroStock.length > 3 ) {
       this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado y menor a los 5 digitos o igual .');
       return;
     };
 
 
-
-    this.presentToast('top');
+    this.bd.insertarProducto(this.nombre_producto, this.descripcion_producto, this.foto_producto, this.precio_producto, this.stock_producto);
     this.router.navigate(['/menu-crud']);
 
   };
@@ -62,16 +70,6 @@ export class AgregarPage implements OnInit {
     await alert.present();
   }
   //Alerta Toast
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'El producto ha sido agregado con exito.',
-      duration: 2500,
-      position: position,
-      color: 'success'
-
-    });
-
-    await toast.present();
-  }
+  
 
 }
