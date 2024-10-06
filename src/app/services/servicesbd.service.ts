@@ -4,6 +4,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Rol } from '../model/rol';
 import { Producto } from '../model/producto';
+import { Usuario } from '../model/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -60,8 +61,7 @@ CREATE TABLE IF NOT EXISTS COMUNA (
     apellido TEXT NOT NULL,
     telefono INTEGER NOT NULL,
     correo TEXT NOT NULL,
-    contraseña TEXT NOT NULL,
-    rut TEXT NOT NULL,
+    contra TEXT NOT NULL,
     comuna_id INTEGER NOT NULL, 
     FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id)
     FOREIGN KEY (rol_id) REFERENCES ROL(rol_id)
@@ -103,9 +103,12 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
 `;
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contrasena, comuna_id, rol_id,) VALUES (2,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');"
 
 
   listado = new BehaviorSubject([]);
+  listadoProducto = new BehaviorSubject([]);
+  listadoUsuario = new BehaviorSubject([]);
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -129,13 +132,19 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
   }
 
   //metodos para manipular los observables
+  fetchUsuario(): Observable<Usuario[]> {
+    return this.listado.asObservable();
+  }
+
   fetchRol(): Observable<Rol[]> {
     return this.listado.asObservable();
   }
 
   fetchProducto(): Observable<Producto[]> {
-    return this.listado.asObservable();
+    return this.listadoProducto.asObservable();
   }
+
+
 
 
 
@@ -185,6 +194,7 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
 
       //ejecuto los insert por defecto en el caso que existan
       await this.database.executeSql(this.registroRol, []);
+      await this.database.executeSql(this.registroUsuario, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -220,7 +230,7 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
 
       }
       //actualizar el observable
-      this.listado.next(items as any);
+      this.listadoProducto.next(items as any);
 
     })
   }
