@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-register',
@@ -8,17 +9,20 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  nombre: string = "admin";
-  apellido: string = "admin";
-  numero: number = 123456789123;
-  email: string = "admin@gmail.com";
-  contra: string = "Admin12345@";
-  recontra: string = "Admin12345@";
+  nombre: string = "";
+  apellido: string = "";
+  telefono!: number;
+  correo: string = "";
+  contra: string = "";
+  comuna_id!: number;
+  rol_id: number = 1;
+  recontra: string = "";
 
 
   constructor(private router: Router,
-    private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private bd: ServicebdService
+    
   ) { }
 
   ngOnInit() {
@@ -31,7 +35,7 @@ export class RegisterPage implements OnInit {
 
   irLogin() {
     // Verificar que todos los campos estén completos
-    if (!this.nombre || !this.apellido || !this.numero || !this.email || !this.contra) {
+    if (!this.nombre || !this.apellido || !this.telefono || !this.correo|| !this.contra || !this.recontra) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
@@ -49,14 +53,14 @@ export class RegisterPage implements OnInit {
     }
 
     // Validar número de teléfono
-    const numeroStr = this.numero.toString();
-    if (isNaN(Number(this.numero)) || this.numero < 0 || numeroStr.length > 12 || numeroStr.length < 8) {
+    const numeroStr = this.telefono.toString();
+    if (isNaN(Number(this.telefono)) || this.telefono < 0 || numeroStr.length > 12 || numeroStr.length < 8) {
       this.presentAlert('Número inválido', 'El número de teléfono debe ser positivo, válido y tener entre 8 y 12 dígitos.');
       return;
     }
 
     // Validar correo electrónico
-    if (!this.validarEmail(this.email)) {
+    if (!this.validarEmail(this.correo)) {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
@@ -79,20 +83,8 @@ export class RegisterPage implements OnInit {
       return;
     }
 
-    let navigationextras: NavigationExtras = {
-      state: {
-        nom: this.nombre,
-        ape: this.apellido,
-        num: this.numero,
-        corre: this.email,
-        con: this.contra
-
-      }
-
-    };
-
-    this.presentToast('top');
-    this.router.navigate(['/login'], navigationextras);
+    this.bd.insertarUsuario(this.nombre, this.apellido, this.telefono, this.correo, this.contra, this.comuna_id, this.rol_id);
+    this.router.navigate(['/login']);
 
   }
 
@@ -107,16 +99,5 @@ export class RegisterPage implements OnInit {
 
     await alert.present();
   }
-  //Alerta Toast
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Usuario registrado con exito',
-      duration: 2500,
-      position: position,
-      color: 'success'
 
-    });
-
-    await toast.present();
-  }
 }

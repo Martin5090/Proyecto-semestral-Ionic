@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AlertController} from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-login',
@@ -14,50 +16,20 @@ export class LoginPage implements OnInit {
   //registro variables
   nombre: string = "";
   apellido: string = "";
-  numero!: number;
   email: string = "admin@gmail.comds";
   contra: string = "Admin12345@";
 
 
   constructor(private router: Router, 
-    private activedroute: ActivatedRoute,
-    private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private storage: NativeStorage,
+    private bd: ServicebdService
   ) {
-
-
-    this.activedroute.queryParams.subscribe(param => {
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.nombre = this.router.getCurrentNavigation()?.extras?.
-          state?.['nom'];
-      }
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.apellido = this.router.getCurrentNavigation()?.extras?.
-          state?.['ape'];
-      }
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.numero = this.router.getCurrentNavigation()?.extras?.
-          state?.['num'];
-      }
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.email = this.router.getCurrentNavigation()?.extras?.
-          state?.['corre'];
-      }
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.contra = this.router.getCurrentNavigation()?.extras?.
-          state?.['con'];
-      }
-
-
-
-
-
-
-    })
   }
 
   ngOnInit() {
   }
+
   isValidEmail(email: string): boolean {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
@@ -72,16 +44,10 @@ export class LoginPage implements OnInit {
       this.presentAlert('Error', 'Por favor, ingrese un correo electrónico válido.');
     } else if (this.correo === this.email && this.password === this.contra) {
 
-      let navigationextras: NavigationExtras = {
-        state: {
-          corr: this.correo,
-          pass: this.password
-  
-        }
-  
-      }
-      this.presentToast('top');
-      this.router.navigate(['/perfil'], navigationextras);
+      
+
+
+      this.router.navigate(['/perfil']);
       
     } else {
       
@@ -98,17 +64,7 @@ export class LoginPage implements OnInit {
 
     await alert.present();
   }
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Usuario logeado con exito',
-      duration: 2500,
-      position: position,
-      color: 'success'
 
-    });
-
-    await toast.present();
-  }
 
 }
 

@@ -16,94 +16,30 @@ export class ServicebdService {
   //variables de creación de Tablas en el orden correcto
 
   // Tablas sin dependencias
-  tablaCupones: string = `
-  CREATE TABLE IF NOT EXISTS CUPONES (
-    cupon_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_cupon TEXT NOT NULL
-  );
-`;
-  tablaComuna: string = `
-CREATE TABLE IF NOT EXISTS COMUNA (
-  comuna_id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nombre_comuna TEXT NOT NULL,
-  calle TEXT NOT NULL
-);
-`
-
-  tablaRol: string = `
-  CREATE TABLE IF NOT EXISTS ROL (
-    rol_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_rol TEXT NOT NULL
-  );
-`;
-
-  tablaEstados: string = `
-  CREATE TABLE IF NOT EXISTS ESTADOS (
-    estado_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_estado TEXT NOT NULL
-  );
-`;
-  tablaProducto: string = `
-  CREATE TABLE IF NOT EXISTS PRODUCTO (
-    producto_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_producto TEXT NOT NULL,
-    descripcion_producto TEXT NOT NULL,
-    foto_producto TEXT NOT NULL,
-    precio_producto REAL NOT NULL,
-    stock_producto INTEGER NOT NULL
-  );
-`;
-
-  tablaUsuario: string = `
-  CREATE TABLE IF NOT EXISTS USUARIO (
-    iduser INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    apellido TEXT NOT NULL,
-    telefono INTEGER NOT NULL,
-    correo TEXT NOT NULL,
-    contra TEXT NOT NULL,
-    comuna_id INTEGER NOT NULL, 
-    FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id)
-    FOREIGN KEY (rol_id) REFERENCES ROL(rol_id)
-  );
-`;
 
 
-  tablaVenta: string = `
-  CREATE TABLE IF NOT EXISTS VENTA (
-    venta_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    iduser INTEGER NOT NULL,
-    f_venta TEXT NOT NULL,
-    total_venta REAL NOT NULL,
-    FOREIGN KEY (iduser) REFERENCES USUARIO(iduser)
-    FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id)
+  tablaCupones: string = "CREATE TABLE IF NOT EXISTS CUPONES (cupon_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_cupon TEXT NOT NULL);";
 
-  );
-`;
+  tablaComuna: string = "CREATE TABLE IF NOT EXISTS COMUNA (comuna_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_comuna TEXT NOT NULL, calle TEXT NOT NULL);";
 
-  tablaDetalle: string = `
-  CREATE TABLE IF NOT EXISTS DETALLE (
-    detalle_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    venta_id INTEGER NOT NULL,
-    producto_id INTEGER NOT NULL,
-    cantidad INTEGER NOT NULL,
-    subtotal REAL NOT NULL,
-    FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id),
-    FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
-  );
-`;
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS ROL (rol_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_rol TEXT NOT NULL);";
 
-  tablaIngredientes: string = `
-CREATE TABLE IF NOT EXISTS INGREDIENTES (
-  id_ingrediente INTEGER PRIMARY KEY AUTOINCREMENT,
-  nombre_ingrediente TEXT NOT NULL,
-  producto_id INTEGER NOT NULL,
-  FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id)
-);
-`;
+  tablaEstados: string = "CREATE TABLE IF NOT EXISTS ESTADOS (estado_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_estado TEXT NOT NULL);";
+
+  tablaProducto: string = "CREATE TABLE IF NOT EXISTS PRODUCTO (producto_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_producto TEXT NOT NULL, descripcion_producto TEXT NOT NULL, foto_producto TEXT NOT NULL, precio_producto REAL NOT NULL, stock_producto INTEGER NOT NULL);";
+
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
+
+  tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, estado_id INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser), FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id));";
+
+  tablaDetalle: string = "CREATE TABLE IF NOT EXISTS DETALLE (detalle_id INTEGER PRIMARY KEY AUTOINCREMENT, venta_id INTEGER NOT NULL, producto_id INTEGER NOT NULL, cantidad INTEGER NOT NULL, subtotal REAL NOT NULL, FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id), FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
+
+  tablaIngredientes: string = "CREATE TABLE IF NOT EXISTS INGREDIENTES (id_ingrediente INTEGER PRIMARY KEY AUTOINCREMENT, nombre_ingrediente TEXT NOT NULL, producto_id INTEGER NOT NULL, FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
+
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contrasena, comuna_id, rol_id,) VALUES (2,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');"
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
+
 
 
   listado = new BehaviorSubject([]);
@@ -179,7 +115,6 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
 
   async crearTablas() {
     try {
-      await this.database.executeSql("DROP TABLE IF EXISTS rol", []);
       //ejecuto la creación de Tablas
       await this.database.executeSql(this.tablaCupones, []);
       await this.database.executeSql(this.tablaRol, []);
@@ -224,7 +159,7 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
             nombre_producto: res.rows.item(i).nombre_producto,
             descripcion_producto: res.rows.item(i).descripcion_producto,
             stock_producto: res.rows.item(i).stock_producto,
-            foto_producto: res.rows.item(i).stock_producto
+            foto_producto: res.rows.item(i). foto_producto
           })
         }
 
@@ -267,6 +202,33 @@ CREATE TABLE IF NOT EXISTS INGREDIENTES (
 
   }
 
+
+  //Insertar usuario register
+  insertarUsuario(nombre: string, apellido: string, telefono: number, correo: string, contra: string, comuna_id: number, rol_id: number) {
+    return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (?,?,?,?,?,1,?)',
+      [nombre, apellido, telefono, correo, contra, rol_id]).then(res => {
+        this.presentAlert("Insertar", "Usuario Registrado");
+        
+      }).catch(e => {
+        this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      })
+  }
+
+  verificarUsuario(correo: string, contra: string) {
+    return this.database.executeSql('SELECT iduser FROM USUARIO WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
+      if (res.rows.length > 0) {
+        const iduser = res.rows.item(0).iduser; // Obtener el iduser del primer registro encontrado
+        this.presentAlert("Login", "Usuario verificado. ID: " + iduser);
+        return iduser; // Retorna el iduser si se verifica correctamente
+      } else {
+        this.presentAlert("Login", "Credenciales incorrectas. Intente de nuevo.");
+        return null; // No se encontró el usuario
+      }
+    }).catch(e => {
+      this.presentAlert('Login', 'Error: ' + JSON.stringify(e));
+      return null; // Manejo de errores
+    });
+  }
 
 
 

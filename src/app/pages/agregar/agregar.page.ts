@@ -55,7 +55,17 @@ export class AgregarPage implements OnInit {
 
   };
 
-
+  onFileSelected(event: any) {
+    const file = event.target.files[0];  // Obtén el archivo seleccionado
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        // Convertimos la imagen a base64 o URL para la vista previa
+        this.foto_producto = e.target.result;  // Guardamos la URL en la variable
+      };
+      reader.readAsDataURL(file);  // Leemos el archivo como una URL o base64
+    }
+  }
 
 
 
