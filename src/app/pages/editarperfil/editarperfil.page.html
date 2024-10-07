@@ -19,26 +19,23 @@
 
       <ion-card-content>
         <ion-item>
-          <ion-input label="Nombre" labelPlacement="floating" placeholder="Edite su nombre"
-            [(ngModel)]="nombre" >
+          <ion-input label="Nombre" labelPlacement="floating" placeholder="Edite su nombre" [(ngModel)]="nombre">
           </ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Apellido" labelPlacement="floating" placeholder="Edite su apellido"
-            [(ngModel)]="apellido">
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Edite su apellido" [(ngModel)]="apellido">
           </ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Correo" labelPlacement="floating" placeholder="Edite su correo"
-            [(ngModel)]="correo">
+          <ion-input label="Correo" labelPlacement="floating" placeholder="Edite su correo" [(ngModel)]="correo">
           </ion-input>
         </ion-item>
 
         <ion-item>
           <ion-input label="Numero de Telefóno" labelPlacement="floating" placeholder="Edite su telefóno"
-            [(ngModel)]="telefono!">
+            [(ngModel)]="telefono">
           </ion-input>
         </ion-item>
         <br>
@@ -49,10 +46,8 @@
 
         <br>
 
-        <ion-button (click)="Eliminar()" class="submit-button2" expand="block">
-          Eliminar cuenta
-          
-        </ion-button>
+        <ion-button id="present-alert" color="warning" expand="block" >Eliminar</ion-button>
+        <ion-alert trigger="present-alert" header="¿Estas seguro de eliminar la cuenta?" [buttons]="alertButtons"></ion-alert>
       </ion-card-content>
     </ion-card>
   </div>

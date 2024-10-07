@@ -5,6 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Rol } from '../model/rol';
 import { Producto } from '../model/producto';
 import { Usuario } from '../model/usuario';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +54,9 @@ export class ServicebdService {
   constructor(
     private sqlite: SQLite,
     private platform: Platform,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private storage: NativeStorage,
+    private router: Router
   ) {
     this.createBD();
   }
@@ -95,7 +99,7 @@ export class ServicebdService {
       //crear la Base de Datos
       this.sqlite
         .create({
-          name: 'noticias.db',
+          name: 'DeliFast.db',
           location: 'default',
         })
         .then((db: SQLiteObject) => {
@@ -159,7 +163,7 @@ export class ServicebdService {
             nombre_producto: res.rows.item(i).nombre_producto,
             descripcion_producto: res.rows.item(i).descripcion_producto,
             stock_producto: res.rows.item(i).stock_producto,
-            foto_producto: res.rows.item(i). foto_producto
+            foto_producto: res.rows.item(i).foto_producto
           })
         }
 
@@ -206,12 +210,26 @@ export class ServicebdService {
   //Insertar usuario register
   insertarUsuario(nombre: string, apellido: string, telefono: number, correo: string, contra: string, comuna_id: number, rol_id: number) {
     return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (?,?,?,?,?,1,?)',
-      [nombre, apellido, telefono, correo, contra, rol_id]).then(res => {
+      [nombre, apellido, telefono, correo, contra, rol_id])
+      .then(res => {
+        // Muestra un mensaje de éxito
         this.presentAlert("Insertar", "Usuario Registrado");
-        
-      }).catch(e => {
-        this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+
+        // Guarda el ID del nuevo usuario y otros detalles en NativeStorage
+        const userId = res.insertId; // Obtener el ID del nuevo usuario
+        return this.storage.setItem('usuario', {
+          iduser: userId,
+          nombre: nombre,
+          apellido: apellido,
+          correo: correo,
+          telefono: telefono,
+          comuna_id: comuna_id,
+          rol_id: rol_id
+        });
       })
+      .catch(e => {
+        this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      });
   }
 
 
@@ -232,17 +250,36 @@ export class ServicebdService {
     });
   }
 
+
+
   modificarUsuario(iduser: number, nombre: string, apellido: string, telefono: number, correo: string) {
     this.presentAlert("service", "ID: " + iduser);
     return this.database.executeSql('UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, correo = ? WHERE iduser = ?',
-      [nombre, apellido, telefono, correo, iduser]).then(res => {
+      [nombre, apellido, telefono, correo, iduser]).then(async res => {
         this.presentAlert("Modificar", "Perfil Modificado");
-        this.seleccionarProducto();
+
+        // Actualiza los datos en NativeStorage
+        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo }); // Actualiza el usuario en el local storage
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
-      })
-
+      });
   }
+
+  eliminarUsuario(iduser: string) {
+    return this.database.executeSql('DELETE FROM usuario WHERE iduser = ?', [iduser]).then(res => {
+      this.presentAlert("Eliminar", "Cuenta Eliminada");
+      
+      // Eliminar el usuario del local storage
+      this.router.navigate(['/login']); // Cambia esto según tu flujo de navegación
+      this.storage.remove('usuario').then(() => {
+      }).catch(err => {
+        console.error('Error al eliminar del local storage:', err);
+      });
+    }).catch(e => {
+      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
 
 
 

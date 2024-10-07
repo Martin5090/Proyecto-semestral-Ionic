@@ -15,20 +15,8 @@ export class PerfilPage implements OnInit {
   isLoggedIn: boolean = false; // Variable para verificar el estado de inicio de sesión
 
   constructor(private router: Router,
-    private activedroute: ActivatedRoute,
     private storage: NativeStorage,
     private alertController: AlertController) {
-    this.activedroute.queryParams.subscribe(param => {
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.correo = this.router.getCurrentNavigation()?.extras?.
-          state?.['corr'];
-      }
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.password = this.router.getCurrentNavigation()?.extras?.
-          state?.['pass'];
-      }
-
-    })
 
   }
 
