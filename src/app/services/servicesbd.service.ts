@@ -214,6 +214,8 @@ export class ServicebdService {
       })
   }
 
+
+
   verificarUsuario(correo: string, contra: string) {
     return this.database.executeSql('SELECT iduser FROM USUARIO WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
       if (res.rows.length > 0) {
@@ -228,6 +230,18 @@ export class ServicebdService {
       this.presentAlert('Login', 'Error: ' + JSON.stringify(e));
       return null; // Manejo de errores
     });
+  }
+
+  modificarUsuario(iduser: number, nombre: string, apellido: string, telefono: number, correo: string) {
+    this.presentAlert("service", "ID: " + iduser);
+    return this.database.executeSql('UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, correo = ? WHERE iduser = ?',
+      [nombre, apellido, telefono, correo, iduser]).then(res => {
+        this.presentAlert("Modificar", "Perfil Modificado");
+        this.seleccionarProducto();
+      }).catch(e => {
+        this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      })
+
   }
 
 

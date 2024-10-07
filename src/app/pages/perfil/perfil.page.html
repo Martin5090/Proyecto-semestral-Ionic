@@ -3,29 +3,38 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
-
     </ion-buttons>
     <div class="logo-container">
       <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
     </div>
     <ion-title></ion-title>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <h2 class="welcome-title">¡Bienvenido {{correo | slice:0:5 | uppercase}} a DeliFast!</h2>
+      <h2 class="welcome-title">¡Bienvenido a DeliFast!</h2>
 
-      <ion-button expand="block" [routerLink]="['/editarperfil']">
-        <ion-icon name="create-outline" slot="start"></ion-icon>
-        Editar Perfil
-      </ion-button>
-      <ion-button expand="block" [routerLink]="['/login']">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        Cerrar Sesión
-      </ion-button>
+      <!-- Mostrar botón de Iniciar Sesión si no está autenticado -->
+      <div *ngIf="!isLoggedIn">
+        <ion-button expand="block" [routerLink]="['/login']">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
+          Iniciar Sesión
+        </ion-button>
+      </div>
+
+      <!-- Mostrar botones de Editar Perfil y Cerrar Sesión si está autenticado -->
+      <div *ngIf="isLoggedIn">
+        <ion-button expand="block" [routerLink]="['/editarperfil']">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Editar Perfil
+        </ion-button>
+        <ion-button expand="block" (click)="cerrarSesion()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar Sesión
+        </ion-button>
+      </div>
 
       <div class="social-icons">
         <ion-icon name="logo-facebook" size="large"></ion-icon>
@@ -49,11 +58,7 @@
         <ion-icon name="document-text-outline" slot="start"></ion-icon>
         Términos legales
       </ion-button>
-
-
-
     </ion-card-content>
   </ion-card>
-
 </ion-content>
 <app-componente1></app-componente1>

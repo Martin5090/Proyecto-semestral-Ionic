@@ -11,11 +11,10 @@ export class EditarperfilPage implements OnInit {
   nombre:string="admin";
   apellido:string="admin";
   correo:string="admin@gmail.com";
-  telefono:number=123456789123
+  telefono:number=123456789123;
  
 
   constructor(private router: Router, 
-    private toastController: ToastController,
     private alertController: AlertController) { }
 
   ngOnInit() {
@@ -55,7 +54,7 @@ export class EditarperfilPage implements OnInit {
       return;
     }
     
-    this.presentToast('top');
+    
     this.router.navigate(['/perfil']);
 
 
@@ -78,17 +77,6 @@ export class EditarperfilPage implements OnInit {
     });
 
     await alert.present();
-  }
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Información actualizada correctamente.',
-      duration: 2500,
-      position: position,
-      color: 'success'
-
-    });
-
-    await toast.present();
   }
 
   
