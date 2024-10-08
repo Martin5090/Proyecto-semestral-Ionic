@@ -86,3 +86,10 @@ ion-back-button {
 ion-content {
     --background: url(https://i.pinimg.com/564x/5a/2b/1c/5a2b1c1e4ed1fc33f242a053f617ed67.jpg);
 }
+
+.red-button {
+    --background: #ff0000; /* Rojo personalizado */
+    --background-activated: #cc0000; /* Color cuando se presiona */
+    --background-focused: #ff6666; /* Color cuando se enfoca */
+    --background-hover: #e60000; /* Color cuando se pasa el mouse */
+  }

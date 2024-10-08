@@ -235,11 +235,24 @@ export class ServicebdService {
 
 
   verificarUsuario(correo: string, contra: string) {
-    return this.database.executeSql('SELECT iduser FROM USUARIO WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
       if (res.rows.length > 0) {
-        const iduser = res.rows.item(0).iduser; // Obtener el iduser del primer registro encontrado
-        this.presentAlert("Login", "Usuario verificado. ID: " + iduser);
-        return iduser; // Retorna el iduser si se verifica correctamente
+        const usuario = res.rows.item(0); // Obtener todos los datos del usuario encontrado
+        this.presentAlert("Login", "Usuario verificado. ID: " + usuario.iduser);
+
+        // Guardar todos los detalles del usuario en NativeStorage
+        return this.storage.setItem('usuario', {
+          iduser: usuario.iduser,
+          nombre: usuario.nombre,
+          apellido: usuario.apellido,
+          correo: usuario.correo,
+          telefono: usuario.telefono,
+          comuna_id: usuario.comuna_id,
+          rol_id: usuario.rol_id
+        }).then(() => {
+          return usuario.iduser; // Retornar el iduser si el almacenamiento es exitoso
+        });
+
       } else {
         this.presentAlert("Login", "Credenciales incorrectas. Intente de nuevo.");
         return null; // No se encontró el usuario
@@ -268,7 +281,7 @@ export class ServicebdService {
   eliminarUsuario(iduser: string) {
     return this.database.executeSql('DELETE FROM usuario WHERE iduser = ?', [iduser]).then(res => {
       this.presentAlert("Eliminar", "Cuenta Eliminada");
-      
+
       // Eliminar el usuario del local storage
       this.router.navigate(['/login']); // Cambia esto según tu flujo de navegación
       this.storage.remove('usuario').then(() => {
@@ -279,6 +292,49 @@ export class ServicebdService {
       this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
     });
   }
+
+  obtenerRolUsuarioPorId(iduser: number) {
+    return this.database.executeSql('SELECT rol_id FROM usuario WHERE iduser = ?', [iduser])
+      .then(res => {
+        if (res.rows.length > 0) {
+          return res.rows.item(0).rol_id; // Devuelve el rol_id
+        } else {
+          return null; // No se encontró el usuario
+        }
+      })
+      .catch(e => {
+        console.error('Error al obtener el rol del usuario:', JSON.stringify(e));
+        return null; // Manejo de errores
+      });
+  }
+
+  verificarCorreo(correo: string) {
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo = ?', [correo]).then(res => {
+      if (res.rows.length > 0) {
+        return true; 
+      } else {
+        return false; 
+      }
+    }).catch(e => {
+      console.error('Error al verificar el correo:', e);
+      return false; 
+    });
+  }
+
+  actualizarContra(correo: string, contra: string): Promise<void> {
+    return this.database.executeSql('UPDATE usuario SET contra = ? WHERE correo = ?', [contra, correo])
+      .then(res => {
+        if (res.rowsAffected > 0) {
+          this.presentAlert("Actualización", "Contraseña actualizada exitosamente.");
+        } else {
+          this.presentAlert("Error", "No se encontró un usuario con ese correo.");
+        }
+      })
+      .catch(e => {
+        this.presentAlert('Actualizar', 'Error: ' + JSON.stringify(e));
+      });
+  }
+
 
 
 

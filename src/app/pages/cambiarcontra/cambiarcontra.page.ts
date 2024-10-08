@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AlertController} from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-cambiarcontra',
@@ -8,17 +10,27 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./cambiarcontra.page.scss'],
 })
 export class CambiarcontraPage implements OnInit {
-  correo: string = "admin@gmail.com";
-  password: string = "";
-  repassword: string = "";
+  correo: string = "";
+  contra: string = "";
+  recontra: string = "";
 
   constructor(private router: Router,
-    private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private bd: ServicebdService,
+    private storage: NativeStorage
+
   ) { }
 
   ngOnInit() {
+    this.storage.getItem('correoRecuperacion').then((data) => {
+      this.correo = data; 
+    }).catch(error => {
+      console.error('Error al cargar el correo:', error);
+    });
   }
+
+
+
   validarEmail(email: string): boolean {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return re.test(String(email).toLowerCase());
@@ -26,31 +38,42 @@ export class CambiarcontraPage implements OnInit {
 
 
   CambiarContra() {
-    if (!this.correo || !this.password || !this.repassword) {
+    if (!this.correo || !this.contra || !this.recontra) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
 
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(this.password)) {
+    if (!passwordRegex.test(this.contra)) {
       this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
       return;
     }
 
-    if (!passwordRegex.test(this.repassword)) {
+    if (!passwordRegex.test(this.recontra)) {
       this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
       return;
     }
 
     // Verificar si las contraseñas coinciden
-    if (this.password !== this.repassword) {
+    if (this.contra !== this.recontra) {
       this.presentAlert('Contraseñas no coinciden', 'La contraseña y la confirmación de la contraseña deben coincidir.');
       return;
-    };
+    }
 
-    // Si todo está bien, redirigir al login
-    this.presentToast('top'); // Opcional: Mostrar un mensaje de éxito
-    this.router.navigate(['/login']);
+    // Verificar si el correo coincide con el de la base de datos
+    this.bd.verificarCorreo(this.correo).then(existe => {
+      if (existe) {
+        // Si el correo coincide, permitir el cambio de contraseña
+        return this.bd.actualizarContra(this.correo, this.contra);
+      } else {
+        this.presentAlert('Correo no coincide', 'El correo no coincide con el registrado.');
+        return Promise.reject('Correo no coincide'); 
+      }
+    }).then(() => {
+      this.router.navigate(['/login']);
+    }).catch(error => {
+      console.error('Error al procesar el cambio de contraseña:', error);
+    });
   }
 
   async presentAlert(titulo: string, msj: string) {
@@ -63,14 +86,5 @@ export class CambiarcontraPage implements OnInit {
     await alert.present();
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Contraseña cambiada con éxito',
-      duration: 2500,
-      position: position,
-      color: 'success'
-    });
-
-    await toast.present();
-  }
+ 
 }

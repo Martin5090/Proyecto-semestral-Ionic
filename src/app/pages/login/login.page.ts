@@ -51,9 +51,7 @@ export class LoginPage implements OnInit {
             .catch(error => {
               this.presentAlert('Error de almacenamiento', 'No se pudo guardar el usuario: ' + JSON.stringify(error));
             });
-        } else {
-          this.presentAlert('Error', 'Credenciales incorrectas. Por favor, inténtelo de nuevo.');
-        }
+        } 
       }).catch(error => {
         this.presentAlert('Error', 'Error al verificar el usuario: ' + JSON.stringify(error));
       });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import {  Router } from '@angular/router';
+import { AlertController} from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
