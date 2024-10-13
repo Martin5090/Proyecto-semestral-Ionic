@@ -19,16 +19,14 @@
 
       <ion-card-content>
         <ion-item>
-          <ion-input label="Comuna" labelPlacement="floating" placeholder="Ingrese su comuna" [(ngModel)]="comuna">
-          </ion-input>
+          <ion-label>Comuna: </ion-label>
+          <ion-select [(ngModel)]="comunaSeleccionadaId">
+            <ion-select-option *ngFor="let comuna of comunas" [value]="comuna.comuna_id">
+              {{ comuna.nombre_comuna }} - {{ comuna.calle }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
-
-        <ion-item>
-          <ion-input label="Calle" labelPlacement="floating" placeholder="Ingrese su calle" [(ngModel)]="calle">
-          </ion-input>
-        </ion-item>
-
-        <ion-button (click)="aceptardireccion()" class="submit-button" expand="block">
+        <ion-button (click)="actualizarComuna()" class="submit-button" expand="block">
           Aceptar
         </ion-button>
 

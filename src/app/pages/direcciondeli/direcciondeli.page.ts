@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { Comuna } from 'src/app/model/comuna';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-direcciondeli',
@@ -8,32 +11,59 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./direcciondeli.page.scss'],
 })
 export class DirecciondeliPage implements OnInit {
-  comuna: string = "";
-  calle: string = "";
+  comunas: Comuna[] = [];
+  comunaSeleccionadaId!: number; // ID de la comuna seleccionada
+  userId!: number; // ID del usuario que ha iniciado sesión
 
-  constructor(private router: Router, 
-    private alertController: AlertController) { }
+  constructor(private router: Router,
+    private alertController: AlertController,
+    private bd: ServicebdService,
+    private storage: NativeStorage) { }
 
   ngOnInit() {
+
+    // Cargar las comunas al inicializar el componente
+    this.bd.seleccionarComuna().then(() => {
+      this.bd.fetchComuna().subscribe(data => {
+        this.comunas = data;
+      });
+    });
+
+    // Obtener el ID del usuario que ha iniciado sesión
+    this.storage.getItem('usuario').then(data => {
+      this.userId = data.iduser; // Asegúrate de que 'iduser' es la propiedad correcta
+    }).catch(error => {
+      console.error('Error al obtener el ID del usuario:', error);
+    });
+
+
   }
 
-  aceptardireccion(){
-  // Validar si los campos están vacíos
-    if (this.comuna.trim() === "" || this.calle.trim() === "") {
-      // Mostrar alerta si algún campo está vacío
-      this.presentAlert('Error', 'Por favor, completa todos los campos.');
-    } else {
-      // Si los campos están completos, navega a la siguiente página
-      this.router.navigate(['/menu-caja']);  
+
+
+  actualizarComuna() {
+    if (!this.comunaSeleccionadaId) {
+      this.presentAlert('Comuna no seleccionada', 'Por favor, seleccione una comuna.');
+      return;
     }
-  
+
+    // Llama al servicio para actualizar la comuna
+    this.bd.actualizarComunaUsuario(this.userId, this.comunaSeleccionadaId)
+      .then(() => {
+        this.presentAlert('Éxito', 'La comuna ha sido actualizada.'); // Mostrar alerta solo aquí
+        this.router.navigate(['/menu-caja']); // Cambia la ruta de destino según sea necesario
+      })
+      .catch((error) => {
+        console.error('Error al actualizar la comuna:', error);
+        this.presentAlert('Error', 'No se pudo actualizar la comuna. Inténtalo de nuevo.');
+      });
   }
 
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
       message: msj,
-      buttons: ['OK'],
+      buttons: ['OK'], // Agrega un botón 'OK' para cerrar la alerta
     });
 
     await alert.present();

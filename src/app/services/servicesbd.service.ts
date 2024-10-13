@@ -7,6 +7,7 @@ import { Producto } from '../model/producto';
 import { Usuario } from '../model/usuario';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Router } from '@angular/router';
+import { Comuna } from '../model/comuna';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,7 @@ export class ServicebdService {
 
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
+  registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
   registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
 
 
@@ -47,6 +49,7 @@ export class ServicebdService {
   listado = new BehaviorSubject([]);
   listadoProducto = new BehaviorSubject([]);
   listadoUsuario = new BehaviorSubject([]);
+  listadoComunas = new BehaviorSubject([]);
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -82,6 +85,10 @@ export class ServicebdService {
 
   fetchProducto(): Observable<Producto[]> {
     return this.listadoProducto.asObservable();
+  }
+
+  fetchComuna(): Observable<Comuna[]> {
+    return this.listadoComunas.asObservable();
   }
 
 
@@ -134,6 +141,7 @@ export class ServicebdService {
       //ejecuto los insert por defecto en el caso que existan
       await this.database.executeSql(this.registroRol, []);
       await this.database.executeSql(this.registroUsuario, []);
+      await this.database.executeSql(this.registroComunas, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -216,7 +224,7 @@ export class ServicebdService {
         this.presentAlert("Insertar", "Usuario Registrado");
 
         // Guarda el ID del nuevo usuario y otros detalles en NativeStorage
-        const userId = res.insertId; // Obtener el ID del nuevo usuario
+        const userId = res.insertId;
         return this.storage.setItem('usuario', {
           iduser: userId,
           nombre: nombre,
@@ -311,13 +319,13 @@ export class ServicebdService {
   verificarCorreo(correo: string) {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ?', [correo]).then(res => {
       if (res.rows.length > 0) {
-        return true; 
+        return true;
       } else {
-        return false; 
+        return false;
       }
     }).catch(e => {
       console.error('Error al verificar el correo:', e);
-      return false; 
+      return false;
     });
   }
 
@@ -332,6 +340,42 @@ export class ServicebdService {
       })
       .catch(e => {
         this.presentAlert('Actualizar', 'Error: ' + JSON.stringify(e));
+      });
+  }
+
+  //Insertar comunas al usuario
+
+  seleccionarComuna() {
+    return this.database.executeSql('SELECT * FROM comuna', []).then(res => {
+      //variable para almacenar el resultado de la consulta
+      let items: Comuna[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+            comuna_id: res.rows.item(i).comuna_id,
+            nombre_comuna: res.rows.item(i).nombre_comuna,
+            calle: res.rows.item(i).calle
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoComunas.next(items as any);
+
+    })
+  }
+
+  actualizarComunaUsuario(usuarioId: number, comunaId: number): Promise<void> {
+    return this.database.executeSql('UPDATE usuario SET comuna_id = ? WHERE iduser = ?', [comunaId, usuarioId])
+      .then(() => {
+        console.log('Comuna actualizada con éxito');
+      })
+      .catch(error => {
+        console.error('Error al actualizar la comuna:', error);
+        throw error; // Lanzar el error para manejarlo en el componente
       });
   }
 
