@@ -72,7 +72,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/eliminar/eliminar.module').then( m => m.EliminarPageModule)
   },
   {
-    path: 'hamburguesa',
+    path: 'hamburguesa/:id',
     loadChildren: () => import('./pages/hamburguesa/hamburguesa.module').then( m => m.HamburguesaPageModule)
   },
   {

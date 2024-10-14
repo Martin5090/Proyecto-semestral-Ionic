@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Categoria } from 'src/app/model/categoria';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
@@ -9,25 +10,33 @@ import { ServicebdService } from 'src/app/services/servicesbd.service';
   styleUrls: ['./agregar.page.scss'],
 })
 export class AgregarPage implements OnInit {
+  categorias: Categoria[] = [];
   producto_id: string = "";
   nombre_producto: string = "";
   descripcion_producto: string = "";
   foto_producto: string = "";
   precio_producto!: number;
   stock_producto!: number;
+  categoria_id!: number;
     
   constructor(private router: Router,
     private alertController: AlertController,
     private bd: ServicebdService) { }
 
   ngOnInit() {
+    
+    this.bd.MostrarCategoria().then(() => {
+      this.bd.fetchCategoria().subscribe(datos => {
+        this.categorias = datos;
+      });
+    });
   }
 
   //sirve para hacer que aprezca el boton de archivo de imagen en el imput
 
 
   Agregar() {
-    if (!this.nombre_producto || !this.descripcion_producto || !this.foto_producto || !this.precio_producto || !this.stock_producto) {
+    if (!this.nombre_producto || !this.descripcion_producto || !this.foto_producto || !this.precio_producto || !this.stock_producto || !this.categoria_id) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
@@ -50,7 +59,7 @@ export class AgregarPage implements OnInit {
     };
 
 
-    this.bd.insertarProducto(this.nombre_producto, this.descripcion_producto, this.foto_producto, this.precio_producto, this.stock_producto);
+    this.bd.insertarProducto(this.nombre_producto, this.descripcion_producto, this.foto_producto, this.precio_producto, this.stock_producto, this.categoria_id);
     this.router.navigate(['/menu-crud']);
 
   };

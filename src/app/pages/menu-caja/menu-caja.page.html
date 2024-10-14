@@ -12,20 +12,18 @@
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      
-    </ion-toolbar>
   </ion-header>
 
   <div class="cards-container">
     <div class="card" *ngFor="let comida of Tiposdecomida">
+      
       <img [src]="comida.foto_producto" class="card-img">
       <div class="card-content">
         <h5>{{comida.nombre_producto}}</h5>
         <h6 class="price">{{comida.precio_producto}}</h6>
-        <p >{{comida.descripcion_producto}}</p>
-        <ion-button [routerLink]="['/hamburguesa']">Comprar</ion-button>
-        <ion-button (click)="Carrito()">Agregar al Carrito</ion-button>
+        <p>{{comida.descripcion_producto}}</p>
+        <ion-button [routerLink]="['/hamburguesa', comida.producto_id]">Seleccionar</ion-button>
+
       </div>
     </div>
   </div>

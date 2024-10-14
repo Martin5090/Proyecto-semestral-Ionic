@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Categoria } from 'src/app/model/categoria';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { ServicebdService } from 'src/app/services/servicesbd.service';
   styleUrls: ['./editar.page.scss'],
 })
 export class EditarPage implements OnInit {
+  categorias: Categoria[] = [];
   //producto_id: string = "";
   //nombre_producto: string = "";
   //descripcion_producto: string = "";
@@ -28,13 +30,18 @@ export class EditarPage implements OnInit {
   }
 
   ngOnInit() {
+    this.bd.MostrarCategoria().then(() => {
+      this.bd.fetchCategoria().subscribe(datos => {
+        this.categorias = datos;
+      });
+    });
   }
 
   //sirve para hacer que aprezca el boton de archivo de imagen en el imput
 
 
   Editar() {
-    if (!this.producto.nombre_producto || !this.producto.descripcion_producto || !this.producto.foto_producto || !this.producto.precio_producto || !this.producto.stock_producto ) {
+    if (!this.producto.nombre_producto || !this.producto.descripcion_producto || !this.producto.foto_producto || !this.producto.precio_producto || !this.producto.stock_producto || !this.producto.categoria_id ) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
@@ -51,7 +58,7 @@ export class EditarPage implements OnInit {
 
 
     this.bd.modificarProducto(this.producto.producto_id, this.producto.nombre_producto, this.producto.descripcion_producto, this.producto.foto_producto,
-      this.producto.precio_producto, this.producto.stock_producto
+      this.producto.precio_producto, this.producto.stock_producto, this.producto.categoria_id
     );
     this.router.navigate(['/menu-crud']);
 

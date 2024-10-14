@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-hamburguesa',
@@ -7,28 +8,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./hamburguesa.page.scss'],
 })
 export class HamburguesaPage {
-  constructor(private router:Router) { }
+
+  producto: any = {};
+
+  constructor(private router: Router, private bd: ServicebdService, private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-  }
-
-
-  ingredientes = [
-    { name: 'Tomate', selected: true },
-    { name: 'Palta', selected: true },
-    { name: 'Mayo', selected: true },
-    { name: 'Pepinillos', selected: false }
-  ];
-
-  bebidas = ['Agua', 'Bebida', 'Jugo', 'Cerveza'];
-  selectedBebida: string | undefined;
-
-  confirmarOrden() {
-    const seleccionados = this.ingredientes.filter(ingrediente => ingrediente.selected);
-    console.log('Ingredientes seleccionados:', seleccionados);
-    console.log('Bebida seleccionada:', this.selectedBebida);
-    this.router.navigate(['/pago']);
-  }
+    const productoId = this.route.snapshot.paramMap.get('id') || ''; 
   
+  this.bd.getProductoById(productoId).then(res => {
+    this.producto = res;
+  }).catch(err => {
+    console.error('Error al obtener el producto:', err);
+  });
+  }
+
+
+
+  cargarProducto() {
+    
+  }
+
 
 }

@@ -8,6 +8,7 @@ import { Usuario } from '../model/usuario';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Router } from '@angular/router';
 import { Comuna } from '../model/comuna';
+import { Categoria } from '../model/categoria';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,9 @@ export class ServicebdService {
 
   tablaEstados: string = "CREATE TABLE IF NOT EXISTS ESTADOS (estado_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_estado TEXT NOT NULL);";
 
-  tablaProducto: string = "CREATE TABLE IF NOT EXISTS PRODUCTO (producto_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_producto TEXT NOT NULL, descripcion_producto TEXT NOT NULL, foto_producto TEXT NOT NULL, precio_producto REAL NOT NULL, stock_producto INTEGER NOT NULL);";
+  tablaCategoria: string = "CREATE TABLE IF NOT EXISTS CATEGORIA (categoria_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_categoria TEXT NOT NULL);"
+
+  tablaProducto: string = "CREATE TABLE IF NOT EXISTS PRODUCTO (producto_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_producto TEXT NOT NULL, descripcion_producto TEXT NOT NULL, foto_producto TEXT NOT NULL, precio_producto REAL NOT NULL, stock_producto INTEGER NOT NULL, categoria_id INTEGER NOT NULL, FOREIGN KEY (categoria_id) REFERENCES CATEGORIA(categoria_id));";
 
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
 
@@ -37,19 +40,20 @@ export class ServicebdService {
 
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS DETALLE (detalle_id INTEGER PRIMARY KEY AUTOINCREMENT, venta_id INTEGER NOT NULL, producto_id INTEGER NOT NULL, cantidad INTEGER NOT NULL, subtotal REAL NOT NULL, FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id), FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
 
-  tablaIngredientes: string = "CREATE TABLE IF NOT EXISTS INGREDIENTES (id_ingrediente INTEGER PRIMARY KEY AUTOINCREMENT, nombre_ingrediente TEXT NOT NULL, producto_id INTEGER NOT NULL, FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
+  tablaIngredientes: string = "CREATE TABLE IF NOT EXISTS INGREDIENTES (id_ingrediente INTEGER PRIMARY KEY AUTOINCREMENT, nombre_ingrediente TEXT NOT NULL, categoria_id INTEGER NOT NULL, FOREIGN KEY (categoria_id) REFERENCES CATEGORIA(categoria_id));";
 
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
   registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
   registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
-
-
+  registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
+  registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 2), (7, 'bebida', 2), (8, 'jugo', 2);";
 
   listado = new BehaviorSubject([]);
   listadoProducto = new BehaviorSubject([]);
   listadoUsuario = new BehaviorSubject([]);
   listadoComunas = new BehaviorSubject([]);
+  listadoCategoria = new BehaviorSubject([]);
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -90,6 +94,9 @@ export class ServicebdService {
   fetchComuna(): Observable<Comuna[]> {
     return this.listadoComunas.asObservable();
   }
+  fetchCategoria(): Observable<Categoria[]> {
+    return this.listadoCategoria.asObservable();
+  }
 
 
 
@@ -127,11 +134,14 @@ export class ServicebdService {
   async crearTablas() {
     try {
       //ejecuto la creación de Tablas
+     
+    
       await this.database.executeSql(this.tablaCupones, []);
       await this.database.executeSql(this.tablaRol, []);
       await this.database.executeSql(this.tablaEstados, []);
       await this.database.executeSql(this.tablaUsuario, []);
       await this.database.executeSql(this.tablaProducto, []);
+      await this.database.executeSql(this.tablaCategoria, []);
       await this.database.executeSql(this.tablaVenta, []);
       await this.database.executeSql(this.tablaDetalle, []);
       await this.database.executeSql(this.tablaComuna, []);
@@ -142,6 +152,8 @@ export class ServicebdService {
       await this.database.executeSql(this.registroRol, []);
       await this.database.executeSql(this.registroUsuario, []);
       await this.database.executeSql(this.registroComunas, []);
+      await this.database.executeSql(this.registroCategoria, []);
+      await this.database.executeSql(this.registroIngredientes, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -171,7 +183,9 @@ export class ServicebdService {
             nombre_producto: res.rows.item(i).nombre_producto,
             descripcion_producto: res.rows.item(i).descripcion_producto,
             stock_producto: res.rows.item(i).stock_producto,
-            foto_producto: res.rows.item(i).foto_producto
+            foto_producto: res.rows.item(i).foto_producto,
+            categoria_id: res.rows.item(i).categoria_id,
+            
           })
         }
 
@@ -182,9 +196,9 @@ export class ServicebdService {
     })
   }
 
-  insertarProducto(nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number) {
-    return this.database.executeSql('INSERT INTO producto(nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto) VALUES (?,?,?,?,?)',
-      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto]).then(res => {
+  insertarProducto(nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {
+    return this.database.executeSql('INSERT INTO producto(nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id) VALUES (?,?,?,?,?,?)',
+      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id]).then(res => {
         this.presentAlert("Insertar", "Producto Registrado");
         this.seleccionarProducto();
       }).catch(e => {
@@ -202,16 +216,50 @@ export class ServicebdService {
     })
   }
 
-  modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number) {
+  modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id:number) {
     this.presentAlert("service", "ID: " + id);
-    return this.database.executeSql('UPDATE producto SET nombre_producto = ?, descripcion_producto = ?, foto_producto = ?, precio_producto = ?, stock_producto = ? WHERE producto_id = ?',
-      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, id]).then(res => {
+    return this.database.executeSql('UPDATE producto SET nombre_producto = ?, descripcion_producto = ?, foto_producto = ?, precio_producto = ?, stock_producto = ?, categoria_id = ? WHERE producto_id = ?',
+      [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id, id]).then(res => {
         this.presentAlert("Modificar", "Producto Modificado");
         this.seleccionarProducto();
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
       })
 
+  }
+
+  MostrarCategoria() {
+    return this.database.executeSql('SELECT * FROM categoria', []).then(res => {
+      let items: Categoria[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            categoria_id: res.rows.item(i).categoria_id,
+            nombre_categoria: res.rows.item(i).nombre_categoria,
+          });
+        }
+      }
+      this.listadoCategoria.next(items as any); 
+    }).catch(e => {
+      console.error('Error al mostrar categorías:', e);
+    });
+  }
+
+  getProductoById(id: string) {
+    return this.database.executeSql('SELECT * FROM producto WHERE producto_id = ?', [id]).then(data => {
+      let producto = {};
+      if (data.rows.length > 0) {
+        producto = {
+          producto_id: data.rows.item(0).producto_id,
+          nombre_producto: data.rows.item(0).nombre_producto,
+          descripcion_producto: data.rows.item(0).descripcion_producto,
+          foto_producto: data.rows.item(0).foto_producto,
+          precio_producto: data.rows.item(0).precio_producto,
+          stock_producto: data.rows.item(0).stock_producto
+        };
+      }
+      return producto;
+    });
   }
 
 

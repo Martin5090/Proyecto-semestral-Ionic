@@ -1,167 +1,130 @@
+ion-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-color: #797979;
+  color: #FFFFFF;
+  --ion-background-color: #0a0a0a;
+  --ion-color-base: #FFFFFF;
+
+  .logo-container {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      right: 8px;
+      top: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+  }
+
+  .header-logo {
+      height: 50px;
+      width: auto;
+      top: 40px;
+  }
+
+  ion-title {
+      margin-left: auto;
+  }
+}
+
 ion-content {
   --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
 }
 
-ion-toolbar {
+/* menu-caja.page.scss */
+.cards-container {
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 0 16px; 
-  background-color: #797979; 
-  color: #FFFFFF; 
-  --ion-background-color: #0a0a0a; 
-  --ion-color-base: #FFFFFF; 
-
-  .logo-container {
-    display: flex;
-    align-items: center;
-    position: absolute; 
-    right: 8px; 
-    top: 0; 
-    height: 100%; 
-    display: flex;
-    justify-content: center; 
-  }
-
-  .header-logo {
-    height: 50px; 
-    width:auto; 
-    top: 40px; 
-  }
-
-  ion-title {
-    margin-left: auto; 
-  }
+  flex-wrap: wrap;
+  justify-content: space-around; 
+  padding: 16px;
 }
 
-.ingredient-card {
-  background-color: #000000;
-  color: #ffffff;
-  margin: 20px auto;
-  padding: 20px;
+.card {
+  background: #000000;
   border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin: 10px;
+  width: calc(33.333% - 20px); 
+  min-height: 600px; 
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  box-sizing: border-box;
+}
 
-  ion-card-header {
-    background-color: transparent;
-
-    ion-card-title {
-      color: #ffffff;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-  }
-
-  ion-card-content {
-    padding: 0;
-
-    .dish-card {
-      background-color: #ffffff;
-      color: #000000;
-      margin-bottom: 20px;
-
-      ion-card-header {
-        ion-card-title {
-          color: #000000;
-          text-align: center;
-        }
-      }
-
-      .image-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-          max-width: 100%;
-          height: auto;
-          border-radius: 10px;
-        }
-      }
-    }
-
-    .ingredient-section,
-    .beverage-section {
-      h3 {
-        color: #000000;
-        font-size: 1.2rem;
-        margin-top: 20px;
-      }
-
-      ion-item {
-        background-color: transparent;
-        color: #000000;
-
-        ion-label {
-          color: #000000;
-        }
-
-        ion-checkbox {
-          --color-checked: #000000;
-        }
-      }
-    }
-  }
-
-  ion-footer {
-    margin-top: 20px;
-
-    ion-toolbar {
-      background-color: transparent;
-
-      .confirm-button {
-        background-color: #FFD700;
-        color: #000000;
-        font-weight: bold;
-
-        &:hover {
-          background-color: #FFC107;
-        }
-
-        &:active {
-          background-color: #FFA000;
-        }
-      }
-    }
+@media (max-width: 768px) {
+  .card {
+      width: 100%; 
+      min-height: 500px; 
+      margin: 5px; 
   }
 }
 
-@media (min-width: 768px) {
-  .ingredient-card {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 30px;
-  }
-
-  .ingredient-section,
-  .beverage-section {
-    h3 {
-      font-size: 1.5rem;
-    }
-  }
+.card-img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 100%;
+  height: 250px; 
+  object-fit: cover;
 }
 
-@media (max-width: 767px) {
-  .ingredient-card {
-    max-width: 90%;
-    margin: 20px auto;
-    padding: 20px;
-  }
+.card-content {
+  padding: 16px;
+  flex-grow: 1;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .ingredient-section,
-  .beverage-section {
-    h3 {
+.card-content{
+  text-align: center;
+
+  h5 {
       font-size: 1.2rem;
-    }
+      margin: 8px 0;
+      color: #ffffff;
   }
+
+  h6.price {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #FFD700;
+  }
+
 }
 
-.submit-button {
-  --background: #fcc309; 
-  --background-hover: #FFD700; 
-  --background-activated: #adad18; 
-  --color: #000000; 
-  --border-radius: 6px;
+.card-content ion-button {
+  --background: #FFD700;
+  --color: #000000;
+  --border-radius: 10px;
   font-weight: bold;
-  margin-top: 10px;
+  padding: 6px 12px;
+  width: auto; 
+  margin: 5px; 
+}
+
+.card-content .button-group {
+  display: flex;
+  justify-content: center; 
+  gap: 10px; 
+  width: 100%; 
+  margin-top: 10px; 
+}
+
+@media (max-width: 768px) {
+  .card-content .button-group {
+      flex-direction: column; 
+  }
+
+  .card-content ion-button {
+      width: 100%; 
+  }
 }

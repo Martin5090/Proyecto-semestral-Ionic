@@ -21,7 +21,6 @@ export class MenuCajaPage implements OnInit {
   ];
 
   constructor(private router: Router,
-    private toastController: ToastController,
     private bd: ServicebdService) { }
 
   ngOnInit() {
@@ -36,21 +35,7 @@ export class MenuCajaPage implements OnInit {
     })
   }
 
-  Carrito() {
-    this.presentToast('bottom');
+ 
 
-
-  }
-
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Tu selección fue agregada al carrito.',
-      duration: 2500,
-      position: position,
-      color: 'success'
-
-    });
-
-    await toast.present();
-  }
+  
 }

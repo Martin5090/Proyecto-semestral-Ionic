@@ -10,47 +10,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-card class="ingredient-card">
-    <ion-card-header>
-      <ion-card-title>Elige tus ingredientes</ion-card-title>
-    </ion-card-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+  </ion-header>
 
-    <ion-card-content>
-      <ion-card class="dish-card">
-        <ion-card-header>
-          <ion-card-title>Churrasco Italiano</ion-card-title>
-        </ion-card-header>
+  <div class="cards-container">
+    <div class="card">
+      <img [src]="producto.foto_producto" class="card-img" alt="{{ producto.nombre_producto }}">
+      <div class="card-content">
+        <h5>{{ producto.nombre_producto }}</h5>
+        <h6 class="price">Precio: {{ producto.precio_producto }}</h6>
+        <p>{{ producto.descripcion_producto }}</p>
+        <h6>Stock: {{ producto.stock_producto }}</h6>
 
-        <ion-card-content>
-          <div class="image-container">
-            <img src="../assets/icon/churrasco italiano.jpg" alt="Imagen centrada" />
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <div class="ingredient-section">
-        <h3>Ingredientes</h3>
-        <ion-item *ngFor="let ingrediente of ingredientes">
-          <ion-label>{{ ingrediente.name }}</ion-label>
-          <ion-checkbox [(ngModel)]="ingrediente.selected"></ion-checkbox>
-        </ion-item>
+        <ion-button expand="full" class="submit-button" (click)="cargarProducto()">Confirmar Orden</ion-button>
       </div>
+    </div>
+  </div>
 
-      <div class="beverage-section">
-        <h3>Bebida</h3>
-        <ion-item>
-          <ion-label>Selecciona tu bebida</ion-label>
-          <ion-select [(ngModel)]="selectedBebida">
-            <ion-select-option *ngFor="let bebida of bebidas" [value]="bebida">
-              {{ bebida }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-      </div>
-      <ion-button expand="full" class="submit-button" (click)="confirmarOrden()">Confirmar Orden</ion-button>
-    </ion-card-content>
-      
-  </ion-card>
 </ion-content>
 <app-componente1></app-componente1>

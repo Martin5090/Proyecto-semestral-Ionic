@@ -5,4 +5,5 @@ export class Producto {
     descripcion_producto!:string;
     stock_producto!:number;
     foto_producto!:string;
+    categoria_id!:string;
 }

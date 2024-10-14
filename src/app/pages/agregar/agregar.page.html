@@ -46,6 +46,15 @@
           <ion-input label="Stock" labelPlacement="floating" placeholder="Ingrese el stock del producto" 
             [(ngModel)]="stock_producto"></ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-label>Categoría: </ion-label>
+          <ion-select [(ngModel)]="categoria_id">
+            <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.categoria_id">
+              {{ categoria.nombre_categoria }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
         
         
         <br>
