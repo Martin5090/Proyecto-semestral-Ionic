@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-carrito',
@@ -6,10 +7,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./carrito.page.scss'],
 })
 export class CarritoPage implements OnInit {
+  productosCarrito: any[] = [];  
 
-  constructor() { }
+  constructor(private storage: NativeStorage) { }
 
   ngOnInit() {
-  }
+     
+     this.storage.getItem('productos_carrito')
+     .then((productos) => {
+       this.productosCarrito = productos;  
+     })
+     .catch(() => {
+       console.log('No hay productos en el carrito');
+       this.productosCarrito = [];  
+     });
+ }
+
+ eliminarProducto(index: number) {
+
+  this.productosCarrito.splice(index, 1);
+
+  
+  this.storage.setItem('productos_carrito', this.productosCarrito)
+    .then(() => {
+      console.log('Producto eliminado correctamente');
+    })
+    .catch(error => {
+      console.error('Error al actualizar el carrito:', error);
+    });
+}
+  
 
 }
