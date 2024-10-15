@@ -20,7 +20,7 @@
       <img [src]="comida.foto_producto" class="card-img">
       <div class="card-content">
         <h5>{{comida.nombre_producto}}</h5>
-        <h6 class="price">{{comida.precio_producto}}</h6>
+        <h6 class="price">${{comida.precio_producto}}</h6>
         <p>{{comida.descripcion_producto}}</p>
         <ion-button [routerLink]="['/hamburguesa', comida.producto_id]">Seleccionar</ion-button>
 

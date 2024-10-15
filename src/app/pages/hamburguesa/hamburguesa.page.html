@@ -11,22 +11,49 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-  </ion-header>
+  <ion-header collapse="condense"></ion-header>
 
   <div class="cards-container">
     <div class="card">
+      <h5 style="text-align: center;"><strong>{{ producto.nombre_producto }}</strong></h5>
       <img [src]="producto.foto_producto" class="card-img" alt="{{ producto.nombre_producto }}">
       <div class="card-content">
-        <h5>{{ producto.nombre_producto }}</h5>
-        <h6 class="price">Precio: {{ producto.precio_producto }}</h6>
-        <p>{{ producto.descripcion_producto }}</p>
-        <h6>Stock: {{ producto.stock_producto }}</h6>
+        <h6 class="descripcion">{{ producto.descripcion_producto }}</h6>
+        <h5 class="price"><strong>${{ producto.precio_producto }}</strong></h5>
+      
+      
+        <div *ngIf="producto.categoria_id === 1">
+          <ion-list>
+            <ion-item>
+              <ion-label>Ingredientes a quitar:</ion-label>
+            </ion-item>
+            <ng-container *ngFor="let ingrediente of ingredientes">
+              <ion-item *ngIf="[1, 2, 3, 4, 5].includes(ingrediente.id_ingrediente)" style="--inner-padding-end: 0;">
+                <ion-checkbox [(ngModel)]="ingrediente.seleccionado" slot="start"></ion-checkbox>
+                <ion-label style="flex: 1; text-align: left;">{{ ingrediente.nombre_ingrediente }}</ion-label>
+              </ion-item>
+            </ng-container>
+          </ion-list>
+          <br>
 
-        <ion-button expand="full" class="submit-button" (click)="cargarProducto()">Confirmar Orden</ion-button>
+          <!-- Ingredientes adicionales (bebestibles) -->
+          <ion-item>
+            <ion-label>Bebestibles:</ion-label>
+            <ion-select [(ngModel)]="ingredienteSeleccionadoId">
+              <ng-container *ngFor="let ingrediente of ingredientes">
+                <ion-select-option *ngIf="[6, 7, 8].includes(ingrediente.id_ingrediente)" [value]="ingrediente.id_ingrediente">
+                  {{ ingrediente.nombre_ingrediente }}
+                </ion-select-option>
+              </ng-container>
+            </ion-select>
+          </ion-item>
+          <br>
+        </div>
+        <br>
+        <ion-button expand="full" class="submit-button" (click)="cargarProducto()">Añadir al carrito</ion-button>
       </div>
     </div>
   </div>
-
 </ion-content>
+
 <app-componente1></app-componente1>

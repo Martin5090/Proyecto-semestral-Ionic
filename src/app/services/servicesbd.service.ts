@@ -9,6 +9,7 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Router } from '@angular/router';
 import { Comuna } from '../model/comuna';
 import { Categoria } from '../model/categoria';
+import { Ingredientes } from '../model/ingredientes';
 
 @Injectable({
   providedIn: 'root'
@@ -47,13 +48,15 @@ export class ServicebdService {
   registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
   registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
   registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
-  registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 2), (7, 'bebida', 2), (8, 'jugo', 2);";
+  registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
 
   listado = new BehaviorSubject([]);
   listadoProducto = new BehaviorSubject([]);
   listadoUsuario = new BehaviorSubject([]);
   listadoComunas = new BehaviorSubject([]);
   listadoCategoria = new BehaviorSubject([]);
+  listadoIngredientes = new BehaviorSubject([]);
+  
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -98,6 +101,10 @@ export class ServicebdService {
     return this.listadoCategoria.asObservable();
   }
 
+  fetchIngredientes(): Observable<Ingredientes[]> {
+    return this.listadoIngredientes.asObservable();
+  }
+
 
 
 
@@ -135,7 +142,8 @@ export class ServicebdService {
     try {
       //ejecuto la creación de Tablas
      
-    
+      
+
       await this.database.executeSql(this.tablaCupones, []);
       await this.database.executeSql(this.tablaRol, []);
       await this.database.executeSql(this.tablaEstados, []);
@@ -255,12 +263,15 @@ export class ServicebdService {
           descripcion_producto: data.rows.item(0).descripcion_producto,
           foto_producto: data.rows.item(0).foto_producto,
           precio_producto: data.rows.item(0).precio_producto,
-          stock_producto: data.rows.item(0).stock_producto
+          stock_producto: data.rows.item(0).stock_producto,
+          categoria_id: data.rows.item(0).categoria_id
         };
       }
       return producto;
     });
   }
+
+ 
 
 
   //Insertar usuario register
@@ -414,6 +425,24 @@ export class ServicebdService {
       this.listadoComunas.next(items as any);
 
     })
+  }
+
+  seleccionarIngredientes() {
+    return this.database.executeSql('SELECT * FROM ingredientes', []).then(res => {
+      let items: Ingredientes[] = [];
+      if (res.rows.length > 0) {
+        for (let i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_ingrediente: res.rows.item(i).id_ingrediente,
+            nombre_ingrediente: res.rows.item(i).nombre_ingrediente,
+            categoria_id: res.rows.item(i).categoria_id,
+            seleccionado: false 
+          });
+        }
+      }
+      
+      this.listadoIngredientes.next(items as any);
+    });
   }
 
   actualizarComunaUsuario(usuarioId: number, comunaId: number): Promise<void> {
