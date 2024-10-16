@@ -1,106 +1,150 @@
-.empty-cart-content {
-    display: flex;
-    justify-content: center;
-   
-    align-items: center;
-    
-    flex-direction: column;
-    
-    height: 100vh;
-    
-    background-color: #ffffff;
-    
-    text-align: center;
+.cart-content {
+    background-color: #000; /* Fondo oscuro para todo el contenido */
 
-}
+    ion-item {
+        background-color: #000; /* Fondo de la card en negro */
+        color: #fff; 
+        --ion-background-color: #000;
+        --inner-padding-start: 0;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
 
-ion-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 80px;
-    color: #FFFFFF;
-    top: 20%; 
-    
-}
+        ion-thumbnail {
+            img {
+                width: 60px; 
+                height: 60px;
+                object-fit: cover; /* Evita que la imagen se distorsione */
+            }
+        }
 
-ion-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    color: #ffffff;
-    
-}
+        ion-label {
+            display: flex;
+            flex-direction: column; /* Asegúrate de que los elementos estén en columna */
+            flex: 1; /* Asegura que ion-label ocupe el espacio restante */
 
-p {
-    margin-top: 16px;
-    font-size: 18px;
-    color: #ffffff;
-    
-}
+            .product-info {
+                display: flex;
+                justify-content: space-between; /* Espacio entre el nombre y el precio */
+                align-items: center;
+                width: 100%;
+            }
 
-.explore-text {
-    margin-top: 10px;
-    font-size: 16px;
-    color: #ffffff;
-}
+            h2 {
+                font-size: 15px; /* Reduce el tamaño del nombre del producto */
+                margin: 0; /* Elimina el margen para una mejor alineación */
+            }
 
-.explore-button {
-    margin-top: 20px;
-    --background: #fcc309;
-    --color: #000000;
-    width: 60%;
-    max-width: 300px;
-    display: block;
-    font-size: 16px;
-    margin: 20px auto 0;
+            h3 {
+                font-size: 12px;
+                color: #fcc309; /* Color amarillo para el precio */
+                margin: 0; /* Elimina el margen para una mejor alineación */
+            }
 
+            .product-actions {
+                display: flex;
+                justify-content: flex-start; /* Alinea los botones a la izquierda */
+                margin-top: 5px; /* Espaciado entre el precio y los botones */
+            }
+
+            ion-button {
+                font-size: 13px;
+                color: #fcc309; /* Amarillo para los botones */
+                --background: none; /* Sin fondo para los botones */
+                margin-right: 5px; /* Espaciado entre los botones */
+            }
+
+            .quantity-button {
+                color: #fcc309; /* Amarillo para los botones de cantidad */
+            }
+
+            .delete-button {
+                color: red; /* Rojo para el botón de eliminar */
+            }
+        }
+    }
+
+    .clear-cart-button {
+        --background: #fcc309;
+        color: #000000;
+        margin-top: 15px;
+        --border-radius: 15px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 45px;
+    }
+
+    ion-card {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .cart-icon {
+        font-size: 45px;
+        color: #fff;
+    }
+
+    .explore-text,
+    p {
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .explore-button {
+        --background: #fcc309; /* Amarillo para el botón de explorar */
+        --color: #000; /* Texto en negro para contrastar */
+        margin-top: 8px;
+    }
 }
 
 ion-content {
     --background: url(https://i.pinimg.com/564x/e1/77/0a/e1770a501f59d5aee6798e68ce67254e.jpg);
 }
-//Logo
+
+//Logo y título
 ion-toolbar {
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 16px; 
-    background-color: #797979; 
-    color: #FFFFFF; 
-    --ion-background-color: #000000; 
-    --ion-color-base: #FFFFFF; 
-  
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 14px;
+    background-color: #797979;
+    color: #FFFFFF;
+    --ion-background-color: #000000;
+    --ion-color-base: #FFFFFF;
+
     .logo-container {
-      display: flex;
-      align-items: center;
-      position: absolute; 
-      right: 8px; 
-      top: 0; 
-      height: 100%; 
-      display: flex;
-      justify-content: center; 
+        display: flex;
+        align-items: center;
+        position: absolute;
+        right: 6px;
+        top: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
     }
-  
+
     .header-logo {
-      height: 50px; 
-      width:auto; 
-      top: 40px; 
+        height: 45px;
+        width: auto;
+        top: 35px;
     }
-  
+
     ion-title {
-      margin-left: auto; 
+        margin-left: auto;
+        font-size: 18px; /* Reduce el tamaño del título */
+        font-weight: normal; /* Establece el grosor del texto */
     }
-  }
+}
 
 ion-card {
     background-color: #000000;
     color: #3b3b3b;
     margin-bottom: 0;
     margin: 0;
-    width: 90%;
-    padding: 20px;
+    width: 85%;
+    padding: 15px;
     position: center;
     bottom: 0;
     left: 50%;
@@ -110,8 +154,4 @@ ion-card {
 ion-card-title {
     --background: #fcc309;
     --color: #ffffff;
-
 }
-
-
-

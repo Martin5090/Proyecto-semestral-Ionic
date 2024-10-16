@@ -4,26 +4,32 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="logo-container">
-      <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
+      <img src="../assets/icon/DeliFast logo.png" alt="DeliFast logo" class="header-logo">
     </div>
-    <ion-title>Carrito</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="cart-content">
   <div *ngIf="productosCarrito.length > 0; else emptyCart">
     <ion-list>
       <ion-item *ngFor="let producto of productosCarrito; let i = index">
         <ion-thumbnail slot="start">
           <img [src]="producto.foto">
         </ion-thumbnail>
-        <ion-label>
-          <h2>{{ producto.nombre }}</h2>
-          <h3>${{ producto.precio }}</h3>
+        <ion-label class="product-info">
+          <div class="product-details">
+            <h2>{{ producto.nombre }}</h2>
+            <h3>${{ producto.precio }}</h3>
+          </div>
+          <div class="product-actions">
+            <ion-button fill="clear" class="quantity-button" (click)="decreaseQuantity(i)">-</ion-button>
+            <ion-button fill="clear" class="quantity-button" (click)="increaseQuantity(i)">+</ion-button>
+            <ion-button color="danger" (click)="eliminarProducto(i)">Eliminar</ion-button>
+          </div>
         </ion-label>
-        <ion-button fill="outline" slot="end" (click)="eliminarProducto(i)">Eliminar</ion-button>
       </ion-item>
     </ion-list>
+    <ion-button class="clear-cart-button" expand="full" (click)="vaciarCarrito()">Vaciar carrito</ion-button>
   </div>
 
   <ng-template #emptyCart>

@@ -7,35 +7,49 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
   styleUrls: ['./carrito.page.scss'],
 })
 export class CarritoPage implements OnInit {
-  productosCarrito: any[] = [];  
+  productosCarrito: any[] = [];
 
   constructor(private storage: NativeStorage) { }
 
   ngOnInit() {
-     
-     this.storage.getItem('productos_carrito')
-     .then((productos) => {
-       this.productosCarrito = productos;  
-     })
-     .catch(() => {
-       console.log('No hay productos en el carrito');
-       this.productosCarrito = [];  
-     });
- }
 
- eliminarProducto(index: number) {
+    this.storage.getItem('productos_carrito')
+      .then((productos) => {
+        this.productosCarrito = productos;
+      })
+      .catch(() => {
+        console.log('No hay productos en el carrito');
+        this.productosCarrito = [];
+      });
+  }
 
-  this.productosCarrito.splice(index, 1);
+  eliminarProducto(index: number) {
 
+    this.productosCarrito.splice(index, 1);
+
+
+    this.storage.setItem('productos_carrito', this.productosCarrito)
+      .then(() => {
+        console.log('Producto eliminado correctamente');
+      })
+      .catch(error => {
+        console.error('Error al actualizar el carrito:', error);
+      });
+  }
+
+  vaciarCarrito() {
+
+  }
+
+  increaseQuantity(index: number) {
+    this.productosCarrito[index].cantidad++;
+  }
   
-  this.storage.setItem('productos_carrito', this.productosCarrito)
-    .then(() => {
-      console.log('Producto eliminado correctamente');
-    })
-    .catch(error => {
-      console.error('Error al actualizar el carrito:', error);
-    });
-}
-  
+  decreaseQuantity(index: number) {
+    if (this.productosCarrito[index].cantidad > 1) {
+      this.productosCarrito[index].cantidad--;
+    }
+  }
+
 
 }
