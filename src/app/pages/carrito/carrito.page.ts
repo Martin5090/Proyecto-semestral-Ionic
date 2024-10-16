@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 
@@ -15,7 +16,8 @@ export class CarritoPage implements OnInit {
   subtotal: number = 0;
 
   constructor(private storage: NativeStorage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router:Router
   ) { }
 
   ngOnInit() {
@@ -102,18 +104,22 @@ export class CarritoPage implements OnInit {
   }
 
   calcularTotal() {
-
+    // Calcular el subtotal de cada producto
     this.subtotal = this.productosCarrito.reduce((total, producto) => {
-      return total + (producto.precio * producto.cantidad);
+      producto.subtotal = producto.precio * producto.cantidad; // Guardar subtotal de cada producto
+      return total + producto.subtotal; // Sumar al subtotal del carrito
     }, 0);
 
     this.precioTotal = this.subtotal;
-
 
     if (this.descuento > 0) {
       const descuentoTotal = this.subtotal * (this.descuento / 100);
       this.precioTotal = Math.floor(this.subtotal - descuentoTotal);
     }
+
+    // Guardar el subtotal y el precio total en NativeStorage
+    this.storage.setItem('subtotal_carrito', this.subtotal);
+    this.storage.setItem('precio_total_carrito', this.precioTotal);
   }
 
   aplicarCupon() {
@@ -134,10 +140,32 @@ export class CarritoPage implements OnInit {
   }
 
 
-  pago(){
-    
+  Pago() {
+    // Guarda los productos del carrito y el precio total en el almacenamiento local
+    this.storage.setItem('productos_carrito', this.productosCarrito)
+      .then(() => {
+        return this.storage.setItem('precio_total_carrito', this.precioTotal);
+      })
+      .then(() => {
+        this.router.navigate(['/pago']);
+      })
+      .catch(error => console.error('Error al preparar los datos para el pago', error));
   }
 
+  irMenucaja() {
+   
+    this.storage.getItem('usuario').then(usuario => {
+      if (usuario && usuario.iduser) {
+      
+        this.router.navigate(['/menu-caja']);
+      } else {
+      
+        this.router.navigate(['/login']);
+      }
+    }).catch(() => {
+      this.router.navigate(['/login']); 
+    });
+  }
 
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({

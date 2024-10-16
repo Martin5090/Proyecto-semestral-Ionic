@@ -18,13 +18,13 @@ export class AgregarPage implements OnInit {
   precio_producto!: number;
   stock_producto!: number;
   categoria_id!: number;
-    
+
   constructor(private router: Router,
     private alertController: AlertController,
     private bd: ServicebdService) { }
 
   ngOnInit() {
-    
+
     this.bd.MostrarCategoria().then(() => {
       this.bd.fetchCategoria().subscribe(datos => {
         this.categorias = datos;
@@ -47,16 +47,20 @@ export class AgregarPage implements OnInit {
     }
 
     const numeroStr = this.precio_producto.toString();
-    if (isNaN(Number(this.precio_producto)) || numeroStr.length > 5 ) {
-      this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado y menor a los 3 digitos o igual .');
+    if (isNaN(Number(this.precio_producto)) || numeroStr.length > 5) {
+      this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado y menor a los 5 digitos o igual .');
       return;
     };
 
     const numeroStock = this.stock_producto.toString();
-    if (isNaN(Number(this.stock_producto)) || numeroStock.length < 0  || numeroStock.length > 3 ) {
-      this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado y menor a los 5 digitos o igual .');
+
+   
+    if (isNaN(Number(this.stock_producto)) ||
+      this.stock_producto <= 0 ||   
+      numeroStock.length > 2) {     
+      this.presentAlert('Número inválido', 'Debe ingresar un número mayor a 0 y menor a 100.');
       return;
-    };
+    }
 
 
     this.bd.insertarProducto(this.nombre_producto, this.descripcion_producto, this.foto_producto, this.precio_producto, this.stock_producto, this.categoria_id);
@@ -65,14 +69,14 @@ export class AgregarPage implements OnInit {
   };
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];  // Obtén el archivo seleccionado
+    const file = event.target.files[0];  
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        // Convertimos la imagen a base64 o URL para la vista previa
-        this.foto_producto = e.target.result;  // Guardamos la URL en la variable
+        
+        this.foto_producto = e.target.result;  
       };
-      reader.readAsDataURL(file);  // Leemos el archivo como una URL o base64
+      reader.readAsDataURL(file);  
     }
   }
 
@@ -89,6 +93,6 @@ export class AgregarPage implements OnInit {
     await alert.present();
   }
   //Alerta Toast
-  
+
 
 }

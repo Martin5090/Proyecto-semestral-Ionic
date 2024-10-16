@@ -37,10 +37,10 @@ export class LoginPage implements OnInit {
     } else if (!this.isValidEmail(this.correo)) {
       this.presentAlert('Error', 'Por favor, ingrese un correo electrónico válido.');
     } else {
-      // Verificar en la base de datos las credenciales
+      
       this.bd.verificarUsuario(this.correo, this.contra).then((usuario) => {
         if (usuario) {
-          // Credenciales correctas, guardar el iduser en NativeStorage
+          
           this.storage.setItem('iduser', usuario.iduser)
             .then(() => {
               this.storage.setItem('isLoggedIn', true)

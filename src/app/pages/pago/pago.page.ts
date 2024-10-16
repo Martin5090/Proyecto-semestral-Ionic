@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-pago',
@@ -9,38 +10,39 @@ import { AlertController } from '@ionic/angular';
 })
 export class PagoPage implements OnInit {
   nombreusuario: string = '';
-  numerotarjeta: string = ''; // Cambiado a string para manejar la longitud
-  diaExpiracion: string = ''; // Cambiado para contener el mes y año en formato MM/AA
+  numerotarjeta: string = '';
+  diaExpiracion: string = ''; 
   cvv: string = '';
 
   constructor(
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private bd: ServicebdService
   ) { }
 
   ngOnInit() { }
 
   Pagorealizado() {
-    // Verificar campos vacíos
+   
     if (!this.nombreusuario || !this.numerotarjeta || !this.diaExpiracion || !this.cvv) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
 
-    // Verificar nombre
+   
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
     if (!nombreRegex.test(this.nombreusuario)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
 
-    // Verificar número de tarjeta
+   
     if (this.numerotarjeta.length !== 16 || isNaN(Number(this.numerotarjeta))) {
       this.presentAlert('Número inválido', 'El número de la tarjeta debe ser válido y tener 16 dígitos.');
       return;
     }
 
-    // Verificar formato de expiración
+    
     const [mesExpiracion, añoExpiracion] = this.diaExpiracion.split('/');
     const mesNumero = parseInt(mesExpiracion, 10);
     const añoNumero = parseInt(añoExpiracion, 10);
@@ -55,7 +57,7 @@ export class PagoPage implements OnInit {
       return;
     }
 
-    // Navegar a la página de inicio si todo es válido
+    
     this.presentAlert('Gracias por la compra', 'Su pago ha sido procesado exitosamente.');
     this.router.navigate(['/inicio']);
   }

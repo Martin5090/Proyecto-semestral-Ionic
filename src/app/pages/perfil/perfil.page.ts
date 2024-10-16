@@ -12,7 +12,7 @@ export class PerfilPage implements OnInit {
   //login variables
   correo: string = "";
   password: string = "";
-  isLoggedIn: boolean = false; // Variable para verificar el estado de inicio de sesión}
+  isLoggedIn: boolean = false; 
   isAdmin: boolean = false;
 
   constructor(private router: Router,
@@ -35,15 +35,15 @@ export class PerfilPage implements OnInit {
       if (usuario) {
         this.isLoggedIn = true;
 
-        // Verificar si el usuario tiene el rol de administrador (rol_id = 2)
+        
         if (usuario.rol_id === 2) {
-          this.isAdmin = true;  // Es administrador
+          this.isAdmin = true;  
         } else {
-          this.isAdmin = false; // No es administrador
+          this.isAdmin = false; 
         }
       } else {
-        this.isLoggedIn = false; // No está logueado
-        this.isAdmin = false;    // No es administrador
+        this.isLoggedIn = false; 
+        this.isAdmin = false;    
       }
     }).catch(() => {
       this.isLoggedIn = false; 

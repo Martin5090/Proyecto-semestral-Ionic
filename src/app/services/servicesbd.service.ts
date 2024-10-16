@@ -38,7 +38,7 @@ export class ServicebdService {
 
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
 
-  tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser));";
+  tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, estado_id INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser), FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id));";
 
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS DETALLE (detalle_id INTEGER PRIMARY KEY AUTOINCREMENT, venta_id INTEGER NOT NULL, producto_id INTEGER NOT NULL, cantidad INTEGER NOT NULL, subtotal REAL NOT NULL, FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id), FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
 
@@ -51,6 +51,7 @@ export class ServicebdService {
   registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
   registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
   registroCupon: string = "INSERT or IGNORE INTO cupones(cupon_id, nombre_cupon) VALUES (1, 'DESCUENTO10'), (2, 'DESCUENTO30'), (3, 'DESCUENTO50');";
+  registroEstado: string = "INSERT or IGNORE INTO estados (estado_id, nombre_estado) VALUES (1, 'presencial'), (2, 'delivery');";
 
 
 
@@ -61,7 +62,7 @@ export class ServicebdService {
   listadoCategoria = new BehaviorSubject([]);
   listadoIngredientes = new BehaviorSubject([]);
   listadoCupones = new BehaviorSubject([]);
-  
+
 
   //variable para el status de la Base de datos
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -150,8 +151,8 @@ export class ServicebdService {
   async crearTablas() {
     try {
       //ejecuto la creación de Tablas
-     
-      
+      //await this.database.executeSql('DROP TABLE IF EXISTS venta', []);
+
 
       await this.database.executeSql(this.tablaCupones, []);
       await this.database.executeSql(this.tablaRol, []);
@@ -172,6 +173,7 @@ export class ServicebdService {
       await this.database.executeSql(this.registroCategoria, []);
       await this.database.executeSql(this.registroIngredientes, []);
       await this.database.executeSql(this.registroCupon, []);
+      await this.database.executeSql(this.registroEstado, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -188,13 +190,13 @@ export class ServicebdService {
   //Creacion del crud
   seleccionarProducto() {
     return this.database.executeSql('SELECT * FROM producto', []).then(res => {
-     
+
       let items: Producto[] = [];
-      
+
       if (res.rows.length > 0) {
-        
+
         for (var i = 0; i < res.rows.length; i++) {
-        
+
           items.push({
             producto_id: res.rows.item(i).producto_id,
             precio_producto: res.rows.item(i).precio_producto,
@@ -203,7 +205,7 @@ export class ServicebdService {
             stock_producto: res.rows.item(i).stock_producto,
             foto_producto: res.rows.item(i).foto_producto,
             categoria_id: res.rows.item(i).categoria_id,
-            
+
           })
         }
 
@@ -234,7 +236,7 @@ export class ServicebdService {
     })
   }
 
-  modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id:number) {
+  modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {
     this.presentAlert("service", "ID: " + id);
     return this.database.executeSql('UPDATE producto SET nombre_producto = ?, descripcion_producto = ?, foto_producto = ?, precio_producto = ?, stock_producto = ?, categoria_id = ? WHERE producto_id = ?',
       [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id, id]).then(res => {
@@ -257,7 +259,7 @@ export class ServicebdService {
           });
         }
       }
-      this.listadoCategoria.next(items as any); 
+      this.listadoCategoria.next(items as any);
     }).catch(e => {
       console.error('Error al mostrar categorías:', e);
     });
@@ -281,7 +283,7 @@ export class ServicebdService {
     });
   }
 
- 
+
 
 
   //Insertar usuario register
@@ -289,10 +291,10 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (?,?,?,?,?,1,?)',
       [nombre, apellido, telefono, correo, contra, rol_id])
       .then(res => {
-        
+
         this.presentAlert("Insertar", "Usuario Registrado");
 
-        
+
         const userId = res.insertId;
         return this.storage.setItem('usuario', {
           iduser: userId,
@@ -314,10 +316,10 @@ export class ServicebdService {
   verificarUsuario(correo: string, contra: string) {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
       if (res.rows.length > 0) {
-        const usuario = res.rows.item(0); 
+        const usuario = res.rows.item(0);
         this.presentAlert("Login", "Usuario verificado. ID: " + usuario.iduser);
 
-      
+
         return this.storage.setItem('usuario', {
           iduser: usuario.iduser,
           nombre: usuario.nombre,
@@ -327,16 +329,16 @@ export class ServicebdService {
           comuna_id: usuario.comuna_id,
           rol_id: usuario.rol_id
         }).then(() => {
-          return usuario.iduser; 
+          return usuario.iduser;
         });
 
       } else {
         this.presentAlert("Login", "Credenciales incorrectas. Intente de nuevo.");
-        return null; 
+        return null;
       }
     }).catch(e => {
       this.presentAlert('Login', 'Error: ' + JSON.stringify(e));
-      return null; 
+      return null;
     });
   }
 
@@ -348,8 +350,8 @@ export class ServicebdService {
       [nombre, apellido, telefono, correo, iduser]).then(async res => {
         this.presentAlert("Modificar", "Perfil Modificado");
 
-       
-        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo }); 
+
+        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo });
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
       });
@@ -359,8 +361,8 @@ export class ServicebdService {
     return this.database.executeSql('DELETE FROM usuario WHERE iduser = ?', [iduser]).then(res => {
       this.presentAlert("Eliminar", "Cuenta Eliminada");
 
-      
-      this.router.navigate(['/login']); 
+
+      this.router.navigate(['/login']);
       this.storage.remove('usuario').then(() => {
       }).catch(err => {
         console.error('Error al eliminar del local storage:', err);
@@ -374,14 +376,14 @@ export class ServicebdService {
     return this.database.executeSql('SELECT rol_id FROM usuario WHERE iduser = ?', [iduser])
       .then(res => {
         if (res.rows.length > 0) {
-          return res.rows.item(0).rol_id; 
+          return res.rows.item(0).rol_id;
         } else {
-          return null; 
+          return null;
         }
       })
       .catch(e => {
         console.error('Error al obtener el rol del usuario:', JSON.stringify(e));
-        return null; 
+        return null;
       });
   }
 
@@ -417,13 +419,13 @@ export class ServicebdService {
 
   seleccionarComuna() {
     return this.database.executeSql('SELECT * FROM comuna', []).then(res => {
-      
+
       let items: Comuna[] = [];
-      
+
       if (res.rows.length > 0) {
-       
+
         for (var i = 0; i < res.rows.length; i++) {
-          
+
           items.push({
             comuna_id: res.rows.item(i).comuna_id,
             nombre_comuna: res.rows.item(i).nombre_comuna,
@@ -446,11 +448,11 @@ export class ServicebdService {
             id_ingrediente: res.rows.item(i).id_ingrediente,
             nombre_ingrediente: res.rows.item(i).nombre_ingrediente,
             categoria_id: res.rows.item(i).categoria_id,
-            seleccionado: false 
+            seleccionado: false
           });
         }
       }
-      
+
       this.listadoIngredientes.next(items as any);
     });
   }
@@ -484,14 +486,26 @@ export class ServicebdService {
     });
   }
 
+  //VENTA
+
+  insertarVenta(iduser: number, estado_id: number): Promise<any> {
+    const fechaVenta = new Date().toISOString();
+    const query = 'INSERT INTO VENTA (iduser, estado_id, f_venta, total_venta) VALUES (?, ?, ?, 0)';
+    return this.database.executeSql(query, [iduser, estado_id, fechaVenta])
+      .then((res) => {
+        console.log('Venta insertada correctamente.');
+        return res;
+      })
+      .catch((error) => {
+        console.error('Error al insertar venta:', error);
+        throw error;
+      });
+  }
 
 
 
-
-
-
-
-
+  
+  
 
 
 
