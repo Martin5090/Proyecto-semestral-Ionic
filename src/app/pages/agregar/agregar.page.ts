@@ -53,7 +53,7 @@ export class AgregarPage implements OnInit {
     };
 
     const numeroStock = this.stock_producto.toString();
-    if (isNaN(Number(this.stock_producto)) || numeroStock.length > 3 ) {
+    if (isNaN(Number(this.stock_producto)) || numeroStock.length < 0  || numeroStock.length > 3 ) {
       this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado y menor a los 5 digitos o igual .');
       return;
     };

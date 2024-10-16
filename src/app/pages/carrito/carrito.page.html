@@ -10,6 +10,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="cart-content">
+
+  <div class="total-container">
+    <ion-input type="text" [(ngModel)]="cupon" placeholder="Ingresa tu cupón"></ion-input>
+    <ion-button color="warning"  expand="full" (click)="aplicarCupon()">Aplicar cupón</ion-button>
+  </div>
+  <br>
   <div *ngIf="productosCarrito.length > 0; else emptyCart">
     <ion-list>
       <ion-item *ngFor="let producto of productosCarrito; let i = index">
@@ -33,15 +39,30 @@
 
     <ion-button class="clear-cart-button" expand="full" (click)="vaciarCarrito()">Vaciar carrito</ion-button>
 
+    
+
     <div class="total-container">
-      <h3>Total a Pagar: ${{ precioTotal.toFixed(2) }}</h3>
-      <ion-button class="pay-button" expand="full" [routerLink]="['/pago']">Ir a Pagar</ion-button>
-     
+      <!-- Mostrar el subtotal sin descuento -->
+      <h3>Subtotal: ${{ subtotal.toFixed(2) }}</h3>
+    
+      <!-- Mostrar el descuento solo si se ha aplicado -->
+      <div *ngIf="descuento > 0">
+        <h3>Descuento aplicado: {{ descuento }}%</h3>
+        <h3>Total con descuento: ${{ precioTotal.toFixed(2) }}</h3>
+      </div>
+    
+      <!-- Si no hay descuento, solo muestra el precio total como subtotal -->
+      <div *ngIf="descuento === 0">
+        <h3>Total: ${{ precioTotal.toFixed(2) }}</h3>
+      </div>
+    
+      <ion-button class="pay-button" expand="full" (click)="Pago()">Ir a Pagar</ion-button>
     </div>
   </div>
 
   <ng-template #emptyCart>
     <ion-card>
+      
       <ion-card-header>
         <ion-icon name="cart-outline" class="cart-icon"></ion-icon>
         <p>Tu carrito está vacío</p>

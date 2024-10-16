@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Comuna } from '../model/comuna';
 import { Categoria } from '../model/categoria';
 import { Ingredientes } from '../model/ingredientes';
+import { Cupones } from '../model/cupones';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class ServicebdService {
 
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
 
-  tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, estado_id INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser), FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id));";
+  tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser));";
 
   tablaDetalle: string = "CREATE TABLE IF NOT EXISTS DETALLE (detalle_id INTEGER PRIMARY KEY AUTOINCREMENT, venta_id INTEGER NOT NULL, producto_id INTEGER NOT NULL, cantidad INTEGER NOT NULL, subtotal REAL NOT NULL, FOREIGN KEY (venta_id) REFERENCES VENTA(venta_id), FOREIGN KEY (producto_id) REFERENCES PRODUCTO(producto_id));";
 
@@ -49,6 +50,9 @@ export class ServicebdService {
   registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
   registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
   registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
+  registroCupon: string = "INSERT or IGNORE INTO cupones(cupon_id, nombre_cupon) VALUES (1, 'DESCUENTO10'), (2, 'DESCUENTO30'), (3, 'DESCUENTO50');";
+
+
 
   listado = new BehaviorSubject([]);
   listadoProducto = new BehaviorSubject([]);
@@ -56,6 +60,7 @@ export class ServicebdService {
   listadoComunas = new BehaviorSubject([]);
   listadoCategoria = new BehaviorSubject([]);
   listadoIngredientes = new BehaviorSubject([]);
+  listadoCupones = new BehaviorSubject([]);
   
 
   //variable para el status de la Base de datos
@@ -103,6 +108,10 @@ export class ServicebdService {
 
   fetchIngredientes(): Observable<Ingredientes[]> {
     return this.listadoIngredientes.asObservable();
+  }
+
+  fetchCupones(): Observable<Cupones[]> {
+    return this.listadoCupones.asObservable();
   }
 
 
@@ -162,6 +171,7 @@ export class ServicebdService {
       await this.database.executeSql(this.registroComunas, []);
       await this.database.executeSql(this.registroCategoria, []);
       await this.database.executeSql(this.registroIngredientes, []);
+      await this.database.executeSql(this.registroCupon, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -178,13 +188,13 @@ export class ServicebdService {
   //Creacion del crud
   seleccionarProducto() {
     return this.database.executeSql('SELECT * FROM producto', []).then(res => {
-      //variable para almacenar el resultado de la consulta
+     
       let items: Producto[] = [];
-      //valido si trae al menos un registro
+      
       if (res.rows.length > 0) {
-        //recorro mi resultado
+        
         for (var i = 0; i < res.rows.length; i++) {
-          //agrego los registros a mi lista
+        
           items.push({
             producto_id: res.rows.item(i).producto_id,
             precio_producto: res.rows.item(i).precio_producto,
@@ -279,10 +289,10 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (?,?,?,?,?,1,?)',
       [nombre, apellido, telefono, correo, contra, rol_id])
       .then(res => {
-        // Muestra un mensaje de éxito
+        
         this.presentAlert("Insertar", "Usuario Registrado");
 
-        // Guarda el ID del nuevo usuario y otros detalles en NativeStorage
+        
         const userId = res.insertId;
         return this.storage.setItem('usuario', {
           iduser: userId,
@@ -304,10 +314,10 @@ export class ServicebdService {
   verificarUsuario(correo: string, contra: string) {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
       if (res.rows.length > 0) {
-        const usuario = res.rows.item(0); // Obtener todos los datos del usuario encontrado
+        const usuario = res.rows.item(0); 
         this.presentAlert("Login", "Usuario verificado. ID: " + usuario.iduser);
 
-        // Guardar todos los detalles del usuario en NativeStorage
+      
         return this.storage.setItem('usuario', {
           iduser: usuario.iduser,
           nombre: usuario.nombre,
@@ -317,16 +327,16 @@ export class ServicebdService {
           comuna_id: usuario.comuna_id,
           rol_id: usuario.rol_id
         }).then(() => {
-          return usuario.iduser; // Retornar el iduser si el almacenamiento es exitoso
+          return usuario.iduser; 
         });
 
       } else {
         this.presentAlert("Login", "Credenciales incorrectas. Intente de nuevo.");
-        return null; // No se encontró el usuario
+        return null; 
       }
     }).catch(e => {
       this.presentAlert('Login', 'Error: ' + JSON.stringify(e));
-      return null; // Manejo de errores
+      return null; 
     });
   }
 
@@ -338,8 +348,8 @@ export class ServicebdService {
       [nombre, apellido, telefono, correo, iduser]).then(async res => {
         this.presentAlert("Modificar", "Perfil Modificado");
 
-        // Actualiza los datos en NativeStorage
-        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo }); // Actualiza el usuario en el local storage
+       
+        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo }); 
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
       });
@@ -349,8 +359,8 @@ export class ServicebdService {
     return this.database.executeSql('DELETE FROM usuario WHERE iduser = ?', [iduser]).then(res => {
       this.presentAlert("Eliminar", "Cuenta Eliminada");
 
-      // Eliminar el usuario del local storage
-      this.router.navigate(['/login']); // Cambia esto según tu flujo de navegación
+      
+      this.router.navigate(['/login']); 
       this.storage.remove('usuario').then(() => {
       }).catch(err => {
         console.error('Error al eliminar del local storage:', err);
@@ -364,14 +374,14 @@ export class ServicebdService {
     return this.database.executeSql('SELECT rol_id FROM usuario WHERE iduser = ?', [iduser])
       .then(res => {
         if (res.rows.length > 0) {
-          return res.rows.item(0).rol_id; // Devuelve el rol_id
+          return res.rows.item(0).rol_id; 
         } else {
-          return null; // No se encontró el usuario
+          return null; 
         }
       })
       .catch(e => {
         console.error('Error al obtener el rol del usuario:', JSON.stringify(e));
-        return null; // Manejo de errores
+        return null; 
       });
   }
 
@@ -402,17 +412,18 @@ export class ServicebdService {
       });
   }
 
+
   //Insertar comunas al usuario
 
   seleccionarComuna() {
     return this.database.executeSql('SELECT * FROM comuna', []).then(res => {
-      //variable para almacenar el resultado de la consulta
+      
       let items: Comuna[] = [];
-      //valido si trae al menos un registro
+      
       if (res.rows.length > 0) {
-        //recorro mi resultado
+       
         for (var i = 0; i < res.rows.length; i++) {
-          //agrego los registros a mi lista
+          
           items.push({
             comuna_id: res.rows.item(i).comuna_id,
             nombre_comuna: res.rows.item(i).nombre_comuna,
@@ -421,7 +432,6 @@ export class ServicebdService {
         }
 
       }
-      //actualizar el observable
       this.listadoComunas.next(items as any);
 
     })
@@ -454,6 +464,24 @@ export class ServicebdService {
         console.error('Error al actualizar la comuna:', error);
         throw error; // Lanzar el error para manejarlo en el componente
       });
+  }
+  // listar cupones
+  seleccionarCupones() {
+    return this.database.executeSql('SELECT * FROM cupones', []).then(res => {
+      let items: Cupones[] = [];
+      if (res.rows.length > 0) {
+        for (let i = 0; i < res.rows.length; i++) {
+          items.push({
+            cupon_id: res.rows.item(i).cupon_id,
+            nombre_cupon: res.rows.item(i).nombre_cupon
+          });
+        }
+      }
+      // Emitir los datos al observable
+      this.listadoCupones.next(items as any);
+    }).catch(e => {
+      console.error('Error al seleccionar cupones', e);
+    });
   }
 
 

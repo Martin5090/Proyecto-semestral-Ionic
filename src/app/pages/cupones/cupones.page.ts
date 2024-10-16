@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
+import { Cupones } from 'src/app/model/cupones';
+import { ServicebdService } from 'src/app/services/servicesbd.service';
 
 @Component({
   selector: 'app-cupones',
@@ -9,24 +12,38 @@ import { AlertController } from '@ionic/angular';
 })
 export class CuponesPage implements OnInit {
   cupon: string = "";
-  cuponValido: string = "DESCUENTO50";  
-  cuponValido2: string = "DESCUENTO10"; 
-  cuponValido3: string = "DESCUENTO30"; 
+  cuponesValidos: string[] = [];
 
-  constructor(private router: Router, 
-    private alertController: AlertController) { }
 
-  ngOnInit() {}
+  constructor(private router: Router,
+    private alertController: AlertController,
+    private bd: ServicebdService,
+    private storage: NativeStorage) { }
+
+  ngOnInit() {
+ 
+    this.bd.seleccionarCupones();  
+    this.bd.fetchCupones().subscribe((cupones: Cupones[]) => {
+      this.cuponesValidos = cupones.map(cupon => cupon.nombre_cupon); 
+    }, error => {
+      console.error('Error al obtener los cupones:', error);
+    });
+  }
 
   Canjearcupon() {
-    if (this.cupon === this.cuponValido ||this.cupon === this.cuponValido2|| this.cupon === this.cuponValido3 ) {
-      // Si el cupón es válido, muestra un mensaje de éxito
+    if (this.cuponesValidos.includes(this.cupon)) {
       this.presentAlert('¡Cupón válido!', 'El cupón ha sido aplicado correctamente. ¡Disfruta de tu descuento!');
+
+    
+      this.storage.setItem('cupon_aplicado', this.cupon).then(() => {
+      
+      }).catch(error => {
+        console.error('Error al guardar el cupón en el storage', error);
+      });
+
     } else {
-      // Si el cupón es incorrecto, muestra un mensaje de error
       this.presentAlert('Cupón no válido', 'El cupón que has ingresado no es válido. Por favor, verifica el código e intenta de nuevo.');
     }
-    
   }
 
   async presentAlert(titulo: string, msj: string) {
