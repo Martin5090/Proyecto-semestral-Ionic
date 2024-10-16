@@ -48,34 +48,58 @@ export class HamburguesaPage {
 
 
   cargarProducto() {
-    // Definir los datos que quieres almacenar
-    const productoParaCarrito = {
-      nombre: this.producto.nombre_producto,
-      precio: this.producto.precio_producto,
-      foto: this.producto.foto_producto
-    };
+   // Definir los datos del producto para el carrito
+   const productoParaCarrito = {
+    id: this.producto.producto_id,
+    nombre: this.producto.nombre_producto,
+    precio: this.producto.precio_producto,
+    foto: this.producto.foto_producto,
+    stock: this.producto.stock_producto,
+    cantidad: 1 // Inicia con 1 unidad del producto
+  };
 
-    // Obtener el carrito actual o crear uno nuevo
-    this.storage.getItem('productos_carrito').then((productos: any[]) => {
-      // Si ya hay productos en el carrito, añadir el nuevo producto
-      productos.push(productoParaCarrito);
+  // Obtener el carrito actual o crear uno nuevo
+  this.storage.getItem('productos_carrito').then((productos: any[]) => {
+    if (productos) {
+      const productoExistente = productos.find(p => p.id === productoParaCarrito.id);
 
-      // Actualizar el carrito en NativeStorage
+      if (productoExistente) {
+        if (productoExistente.cantidad < productoExistente.stock) {
+          productoExistente.cantidad++;
+          productoExistente.precio += productoParaCarrito.precio; 
+        } else {
+          console.log('No se puede agregar más, se ha alcanzado el límite de stock');
+        }
+      } else {
+        productos.push(productoParaCarrito);
+      }
+
       this.storage.setItem('productos_carrito', productos)
-        .then(
-          () => console.log('Producto añadido al carrito correctamente'),
-          error => console.error('Error al añadir el producto al carrito', error)
-        );
-
-    }).catch(() => {
-      // Si no hay productos en el carrito, crear un nuevo arreglo con el producto actual
+        .then(() => {
+          console.log('Producto añadido al carrito correctamente');
+          this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
+          this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
+        })
+        .catch(error => console.error('Error al actualizar el carrito', error));
+    } else {
       this.storage.setItem('productos_carrito', [productoParaCarrito])
-        .then(
-          () => console.log('Carrito creado y producto añadido correctamente'),
-          error => console.error('Error al crear el carrito', error)
-        );
-    });
-  }
+        .then(() => {
+          console.log('Carrito creado y producto añadido correctamente');
+          this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
+          this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
+        })
+        .catch(error => console.error('Error al crear el carrito', error));
+    }
+  }).catch(() => {
+    this.storage.setItem('productos_carrito', [productoParaCarrito])
+      .then(() => {
+        console.log('Carrito creado y producto añadido correctamente');
+        this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
+        this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
+      })
+      .catch(error => console.error('Error al crear el carrito', error));
+  });
+}
 
   
 

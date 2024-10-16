@@ -155,3 +155,22 @@ ion-card-title {
     --background: #fcc309;
     --color: #ffffff;
 }
+
+.total-container {
+    background-color: #1a1a1a; // Fondo oscuro para destacar
+    padding: 15px;
+    margin-top: 15px;
+    text-align: center;
+    border-radius: 10px; // Bordes redondeados
+  
+    h3 {
+      color: #fcc309; // Color amarillo para el total
+      margin: 0;
+    }
+  
+    .pay-button {
+      --background: #fcc309; // Color de fondo amarillo para el botón
+      --color: #000; // Texto en negro para el botón
+      margin-top: 10px; // Espacio entre el total y el botón
+    }
+  }
