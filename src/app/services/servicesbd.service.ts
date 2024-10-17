@@ -504,12 +504,170 @@ export class ServicebdService {
 
 
 
+  actualizarTotalVenta(total: number) {
+    const querySelect = 'SELECT MAX(venta_id) as ultima_venta FROM VENTA';
+
+    return this.database.executeSql(querySelect, [])
+      .then(res => {
+        if (res.rows.length > 0) {
+          const ultimaVentaId = res.rows.item(0).ultima_venta;
+
+          // Si hay una venta registrada, actualizamos el total de la última venta
+          const queryUpdate = 'UPDATE VENTA SET total_venta = ? WHERE venta_id = ?';
+          return this.database.executeSql(queryUpdate, [total, ultimaVentaId]);
+        } else {
+          throw new Error('No se encontró ninguna venta registrada.');
+        }
+      })
+      .catch(err => {
+        console.error('Error al actualizar el total de la venta:', err);
+        throw err;
+      });
+  }
+
+  // Método para insertar el detalle de la venta
+  insertarDetalleVenta(ventaId: number, productoId: number, cantidad: number, subtotal: number) {
+    const queryInsertDetalle = `
+      INSERT INTO DETALLE (venta_id, producto_id, cantidad, subtotal) 
+      VALUES (?, ?, ?, ?)
+    `;
+
+    return this.database.executeSql(queryInsertDetalle, [ventaId, productoId, cantidad, subtotal])
+      .then(() => {
+        console.log('Detalle de venta insertado correctamente');
+      })
+      .catch(err => {
+        console.error('Error al insertar detalle de venta:', err);
+        throw err;
+      });
+  }
+
+  // Método para obtener el ID de la última venta registrada
+  obtenerUltimaVentaId() {
+    const querySelect = 'SELECT MAX(venta_id) as ultima_venta FROM VENTA';
+
+    return this.database.executeSql(querySelect, [])
+      .then(res => {
+        if (res.rows.length > 0) {
+          return res.rows.item(0).ultima_venta;
+        } else {
+          throw new Error('No se encontró ninguna venta registrada.');
+        }
+      })
+      .catch(err => {
+        console.error('Error al obtener el ID de la última venta:', err);
+        throw err;
+      });
+  }
+
+  actualizarStockProducto(productoId: number, cantidadVendida: number) {
+    const queryUpdateStock = `
+      UPDATE PRODUCTO 
+      SET stock_producto = stock_producto - ? 
+      WHERE producto_id = ?
+    `;
+
+    return this.database.executeSql(queryUpdateStock, [cantidadVendida, productoId])
+      .then(() => {
+        console.log(`Stock actualizado correctamente para el producto ${productoId}`);
+      })
+      .catch(err => {
+        console.error(`Error al actualizar el stock para el producto ${productoId}:`, err);
+        throw err;
+      });
+  }
+
+
+  //BOLETA
+  obtenerDatosUsuario(iduser: number) {
+    const query = `
+      SELECT u.nombre, u.apellido, u.telefono, c.nombre_comuna, c.calle
+      FROM usuario u
+      JOIN comuna c ON u.comuna_id = c.comuna_id
+      WHERE u.iduser = ?
+    `;
+
+    return this.database.executeSql(query, [iduser]).then(res => {
+      if (res.rows.length > 0) {
+        const usuario = {
+          nombre: res.rows.item(0).nombre,
+          apellido: res.rows.item(0).apellido,
+          telefono: res.rows.item(0).telefono,
+          comuna: res.rows.item(0).nombre_comuna,
+          calle: res.rows.item(0).calle
+        };
+        return usuario;
+      } else {
+        return null;
+      }
+    }).catch(e => {
+      console.error('Error al obtener los datos del usuario:', JSON.stringify(e));
+      return null;
+    });
+  }
+
+  obtenerUltimaVenta(iduser: number): Promise<{ total_venta: number; productos: { producto_id: number; nombre_producto: string; foto_producto: string; cantidad: number; }[] } | null> {
+    const query = `
+      SELECT v.total_venta, v.venta_id
+      FROM VENTA v
+      WHERE v.iduser = ? AND v.total_venta > 0
+      ORDER BY v.f_venta DESC
+      LIMIT 1;
+    `;
+
+    return this.database.executeSql(query, [iduser]).then(res => {
+      if (res.rows.length > 0) {
+        const venta_id = res.rows.item(0).venta_id; // Obtener el ID de la venta
+        const total_venta = res.rows.item(0).total_venta;
+
+        // Ahora obtener los detalles de esa venta, incluyendo información del producto
+        const detallesQuery = `
+                SELECT d.cantidad, p.producto_id, p.nombre_producto, p.foto_producto
+                FROM DETALLE d
+                JOIN PRODUCTO p ON d.producto_id = p.producto_id
+                WHERE d.venta_id = ?;
+            `;
+
+        return this.database.executeSql(detallesQuery, [venta_id]).then(detallesRes => {
+          const productos = [];
+          for (let i = 0; i < detallesRes.rows.length; i++) {
+            productos.push({
+              producto_id: detallesRes.rows.item(i).producto_id,
+              nombre_producto: detallesRes.rows.item(i).nombre_producto,
+              foto_producto: detallesRes.rows.item(i).foto_producto,
+              cantidad: detallesRes.rows.item(i).cantidad,
+            });
+          }
+
+          return {
+            total_venta: total_venta,
+            productos: productos,
+          };
+        });
+      } else {
+        return null; // No hay ventas para el usuario que cumplan con el criterio
+      }
+    }).catch(e => {
+      console.error('Error al obtener la última venta:', JSON.stringify(e));
+      return null; // Manejo de errores
+    });
+  }
+
+  actualizarVentaAVacia(ventaId: number): Promise<void> {
+    const query = `
+      UPDATE VENTA
+      SET total_venta = 0
+      WHERE venta_id = ?;
+    `;
+  
+    return this.database.executeSql(query, [ventaId]).then(() => {
+      console.log('Boleta vaciada correctamente');
+    }).catch(error => {
+      console.error('Error al vaciar la boleta:', error);
+    });
+  }
   
   
-
-
-
-
 
 
 

@@ -32,17 +32,6 @@ export class CarritoPage implements OnInit {
         this.productosCarrito = [];
       });
 
-
-    this.storage.getItem('cupon_aplicado')
-      .then((cupon) => {
-        if (cupon) {
-          this.cupon = cupon;
-          this.aplicarCupon();
-        }
-      })
-      .catch(error => {
-        console.error('No se encontró el cupón aplicado:', error);
-      });
   }
 
   eliminarProducto(index: number) {
@@ -141,7 +130,7 @@ export class CarritoPage implements OnInit {
 
 
   Pago() {
-    // Guarda los productos del carrito y el precio total en el almacenamiento local
+   
     this.storage.setItem('productos_carrito', this.productosCarrito)
       .then(() => {
         return this.storage.setItem('precio_total_carrito', this.precioTotal);

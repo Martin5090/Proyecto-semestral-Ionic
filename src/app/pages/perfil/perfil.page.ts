@@ -30,7 +30,7 @@ export class PerfilPage implements OnInit {
   }
 
   verificarEstadoSesion() {
-    // Verificar si el usuario está logueado
+    
     this.storage.getItem('usuario').then(usuario => {
       if (usuario) {
         this.isLoggedIn = true;
@@ -52,14 +52,33 @@ export class PerfilPage implements OnInit {
   }
 
   cerrarSesion() {
-    this.storage.remove('isLoggedIn').then(() => {
-      return this.storage.remove('usuario'); // Elimina también los detalles del usuario
-    }).then(() => {
-      this.isLoggedIn = false; // Cambia el estado de autenticación
-      this.router.navigate(['/login']); // Redirigir a la página de login
-    }).catch(error => {
-      this.presentAlert('Error', 'No se pudo cerrar sesión.');
-    });
+    this.limpiarCarrito()  
+      .then(() => {
+        return this.storage.remove('isLoggedIn'); 
+      })
+      .then(() => {
+        return this.storage.remove('usuario'); 
+      })
+      .then(() => {
+        this.isLoggedIn = false; 
+        this.router.navigate(['/login']); 
+      })
+      .catch(error => {
+        console.error('Error al cerrar sesión o limpiar el carrito:', error);
+        this.presentAlert('Error', 'No se pudo cerrar sesión correctamente.');
+      });
+  }
+  
+
+  limpiarCarrito() {
+    return this.storage.setItem('productos_carrito', [])
+      .then(() => {
+        console.log('Carrito limpiado correctamente');
+      })
+      .catch(error => {
+        console.error('Error al limpiar el carrito', error);
+        throw error; 
+      });
   }
 
 
