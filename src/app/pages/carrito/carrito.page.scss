@@ -177,3 +177,35 @@ ion-card-title {
         color: #fcc309;
     }
   }
+  .cart-content {
+    display: flex;
+    justify-content: center; /* Centra el ion-list */
+}
+
+ion-list {
+    padding: 0; /* Elimina el padding predeterminado */
+  }
+  
+  ion-item {
+    background-color: #000; /* Fondo del item en negro */
+    color: #fff; 
+    --ion-background-color: #000;
+    padding: 10px 16px; /* Espaciado interno del item */
+    margin-bottom: 0; /* Elimina el margen inferior */
+    position: relative; /* Necesario para el pseudo-elemento */
+  }
+  
+  ion-item:after {
+    content: ""; /* Necesario para mostrar el pseudo-elemento */
+    display: block; /* Mostrar como un bloque */
+    height: 16px; /* Altura del "margen" amarillo */
+    background-color: #fcc309; /* Color amarillo */
+    width: 100%; /* Abarcar todo el ancho */
+    position: absolute; /* Posición absoluta */
+    left: 0; /* Alinear a la izquierda */
+    bottom: -16px; /* Colocarlo justo debajo del ion-item */
+  }
+  
+  ion-item:last-child:after {
+    display: none; /* Oculta el pseudo-elemento para el último item */
+  }

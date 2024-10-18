@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div class="logo-container">
-      <img src="../assets/icon/DeliFast logo.png" alt="hola" class="header-logo">
+      <img src="../assets/icon/DeliFast logo.png" alt="Logo" class="header-logo">
     </div>
     <ion-title></ion-title>
   </ion-toolbar>
@@ -17,27 +17,30 @@
         <ion-card-title class="ion-text-center">Datos personales</ion-card-title>
       </ion-card-header>
 
+      <!-- Sección de foto de perfil debajo del título -->
+      <div class="profile-container">
+        <img [src]="imagen || 'assets/default-profile.png'" alt="Foto de perfil" class="profile-pic" />
+        <ion-button (click)="takePicture()">Tomar o elegir foto</ion-button>
+      </div>
+
       <ion-card-content>
+        <!-- Aquí los campos de datos personales -->
         <ion-item>
-          <ion-input label="Nombre" labelPlacement="floating" placeholder="Edite su nombre" [(ngModel)]="nombre">
-          </ion-input>
+          <ion-input label="Nombre" labelPlacement="floating" placeholder="Edite su nombre" [(ngModel)]="nombre"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Apellido" labelPlacement="floating" placeholder="Edite su apellido" [(ngModel)]="apellido">
-          </ion-input>
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Edite su apellido" [(ngModel)]="apellido"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Correo" labelPlacement="floating" placeholder="Edite su correo" [(ngModel)]="correo">
-          </ion-input>
+          <ion-input label="Correo" labelPlacement="floating" placeholder="Edite su correo" [(ngModel)]="correo"></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input label="Numero de Telefóno" labelPlacement="floating" placeholder="Edite su telefóno"
-            [(ngModel)]="telefono">
-          </ion-input>
+          <ion-input label="Numero de Telefóno" labelPlacement="floating" placeholder="Edite su telefóno" [(ngModel)]="telefono"></ion-input>
         </ion-item>
+
         <br>
 
         <ion-button (click)="Aceptar()" class="submit-button" expand="block">
@@ -46,12 +49,10 @@
 
         <br>
 
-        <ion-button id="present-alert" class="red-button"expand="block" >Eliminar</ion-button>
+        <ion-button id="present-alert" class="red-button" expand="block">Eliminar</ion-button>
         <ion-alert trigger="present-alert" header="¿Estas seguro de eliminar la cuenta?" [buttons]="alertButtons"></ion-alert>
-
       </ion-card-content>
     </ion-card>
   </div>
-
 </ion-content>
 <app-componente1></app-componente1>
