@@ -47,11 +47,11 @@ export class DirecciondeliPage implements OnInit {
       return;
     }
 
-    // Llama al servicio para actualizar la comuna
+    
     this.bd.actualizarComunaUsuario(this.userId, this.comunaSeleccionadaId)
       .then(() => {
-        this.presentAlert('Éxito', 'La comuna ha sido actualizada.'); // Mostrar alerta solo aquí
-        this.router.navigate(['/menu-caja']); // Cambia la ruta de destino según sea necesario
+        this.presentAlert('Éxito', 'La comuna ha sido actualizada.'); 
+        this.router.navigate(['/menu-caja']); 
       })
       .catch((error) => {
         console.error('Error al actualizar la comuna:', error);
@@ -63,7 +63,7 @@ export class DirecciondeliPage implements OnInit {
     const alert = await this.alertController.create({
       header: titulo,
       message: msj,
-      buttons: ['OK'], // Agrega un botón 'OK' para cerrar la alerta
+      buttons: ['OK'], 
     });
 
     await alert.present();

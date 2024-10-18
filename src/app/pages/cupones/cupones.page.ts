@@ -32,7 +32,7 @@ export class CuponesPage implements OnInit {
 
   Canjearcupon() {
     if (this.cuponesValidos.includes(this.cupon)) {
-      this.presentAlert('¡Cupón válido!', 'El cupón ha sido aplicado correctamente. ¡Disfruta de tu descuento!');
+      this.presentAlert('¡Cupón válido!', 'El cupón sigue activo. ¡Puedes disfrutar de tu descuento!');
 
     
       this.storage.setItem('cupon_aplicado', this.cupon).then(() => {
@@ -42,7 +42,7 @@ export class CuponesPage implements OnInit {
       });
 
     } else {
-      this.presentAlert('Cupón no válido', 'El cupón que has ingresado no es válido. Por favor, verifica el código e intenta de nuevo.');
+      this.presentAlert('Cupón no válido', 'El cupón que has ingresado no es válido ya que no esta o caduco.');
     }
   }
 

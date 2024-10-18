@@ -2,45 +2,62 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-
     </ion-buttons>
     <div class="logo-container">
       <img src="../assets/icon/DeliFast logo.png" alt="DeliFast Logo" class="header-logo">
     </div>
-    
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="order-details-content">
-  <ion-card>
+  
+  <ion-card *ngIf="boletaActiva; else noBoleta">
     <ion-card-header>
       <ion-icon name="receipt-outline" class="receipt-icon"></ion-icon>
       <ion-card-title>Información del Pedido</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <p><strong>Nombre del Cliente:</strong> Juan Pérez</p>
-      <p><strong>Dirección:</strong> Av. Libertador 1234, Santiago</p>
-      <p><strong>Teléfono:</strong> +56 9 8765 4321</p>
-
+      
+      <p><strong>Nombre del Cliente:</strong> {{ nombre }} {{ apellido }}</p>
+      <p><strong>Dirección:</strong> {{ direccion }}</p>
+      <p><strong>Teléfono:</strong> {{ telefono }}</p>
+      <br>  
       <ion-list>
-        <ion-list-header>
-          <strong>Artículos Comprados:</strong>
-        </ion-list-header>
-        <ion-item>
-          <ion-label>Chacarero x 1</ion-label>
-          <ion-note slot="end">$3.500</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Bebida x 1</ion-label>
-          <ion-note slot="end">$1.100</ion-note>
+        <ion-item *ngFor="let producto of productosUltimaVenta">
+          <div class="product-container">
+            <ion-avatar slot="start">
+              <img [src]="producto.foto_producto" alt="{{ producto.nombre_producto }}">
+            </ion-avatar>
+            <ion-label>
+              <h2 class="product-name">{{ producto.nombre_producto }}</h2>
+              <p class="cantidad-overlay">Cantidad: {{ producto.cantidad }}</p>
+            </ion-label>
+          </div>
         </ion-item>
       </ion-list>
-
-      <p><strong>Total del Pedido:</strong> $4.600</p>
+      
+      <p><strong>Total de la Venta:</strong> {{ total_venta | currency }}</p>
+      
+     
+      <br>
       <ion-button (click)="Confirmar()" expand="block" color="warning">Confirmar Pedido</ion-button>
+      
     </ion-card-content>
   </ion-card>
+
+  <ng-template #noBoleta>
+    <ion-card>
+      <ion-card-header>
+        <ion-icon name="alert-circle-outline" class="alert-icon"></ion-icon>
+        <ion-card-title>Sin boleta activa</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>No hay boleta activa en este momento.</p>
+        <ion-button (click)="cargarDatosUsuario()" expand="block" color="primary">Generar Boleta</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
 </ion-content>
 
 <app-componente1></app-componente1>
