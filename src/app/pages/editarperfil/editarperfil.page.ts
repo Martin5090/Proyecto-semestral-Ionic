@@ -3,27 +3,34 @@ import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
+import { Camera, CameraResultType,CameraSource  } from '@capacitor/camera';  // Importa el plugin de la cámara
 
 @Component({
   selector: 'app-editarperfil',
   templateUrl: './editarperfil.page.html',
   styleUrls: ['./editarperfil.page.scss'],
 })
+
 export class EditarperfilPage implements OnInit {
   iduser!: number;
-  nombre:string="";
-  apellido:string="";
-  correo:string="";
-  telefono!:number;
- 
+  nombre: string = "";
+  apellido: string = "";
+  correo: string = "";
+  telefono!: number;
 
-  constructor(private router: Router, 
+  // Variable para guardar la imagen
+  imagen: any = 'assets/default-profile.png';
+
+  constructor(
+    private router: Router, 
     private alertController: AlertController,
     private bd: ServicebdService,
-    private storage: NativeStorage) { }
+    private storage: NativeStorage
+  ) {}
 
   ngOnInit() {
     this.obtenerDatosUsuario();
+    this.cargarImagenPerfil(); 
   }
 
   async obtenerDatosUsuario() {
@@ -116,5 +123,32 @@ export class EditarperfilPage implements OnInit {
   }
 
   
-  
+  cargarImagenPerfil() {
+    this.storage.getItem('profilePicture').then((data) => {
+      if (data) {
+        this.imagen = data; // Asignar la imagen guardada
+      }
+    }).catch((error) => {
+      console.log("No se encontró imagen guardada", error);
+    });
+  }
+
+  // Función para tomar o seleccionar una foto y guardarla en el almacenamiento
+  async takePicture() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Prompt,  // Usa CameraSource.Prompt
+    });
+
+    this.imagen = image.webPath;
+
+  // Guardamos la imagen en el almacenamiento del usuario
+  this.storage.setItem('profilePicture', this.imagen).then(() => {
+    console.log('Imagen guardada exitosamente');
+  }).catch((error) => {
+    console.error('Error al guardar la imagen', error);
+  });
+  }
 }
