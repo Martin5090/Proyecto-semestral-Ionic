@@ -94,3 +94,14 @@ ion-content {
   text-decoration: underline; /* Subrayar el enlace al pasar el ratón (opcional) */
 }
 
+ /* botones geolocalizacion */
+ion-button {
+  margin-top: 20px;
+  --background: #3880ff;
+  --color: white;
+}
+
+ion-card {
+  margin: 20px;
+}
+

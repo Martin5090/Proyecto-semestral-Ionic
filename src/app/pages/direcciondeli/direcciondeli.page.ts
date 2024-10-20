@@ -4,6 +4,8 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { Comuna } from 'src/app/model/comuna';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
+import { Geolocation } from '@capacitor/geolocation';
+import { ToastController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-direcciondeli',
@@ -14,11 +16,17 @@ export class DirecciondeliPage implements OnInit {
   comunas: Comuna[] = [];
   comunaSeleccionadaId!: number; // ID de la comuna seleccionada
   userId!: number; // ID del usuario que ha iniciado sesión
+    // Variables para almacenar las coordenadas
+    latitud: number | null = null;
+    longitud: number | null = null;
+  
+  
 
   constructor(private router: Router,
     private alertController: AlertController,
     private bd: ServicebdService,
-    private storage: NativeStorage) { }
+    private storage: NativeStorage,
+    private toastController: ToastController) { }
 
   ngOnInit() {
 
@@ -68,4 +76,33 @@ export class DirecciondeliPage implements OnInit {
 
     await alert.present();
   }
+
+  async obtenerUbicacion() {
+    try {
+      const position = await Geolocation.getCurrentPosition();
+      this.latitud = position.coords.latitude;
+      this.longitud = position.coords.longitude;
+
+      // Mostrar notificación (toast) con la latitud y longitud
+      this.mostrarToast(`Ubicación obtenida: Latitud ${this.latitud}, Longitud ${this.longitud}. Dirección actualizada correctamente.`);
+    } catch (error) {
+      console.error('Error obteniendo la ubicación:', error);
+      this.mostrarToast('Error obteniendo la ubicación. Intente nuevamente.');
+    }
+  }
+
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 3000,  // Duración de 3 segundos
+      position: 'bottom'  // Posición del toast
+    });
+    toast.present();
+  }
+
+  actualizarComunaa() {
+    // Lógica para actualizar la comuna o dirección según la selección del usuario
+    console.log('Comuna actualizada:', this.comunaSeleccionadaId);
+  }
 }
+
