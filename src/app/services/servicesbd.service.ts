@@ -52,6 +52,7 @@ export class ServicebdService {
   registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
   registroCupon: string = "INSERT or IGNORE INTO cupones(cupon_id, nombre_cupon) VALUES (1, 'DESCUENTO10'), (2, 'DESCUENTO30'), (3, 'DESCUENTO50');";
   registroEstado: string = "INSERT or IGNORE INTO estados (estado_id, nombre_estado) VALUES (1, 'presencial'), (2, 'delivery');";
+  registroProducto: string = "INSERT or IGNORE INTO producto (producto_id, nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id) VALUES (1, 'COMPLETO ITALIANO', 'hot dog el cual se sirve con palta, tomate y mayonesa, ofreciendo una combinación deliciosa.', 'https://cocinachilena.cl/wp-content/uploads/2009/06/completos-chilenos-6-scaled.jpg', 2500, 50, 1), (2, 'CHACARERO', 'Está hecho con carne de vacuno, porotos verdes, tomate y ají verde. lo mejor de la gastronomía local.', 'https://cocinachilena.cl/wp-content/uploads/2011/11/chacarero-1.jpg', 4500, 50, 1), (3, 'EMPANADA DE PINO', 'Están rellenas con carne molida, cebolla, huevo duro, aceitunas y pasas. Perfectas para cualquier ocasión.', 'https://cocinachilena.cl/wp-content/uploads/2008/09/empanadas-pino-carne-2-scaled.jpg', 2500, 50, 2), (4, 'CHURRASCO ITALIANO', 'Sándwich que se prepara con carne de vacuno, acompañado de tomate, lechuga y mayonesa en un delicioso pan.', 'https://cocinachilena.cl/wp-content/uploads/2015/10/churrasco-italiano-h.jpg', 3000, 50, 1), (5, 'BARROS LUCO', 'Este sándwich que lleva carne de vacuno y queso derretido, una combinación simple pero increíblemente sabrosa.', 'https://cocinachilena.cl/wp-content/uploads/2012/10/barros-luco-2.jpg', 2000, 50, 1), (6, 'SOPAIPILLA', 'Es una masa frita tradicionalmente servida con pebre o con un toque de azúcar para un bocado dulce y crujiente.', 'https://cocinachilena.cl/wp-content/uploads/2012/10/sopaipillas-chilenas-8-scaled.jpg', 500, 50, 2), (7, 'PAPAS FRITAS', 'Las papas fritas caseras son un acompañamiento perfecto para cualquier comida rápida.', 'https://phantom-marca.unidadeditorial.es/813d16708dc72860fd3cf319c9a245b5/resize/828/f/jpg/assets/multimedia/imagenes/2023/08/04/16911461030527.jpg', 1500, 60, 2), (8, 'EMPANADA DE QUESO', 'Empanada hecha con una masa crujiente y un relleno de queso fundido.', 'https://i.blogs.es/eb58d2/empanadas-de-queso-2-/650_1200.jpg', 2100, 60, 2), (9, 'Chemilico', 'Un sándwich chileno delicioso con carne asada, lechuga fresca, tomate, cebolla y una salsa especial.', 'https://cocinachilena.cl/wp-content/uploads/2013/10/chemilico-sandwich-2-scaled.jpg', 3000, 60, 1);";
 
 
 
@@ -151,7 +152,7 @@ export class ServicebdService {
   async crearTablas() {
     try {
       //ejecuto la creación de Tablas
-      //await this.database.executeSql('DROP TABLE IF EXISTS venta', []);
+      //await this.database.executeSql('DROP TABLE IF EXISTS producto', []);
 
 
       await this.database.executeSql(this.tablaCupones, []);
@@ -174,6 +175,7 @@ export class ServicebdService {
       await this.database.executeSql(this.registroIngredientes, []);
       await this.database.executeSql(this.registroCupon, []);
       await this.database.executeSql(this.registroEstado, []);
+      await this.database.executeSql(this.registroProducto, []);
 
       //modifico el estado de la Base de Datos
       this.isDBReady.next(true);
@@ -190,13 +192,10 @@ export class ServicebdService {
   //Creacion del crud
   seleccionarProducto() {
     return this.database.executeSql('SELECT * FROM producto', []).then(res => {
-
       let items: Producto[] = [];
-
+  
       if (res.rows.length > 0) {
-
         for (var i = 0; i < res.rows.length; i++) {
-
           items.push({
             producto_id: res.rows.item(i).producto_id,
             precio_producto: res.rows.item(i).precio_producto,
@@ -205,15 +204,15 @@ export class ServicebdService {
             stock_producto: res.rows.item(i).stock_producto,
             foto_producto: res.rows.item(i).foto_producto,
             categoria_id: res.rows.item(i).categoria_id,
-
-          })
+          });
         }
-
       }
-      //actualizar el observable
+      // Actualizar el observable
       this.listadoProducto.next(items as any);
-
-    })
+  
+    }).catch(e => {
+      this.presentAlert('Seleccionar', 'Error al obtener productos: ' + JSON.stringify(e));
+    });
   }
 
   insertarProducto(nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {
@@ -317,8 +316,6 @@ export class ServicebdService {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND contra = ?', [correo, contra]).then(res => {
       if (res.rows.length > 0) {
         const usuario = res.rows.item(0);
-        this.presentAlert("Login", "Usuario verificado. ID: " + usuario.iduser);
-
 
         return this.storage.setItem('usuario', {
           iduser: usuario.iduser,
@@ -344,14 +341,13 @@ export class ServicebdService {
 
 
 
-  modificarUsuario(iduser: number, nombre: string, apellido: string, telefono: number, correo: string) {
-    this.presentAlert("service", "ID: " + iduser);
-    return this.database.executeSql('UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, correo = ? WHERE iduser = ?',
-      [nombre, apellido, telefono, correo, iduser]).then(async res => {
+  modificarUsuario(iduser: number, nombre: string, apellido: string, telefono: number, correo: string, rol_id: number) {
+    return this.database.executeSql('UPDATE usuario SET nombre = ?, apellido = ?, telefono = ?, correo = ?, rol_id =? WHERE iduser = ?',
+      [nombre, apellido, telefono, correo, rol_id, iduser]).then(async res => {
         this.presentAlert("Modificar", "Perfil Modificado");
 
 
-        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo });
+        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo, rol_id});
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
       });
@@ -645,11 +641,11 @@ export class ServicebdService {
           };
         });
       } else {
-        return null; // No hay ventas para el usuario que cumplan con el criterio
+        return null; 
       }
     }).catch(e => {
       console.error('Error al obtener la última venta:', JSON.stringify(e));
-      return null; // Manejo de errores
+      return null; 
     });
   }
 

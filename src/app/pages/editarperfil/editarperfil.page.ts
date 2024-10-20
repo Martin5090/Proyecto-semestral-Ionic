@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicesbd.service';
-import { Camera, CameraResultType,CameraSource  } from '@capacitor/camera';  // Importa el plugin de la cámara
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';  // Importa el plugin de la cámara
 
 @Component({
   selector: 'app-editarperfil',
@@ -17,6 +17,7 @@ export class EditarperfilPage implements OnInit {
   apellido: string = "";
   correo: string = "";
   telefono!: number;
+  rol_id!: number;
 
   // Variable para guardar la imagen
   imagen: any = 'assets/default-profile.png';
@@ -29,21 +30,22 @@ export class EditarperfilPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.obtenerDatosUsuario();
-    this.cargarImagenPerfil(); 
+    this.obtenerDatosUsuario().then(() => {
+      this.cargarImagenPerfil();  
+    });
   }
 
   async obtenerDatosUsuario() {
     try {
       const usuario = await this.storage.getItem('usuario');
-      this.iduser = usuario.iduser; // Suponiendo que el objeto de usuario tiene la propiedad 'id'
+      this.iduser = usuario.iduser; 
       this.nombre = usuario.nombre;
       this.apellido = usuario.apellido;
       this.correo = usuario.correo;
       this.telefono = usuario.telefono;
+      this.rol_id = usuario.rol_id;
     } catch (error) {
       console.error('Error al obtener datos del usuario:', error);
-      // Manejar el error adecuadamente (redirigir, mostrar alerta, etc.)
     }
   }
 
@@ -53,7 +55,6 @@ export class EditarperfilPage implements OnInit {
   }
 
   Aceptar() {
-
     if (!this.nombre || !this.apellido || !this.correo || !this.telefono) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
@@ -80,17 +81,15 @@ export class EditarperfilPage implements OnInit {
       this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y tener entre 6 y 12 dígitos.');
       return;
     }
-    
 
-    this.bd.modificarUsuario(this.iduser, this.nombre, this.apellido, this.telefono, this.correo)
-    .then(() => {
-      this.router.navigate(['/perfil']);
-    })
-    .catch(error => {
-      this.presentAlert('Error al modificar', 'Hubo un error al modificar el usuario. Inténtalo de nuevo.');
-      console.error(error);
-    });
-
+    this.bd.modificarUsuario(this.iduser, this.nombre, this.apellido, this.telefono, this.correo, this.rol_id)
+      .then(() => {
+        this.router.navigate(['/perfil']);
+      })
+      .catch(error => {
+        this.presentAlert('Error al modificar', 'Hubo un error al modificar el usuario. Inténtalo de nuevo.');
+        console.error(error);
+      });
   }
 
   public alertButtons = [
@@ -106,49 +105,56 @@ export class EditarperfilPage implements OnInit {
       role: 'confirm',
       handler: () => {
         console.log('Alert confirmed');
-        this.bd.eliminarUsuario(this.iduser.toString()); // Llama a la función de eliminación
-        
+        this.bd.eliminarUsuario(this.iduser.toString()); 
       },
     },
   ];
 
-  
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
       message: msj,
     });
-
     await alert.present();
   }
 
-  
+ 
   cargarImagenPerfil() {
-    this.storage.getItem('profilePicture').then((data) => {
-      if (data) {
-        this.imagen = data; // Asignar la imagen guardada
-      }
-    }).catch((error) => {
-      console.log("No se encontró imagen guardada", error);
-    });
+    if (this.iduser) {
+      this.storage.getItem(`profilePicture_${this.iduser}`).then((data) => {
+        if (data) {
+          this.imagen = data; 
+        } else {
+          console.log('No se encontró una imagen guardada para el usuario.');
+        }
+      }).catch((error) => {
+        console.log("Error al cargar la imagen del usuario", error);
+      });
+    } else {
+      console.error('Error: El iduser no está definido.');
+    }
   }
 
-  // Función para tomar o seleccionar una foto y guardarla en el almacenamiento
+  
   async takePicture() {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Prompt,  // Usa CameraSource.Prompt
+      source: CameraSource.Prompt,  
     });
 
     this.imagen = image.webPath;
 
-  // Guardamos la imagen en el almacenamiento del usuario
-  this.storage.setItem('profilePicture', this.imagen).then(() => {
-    console.log('Imagen guardada exitosamente');
-  }).catch((error) => {
-    console.error('Error al guardar la imagen', error);
-  });
+   
+    if (this.iduser) {
+      this.storage.setItem(`profilePicture_${this.iduser}`, this.imagen).then(() => {
+        console.log('Imagen guardada exitosamente para el usuario con id:', this.iduser);
+      }).catch((error) => {
+        console.error('Error al guardar la imagen', error);
+      });
+    } else {
+      console.error('Error: El iduser no está definido.');
+    }
   }
 }

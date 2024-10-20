@@ -17,14 +17,14 @@
         <ion-card-title class="ion-text-center">Datos personales</ion-card-title>
       </ion-card-header>
 
-      <!-- Sección de foto de perfil debajo del título -->
+     
       <div class="profile-container">
         <img [src]="imagen || 'assets/default-profile.png'" alt="Foto de perfil" class="profile-pic" />
-        <ion-button (click)="takePicture()">Tomar o elegir foto</ion-button>
+        <ion-button (click)="takePicture()" color="warning">Tomar o elegir foto</ion-button>
       </div>
 
       <ion-card-content>
-        <!-- Aquí los campos de datos personales -->
+     
         <ion-item>
           <ion-input label="Nombre" labelPlacement="floating" placeholder="Edite su nombre" [(ngModel)]="nombre"></ion-input>
         </ion-item>

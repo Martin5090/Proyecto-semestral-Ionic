@@ -32,7 +32,7 @@ export class AgregarPage implements OnInit {
     });
   }
 
-  //sirve para hacer que aprezca el boton de archivo de imagen en el imput
+
 
 
   Agregar() {
@@ -47,7 +47,9 @@ export class AgregarPage implements OnInit {
     }
 
     const numeroStr = this.precio_producto.toString();
-    if (isNaN(Number(this.precio_producto)) || numeroStr.length > 5) {
+    if (isNaN(Number(this.precio_producto))||
+    this.precio_producto <= 0 ||   
+    numeroStr.length > 5) {
       this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado y menor a los 5 digitos o igual .');
       return;
     };
@@ -80,9 +82,6 @@ export class AgregarPage implements OnInit {
     }
   }
 
-
-
-  //PresentAlert
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
@@ -92,7 +91,7 @@ export class AgregarPage implements OnInit {
 
     await alert.present();
   }
-  //Alerta Toast
+ 
 
 
 }

@@ -9,33 +9,26 @@ import { ServicebdService } from 'src/app/services/servicesbd.service';
   styleUrls: ['./menu-caja.page.scss'],
 })
 export class MenuCajaPage implements OnInit {
-  Tiposdecomida: any = [{
-    producto_id: '',
-    nombre_producto: '',
-    descripcion_producto: '',
-    foto_producto: '',
-    precio_producto: '',
-    stock_producto: ''
-  }
+  Tiposdecomida: any = [];
 
-  ];
-
-  constructor(private router: Router,
-    private bd: ServicebdService) { }
+  constructor(
+    private router: Router,
+    private bd: ServicebdService,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
-    this.bd.dbState().subscribe(data=>{
-      //validar si la bd esta lista
-      if(data){
-        //subscribir al observable de la listaNoticias
-        this.bd.fetchProducto().subscribe(res=>{
-          this.Tiposdecomida = res;
-        })
+     
+     this.bd.dbState().subscribe(data => {
+      if (data) {
+        
+        this.bd.fetchProducto().subscribe(res => {
+          this.Tiposdecomida = res; 
+        });
+        
+       
+        this.bd.seleccionarProducto();
       }
-    })
+    });
   }
-
- 
-
-  
 }
