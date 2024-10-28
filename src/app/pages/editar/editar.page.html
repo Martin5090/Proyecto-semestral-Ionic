@@ -29,9 +29,12 @@
         </ion-item>
         
         <ion-item>
-          <input type="file" [(ngModel)]="producto.foto_producto" />
-          <ion-button expand="full">
-          </ion-button>
+          <input type="file" (change)="onFileSelected($event)" />
+        </ion-item>
+        
+        
+        <ion-item *ngIf="producto.foto_producto">
+          <img [src]="producto.foto_producto" alt="Imagen seleccionada" class="card-img">
         </ion-item>
         
         <ion-item>

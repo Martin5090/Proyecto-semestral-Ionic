@@ -236,7 +236,6 @@ export class ServicebdService {
   }
 
   modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {
-    this.presentAlert("service", "ID: " + id);
     return this.database.executeSql('UPDATE producto SET nombre_producto = ?, descripcion_producto = ?, foto_producto = ?, precio_producto = ?, stock_producto = ?, categoria_id = ? WHERE producto_id = ?',
       [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id, id]).then(res => {
         this.presentAlert("Modificar", "Producto Modificado");

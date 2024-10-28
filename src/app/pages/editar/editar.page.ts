@@ -11,16 +11,11 @@ import { ServicebdService } from 'src/app/services/servicesbd.service';
 })
 export class EditarPage implements OnInit {
   categorias: Categoria[] = [];
-  //producto_id: string = "";
-  //nombre_producto: string = "";
-  //descripcion_producto: string = "";
-  //foto_producto: string = "";
-  //precio_producto!: number;
-  //stock_producto!: number;
+  foto_producto: string = "";
 
   producto: any;
 
-  constructor(private router: Router,private alertController: AlertController,private bd: ServicebdService, private activedrouter: ActivatedRoute) {
+  constructor(private router: Router, private alertController: AlertController, private bd: ServicebdService, private activedrouter: ActivatedRoute) {
     this.activedrouter.queryParams.subscribe(res => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.producto = this.router.getCurrentNavigation()?.extras?.state?.['producto'];
@@ -37,24 +32,34 @@ export class EditarPage implements OnInit {
     });
   }
 
-  //sirve para hacer que aprezca el boton de archivo de imagen en el imput
+
 
 
   Editar() {
-    if (!this.producto.nombre_producto || !this.producto.descripcion_producto || !this.producto.foto_producto || !this.producto.precio_producto || !this.producto.stock_producto || !this.producto.categoria_id ) {
+    if (!this.producto.nombre_producto || !this.producto.descripcion_producto ||
+      !this.producto.foto_producto || !this.producto.precio_producto ||
+      !this.producto.stock_producto || !this.producto.categoria_id) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
+
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
     if (!nombreRegex.test(this.producto.nombre_producto)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-    const numeroStr = this.producto.precio_producto.toString();
-    if (isNaN(Number(this.producto.precio_producto)) || numeroStr.length > 5) {
-      this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado y menor a los 5 digitos o igual .');
+
+    const precioRegex = /^[1-9]\d{0,4}$/;
+    if (!precioRegex.test(this.producto.precio_producto.toString())) {
+      this.presentAlert('Precio inválido', 'El precio debe ser un número positivo y no debe exceder 5 dígitos.');
       return;
-    };
+    }
+
+    const stockRegex = /^[1-9]\d*$/;
+    if (!stockRegex.test(this.producto.stock_producto.toString())) {
+      this.presentAlert('Stock inválido', 'El stock debe ser un número entero positivo.');
+      return;
+    }
 
 
     this.bd.modificarProducto(this.producto.producto_id, this.producto.nombre_producto, this.producto.descripcion_producto, this.producto.foto_producto,
@@ -65,7 +70,18 @@ export class EditarPage implements OnInit {
   };
 
 
-  //PresentAlert
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+
+        this.producto.foto_producto = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,

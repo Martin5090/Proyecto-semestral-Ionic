@@ -50,7 +50,7 @@ export class AgregarPage implements OnInit {
     if (isNaN(Number(this.precio_producto))||
     this.precio_producto <= 0 ||   
     numeroStr.length > 5) {
-      this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado y menor a los 5 digitos o igual .');
+      this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado.');
       return;
     };
 
@@ -60,7 +60,7 @@ export class AgregarPage implements OnInit {
     if (isNaN(Number(this.stock_producto)) ||
       this.stock_producto <= 0 ||   
       numeroStock.length > 2) {     
-      this.presentAlert('Número inválido', 'Debe ingresar un número mayor a 0 y menor a 100.');
+      this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado mayor a 0 y menor a 100.');
       return;
     }
 
