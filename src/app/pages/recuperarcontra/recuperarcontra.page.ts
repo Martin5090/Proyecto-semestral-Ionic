@@ -11,6 +11,7 @@ import { ServicebdService } from 'src/app/services/servicesbd.service';
 })
 export class RecuperarcontraPage implements OnInit {
   correo: string = "";
+  respuesta:string="";
 
 
   constructor(private router: Router,
@@ -32,23 +33,28 @@ export class RecuperarcontraPage implements OnInit {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
-
-    
+  
     this.bd.verificarCorreo(this.correo).then(exists => {
       if (!exists) {
         this.presentAlert('Correo no registrado', 'El correo electrónico ingresado no está registrado.');
         return;
       }
-
-      
-      this.storage.setItem('correoRecuperacion', this.correo).then(() => {
-        
-        this.presentAlert('Verificación de correo', 'Por favor, verifique su correo para recuperar su contraseña.');
-
-        
-        this.router.navigate(['/cambiarcontra']);
+  
+      this.bd.verificarRespuesta(this.correo, this.respuesta).then(respuestaCorrecta => {
+        if (!respuestaCorrecta) {
+          this.presentAlert('Respuesta incorrecta', 'La respuesta ingresada no coincide con la registrada.');
+          return;
+        }
+  
+        this.storage.setItem('correoRecuperacion', this.correo).then(() => {
+          this.presentAlert('Verificación exitosa', 'Puede proceder a cambiar su contraseña.');
+          this.router.navigate(['/cambiarcontra']);
+        }).catch(error => {
+          this.presentAlert('Error', 'Ocurrió un error al guardar el correo. Por favor, inténtelo de nuevo.');
+          console.error(error);
+        });
       }).catch(error => {
-        this.presentAlert('Error', 'Ocurrió un error al guardar el correo. Por favor, inténtelo de nuevo.');
+        this.presentAlert('Error', 'Ocurrió un error al verificar la respuesta. Por favor, inténtelo de nuevo.');
         console.error(error);
       });
     }).catch(error => {

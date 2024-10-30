@@ -16,6 +16,7 @@ export class RegisterPage implements OnInit {
   contra: string = "";
   comuna_id!: number;
   rol_id: number = 1;
+  respuesta: string = "";
   recontra: string = "";
 
 
@@ -36,57 +37,66 @@ export class RegisterPage implements OnInit {
 
 
   irLogin() {
-    
-    if (!this.nombre || !this.apellido || !this.telefono || !this.correo|| !this.contra || !this.recontra) {
-      this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
+    // Verificar campos obligatorios
+    if (!this.nombre || !this.apellido || !this.telefono || !this.correo || !this.contra || !this.recontra || !this.respuesta) {
+      this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos de forma correcta.');
       return;
     }
-
-   
+  
+    // Validar el formato del nombre
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
     if (!nombreRegex.test(this.nombre)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-
+  
+    // Validar el formato del apellido
     if (!nombreRegex.test(this.apellido)) {
       this.presentAlert('Apellido inválido', 'El apellido solo debe contener letras, espacios y guiones.');
       return;
     }
-
-    const numeroStr = this.telefono.toString();
-    if (isNaN(Number(this.telefono)) || this.telefono < 0 || numeroStr.length > 12 || numeroStr.length < 8) {
+  
+    // Validar número de teléfono
+    const telefonoStr = this.telefono.toString();
+    if (isNaN(Number(this.telefono)) || this.telefono < 0 || telefonoStr.length < 8 || telefonoStr.length > 12) {
       this.presentAlert('Número inválido', 'El número de teléfono debe ser positivo, válido y tener entre 8 y 12 dígitos.');
       return;
     }
-
-    
+  
+    // Validar el correo electrónico
     if (!this.validarEmail(this.correo)) {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
-
   
+    // Validar longitud de la contraseña
     if (this.contra.length < 8) {
       this.presentAlert('Contraseña corta', 'La contraseña debe tener al menos 8 caracteres.');
       return;
     }
-
-   
+  
+    // Validar fortaleza de la contraseña
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(this.contra)) {
       this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
       return;
     }
-
+  
+    // Verificar si las contraseñas coinciden
     if (this.contra !== this.recontra) {
       this.presentAlert('Contraseñas no coinciden', 'Las contraseñas no coinciden.');
       return;
     }
-
-    this.bd.insertarUsuario(this.nombre, this.apellido, this.telefono, this.correo, this.contra, this.comuna_id, this.rol_id);
+  
+    // Validar formato de la respuesta
+    if (!nombreRegex.test(this.respuesta)) {
+      this.presentAlert('Respuesta inválida', 'La respuesta solo debe contener letras, espacios y guiones.');
+      return;
+    }
+  
+    // Si todo es válido, insertar el usuario y navegar al login
+    this.bd.insertarUsuario(this.nombre, this.apellido, this.telefono, this.correo, this.contra, this.comuna_id, this.rol_id, this.respuesta);
     this.router.navigate(['/login']);
-
   }
 
 

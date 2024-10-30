@@ -36,7 +36,7 @@ export class ServicebdService {
 
   tablaProducto: string = "CREATE TABLE IF NOT EXISTS PRODUCTO (producto_id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_producto TEXT NOT NULL, descripcion_producto TEXT NOT NULL, foto_producto TEXT NOT NULL, precio_producto REAL NOT NULL, stock_producto INTEGER NOT NULL, categoria_id INTEGER NOT NULL, FOREIGN KEY (categoria_id) REFERENCES CATEGORIA(categoria_id));";
 
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS USUARIO (iduser INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT NOT NULL, apellido TEXT NOT NULL, telefono INTEGER NOT NULL, correo TEXT NOT NULL, contra TEXT NOT NULL, comuna_id INTEGER NOT NULL, rol_id INTEGER NOT NULL DEFAULT 1, respuesta TEXT NOT NULL, FOREIGN KEY (comuna_id) REFERENCES COMUNA(comuna_id), FOREIGN KEY (rol_id) REFERENCES ROL(rol_id));";
 
   tablaVenta: string = "CREATE TABLE IF NOT EXISTS VENTA (venta_id INTEGER PRIMARY KEY AUTOINCREMENT, iduser INTEGER NOT NULL, estado_id INTEGER NOT NULL, f_venta TEXT NOT NULL, total_venta REAL NOT NULL, FOREIGN KEY (iduser) REFERENCES USUARIO(iduser), FOREIGN KEY (estado_id) REFERENCES ESTADOS(estado_id));";
 
@@ -47,7 +47,7 @@ export class ServicebdService {
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
   registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (1,'Martin', 'Campos', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2');";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id, respuesta) VALUES (1,'admin', 'admin', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2', 'admin');";
   registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
   registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
   registroCupon: string = "INSERT or IGNORE INTO cupones(cupon_id, nombre_cupon) VALUES (1, 'DESCUENTO10'), (2, 'DESCUENTO30'), (3, 'DESCUENTO50');";
@@ -152,7 +152,7 @@ export class ServicebdService {
   async crearTablas() {
     try {
       //ejecuto la creación de Tablas
-      //await this.database.executeSql('DROP TABLE IF EXISTS producto', []);
+      //await this.database.executeSql('DROP TABLE IF EXISTS usuario', []);
 
 
       await this.database.executeSql(this.tablaCupones, []);
@@ -193,7 +193,7 @@ export class ServicebdService {
   seleccionarProducto() {
     return this.database.executeSql('SELECT * FROM producto', []).then(res => {
       let items: Producto[] = [];
-  
+
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) {
           items.push({
@@ -209,7 +209,7 @@ export class ServicebdService {
       }
       // Actualizar el observable
       this.listadoProducto.next(items as any);
-  
+
     }).catch(e => {
       this.presentAlert('Seleccionar', 'Error al obtener productos: ' + JSON.stringify(e));
     });
@@ -285,9 +285,9 @@ export class ServicebdService {
 
 
   //Insertar usuario register
-  insertarUsuario(nombre: string, apellido: string, telefono: number, correo: string, contra: string, comuna_id: number, rol_id: number) {
-    return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id) VALUES (?,?,?,?,?,1,?)',
-      [nombre, apellido, telefono, correo, contra, rol_id])
+  insertarUsuario(nombre: string, apellido: string, telefono: number, correo: string, contra: string, comuna_id: number, rol_id: number, respuesta: string) {
+    return this.database.executeSql('INSERT INTO usuario(nombre, apellido, telefono, correo, contra, comuna_id, rol_id, respuesta) VALUES (?,?,?,?,?,1,?,?)',
+      [nombre, apellido, telefono, correo, contra, rol_id, respuesta])
       .then(res => {
 
         this.presentAlert("Insertar", "Usuario Registrado");
@@ -301,7 +301,8 @@ export class ServicebdService {
           correo: correo,
           telefono: telefono,
           comuna_id: comuna_id,
-          rol_id: rol_id
+          rol_id: rol_id,
+          respuesta: respuesta
         });
       })
       .catch(e => {
@@ -323,7 +324,8 @@ export class ServicebdService {
           correo: usuario.correo,
           telefono: usuario.telefono,
           comuna_id: usuario.comuna_id,
-          rol_id: usuario.rol_id
+          rol_id: usuario.rol_id,
+          respuesta: usuario.respuesta
         }).then(() => {
           return usuario.iduser;
         });
@@ -346,7 +348,7 @@ export class ServicebdService {
         this.presentAlert("Modificar", "Perfil Modificado");
 
 
-        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo, rol_id});
+        this.storage.setItem('usuario', { iduser, nombre, apellido, telefono, correo, rol_id });
       }).catch(e => {
         this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
       });
@@ -393,6 +395,15 @@ export class ServicebdService {
       console.error('Error al verificar el correo:', e);
       return false;
     });
+  }
+
+  verificarRespuesta(correo: string, respuesta: string) {
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND respuesta = ?', [correo, respuesta])
+      .then(res => res.rows.length > 0)
+      .catch(e => {
+        console.error('Error al verificar la respuesta:', e);
+        return false;
+      });
   }
 
   actualizarContra(correo: string, contra: string): Promise<void> {
@@ -640,11 +651,11 @@ export class ServicebdService {
           };
         });
       } else {
-        return null; 
+        return null;
       }
     }).catch(e => {
       console.error('Error al obtener la última venta:', JSON.stringify(e));
-      return null; 
+      return null;
     });
   }
 
@@ -654,15 +665,15 @@ export class ServicebdService {
       SET total_venta = 0
       WHERE venta_id = ?;
     `;
-  
+
     return this.database.executeSql(query, [ventaId]).then(() => {
       console.log('Boleta vaciada correctamente');
     }).catch(error => {
       console.error('Error al vaciar la boleta:', error);
     });
   }
-  
-  
+
+
 
 
 

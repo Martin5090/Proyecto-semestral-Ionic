@@ -21,10 +21,17 @@
 
       <ion-card-content>
         <ion-item>
-          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese su correo electrónico"
+          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingrese correo electrónico"
             [(ngModel)]="correo" type="email">
           </ion-input>
         </ion-item>
+
+        <ion-item>
+          <ion-input label="Respuesta de seguridad" labelPlacement="floating" placeholder="Ingrese la respuesta de seguridad"
+            [(ngModel)]="respuesta" >
+          </ion-input>
+        </ion-item>
+
         <ion-button (click)="Ircontra()" class="submit-button" expand="block">
           Recuperar contraseña
         </ion-button>
