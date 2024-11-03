@@ -93,12 +93,15 @@ const routes: Routes = [
   },
   
   {
+    path: 'historialc',
+    loadChildren: () => import('./pages/historialc/historialc.module').then( m => m.HistorialcPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+
   
-
-
 
 
 

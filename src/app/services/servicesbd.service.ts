@@ -11,6 +11,7 @@ import { Comuna } from '../model/comuna';
 import { Categoria } from '../model/categoria';
 import { Ingredientes } from '../model/ingredientes';
 import { Cupones } from '../model/cupones';
+import { Detalle } from '../model/detalle';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,7 @@ export class ServicebdService {
   listadoIngredientes = new BehaviorSubject([]);
   listadoCupones = new BehaviorSubject([]);
   listadoProductoT = new BehaviorSubject<Producto[]>([]);
+  listadoDetalle = new BehaviorSubject<Detalle[]>([]);
 
 
   //variable para el status de la Base de datos
@@ -106,7 +108,6 @@ export class ServicebdService {
     return this.listadoProductoT.asObservable();
   }
 
-
   fetchComuna(): Observable<Comuna[]> {
     return this.listadoComunas.asObservable();
   }
@@ -120,6 +121,10 @@ export class ServicebdService {
 
   fetchCupones(): Observable<Cupones[]> {
     return this.listadoCupones.asObservable();
+  }
+
+  fetchDetalle(): Observable<Detalle[]> {
+    return this.listadoDetalle.asObservable();
   }
 
   
@@ -705,6 +710,54 @@ export class ServicebdService {
       console.error('Error al vaciar la boleta:', error);
     });
   }
+
+  
+  seleccionarTodosLosDetalles() {
+    return this.database.executeSql(
+        `SELECT 
+            DETALLE.*, 
+            VENTA.f_venta, 
+            VENTA.total_venta, 
+            VENTA.iduser, 
+            ESTADOS.nombre_estado, 
+            PRODUCTO.nombre_producto, 
+            USUARIO.nombre AS nombre_usuario 
+        FROM 
+            DETALLE 
+        INNER JOIN 
+            VENTA ON DETALLE.venta_id = VENTA.venta_id 
+        INNER JOIN 
+            ESTADOS ON VENTA.estado_id = ESTADOS.estado_id 
+        INNER JOIN 
+            PRODUCTO ON DETALLE.producto_id = PRODUCTO.producto_id 
+        INNER JOIN 
+            USUARIO ON VENTA.iduser = USUARIO.iduser`, 
+        []
+    ).then(res => {
+        let items: Detalle[] = [];
+
+        if (res.rows.length > 0) {
+            for (let i = 0; i < res.rows.length; i++) {
+                items.push({
+                    detalle_id: res.rows.item(i).detalle_id,
+                    venta_id: res.rows.item(i).venta_id,
+                    nombre_producto: res.rows.item(i).nombre_producto,
+                    cantidad: res.rows.item(i).cantidad,
+                    subtotal: res.rows.item(i).subtotal,
+                    f_venta: res.rows.item(i).f_venta, 
+                    total_venta: res.rows.item(i).total_venta,
+                    nombre_usuario: res.rows.item(i).nombre_usuario, 
+                    nombre_estado: res.rows.item(i).nombre_estado, 
+                    
+                });
+            }
+        }
+        this.listadoDetalle.next(items); // Actualiza el observable de detalles
+    }).catch(e => {
+        this.presentAlert('Seleccionar Detalles', 'Error al obtener detalles: ' + JSON.stringify(e));
+    });
+}
+
 
 
 
