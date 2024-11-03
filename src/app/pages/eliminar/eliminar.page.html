@@ -23,11 +23,16 @@
       <img [src]="comida.foto_producto" class="card-img">
       <div class="card-content">
         <h5>{{comida.nombre_producto}}</h5>
-        <h6 class="price">{{comida.precio_producto}}</h6>
+        <h6 class="price">{{comida.precio_producto | currency:'USD'}}</h6>
         <p>{{comida.descripcion_producto}}</p>
+        
+        
+        <p *ngIf="comida.stock_producto > 0" class="disponible">Disponible</p>
+        <p *ngIf="comida.stock_producto === 0" class="no-disponible">No disponible</p>
+
         <div class="button-group">
           <ion-button color="warning" (click)="modificar(comida)">Editar</ion-button>
-          <ion-button color="danger" (click)="eliminar(comida)">Eliminar</ion-button>
+          <ion-button color="danger" (click)="eliminar(comida)">Deshabilitar</ion-button>
         </div>
       </div>
     </div>

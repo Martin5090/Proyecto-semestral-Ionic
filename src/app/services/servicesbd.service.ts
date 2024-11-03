@@ -63,6 +63,7 @@ export class ServicebdService {
   listadoCategoria = new BehaviorSubject([]);
   listadoIngredientes = new BehaviorSubject([]);
   listadoCupones = new BehaviorSubject([]);
+  listadoProductoT = new BehaviorSubject<Producto[]>([]);
 
 
   //variable para el status de la Base de datos
@@ -101,6 +102,11 @@ export class ServicebdService {
     return this.listadoProducto.asObservable();
   }
 
+  fetchProductoT(): Observable<Producto[]> {
+    return this.listadoProductoT.asObservable();
+  }
+
+
   fetchComuna(): Observable<Comuna[]> {
     return this.listadoComunas.asObservable();
   }
@@ -115,6 +121,8 @@ export class ServicebdService {
   fetchCupones(): Observable<Cupones[]> {
     return this.listadoCupones.asObservable();
   }
+
+  
 
 
 
@@ -215,6 +223,31 @@ export class ServicebdService {
     });
   }
 
+  seleccionarProductoT() {
+    return this.database.executeSql('SELECT * FROM producto WHERE stock_producto > 0', []).then(res => {
+      let items: Producto[] = [];
+  
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            producto_id: res.rows.item(i).producto_id,
+            precio_producto: res.rows.item(i).precio_producto,
+            nombre_producto: res.rows.item(i).nombre_producto,
+            descripcion_producto: res.rows.item(i).descripcion_producto,
+            stock_producto: res.rows.item(i).stock_producto,
+            foto_producto: res.rows.item(i).foto_producto,
+            categoria_id: res.rows.item(i).categoria_id,
+          });
+        }
+      }
+     
+      this.listadoProductoT.next(items as any);
+  
+    }).catch(e => {
+      this.presentAlert('Seleccionar', 'Error al obtener productos: ' + JSON.stringify(e));
+    });
+  }
+
   insertarProducto(nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {
     return this.database.executeSql('INSERT INTO producto(nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id) VALUES (?,?,?,?,?,?)',
       [nombre_producto, descripcion_producto, foto_producto, precio_producto, stock_producto, categoria_id]).then(res => {
@@ -226,13 +259,13 @@ export class ServicebdService {
   }
 
 
-  eliminarProducto(id: string) {
-    return this.database.executeSql('DELETE FROM producto WHERE producto_id = ?', [id]).then(res => {
-      this.presentAlert("Eliminar", "Producto Eliminado");
-      this.seleccionarProducto();
+  marcarProductoSinStock(id: string) {
+    return this.database.executeSql('UPDATE PRODUCTO SET stock_producto = 0 WHERE producto_id = ?', [id]).then(res => {
+      this.presentAlert("Estado del Producto", "Producto marcado como sin stock.");
+      this.seleccionarProducto(); 
     }).catch(e => {
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
-    })
+      this.presentAlert('Error', 'Error al actualizar el producto: ' + JSON.stringify(e));
+    });
   }
 
   modificarProducto(id: string, nombre_producto: string, descripcion_producto: string, foto_producto: string, precio_producto: number, stock_producto: number, categoria_id: number) {

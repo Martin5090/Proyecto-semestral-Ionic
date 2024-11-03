@@ -22,12 +22,12 @@ export class MenuCajaPage implements OnInit {
      this.bd.dbState().subscribe(data => {
       if (data) {
         
-        this.bd.fetchProducto().subscribe(res => {
+        this.bd.fetchProductoT().subscribe(res => {
           this.Tiposdecomida = res; 
         });
         
        
-        this.bd.seleccionarProducto();
+        this.bd.seleccionarProductoT();
       }
     });
   }

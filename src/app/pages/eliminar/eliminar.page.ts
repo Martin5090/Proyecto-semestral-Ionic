@@ -41,12 +41,14 @@ export class EliminarPage implements OnInit {
 
   }
 
-  eliminar(comida:any) {
-    this.bd.eliminarProducto(comida.producto_id);
-
-
+  
+  eliminar(comida: any) {
+    this.bd.marcarProductoSinStock(comida.producto_id).then(() => {
+      this.bd.seleccionarProducto(); 
+    }).catch(e => {
+      console.error("Error al marcar como sin stock:", e);
+    });
   }
-
 }
 
 
