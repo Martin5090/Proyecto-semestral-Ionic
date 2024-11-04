@@ -60,16 +60,16 @@
       <ion-button class="pay-button" expand="full" (click)="Pago()">Ir a Pagar</ion-button>
     </div>
   </div>
-
   <ng-template #emptyCart>
-    <ion-card>
-
-      <ion-card-header>
-        <ion-icon name="cart-outline" class="cart-icon"></ion-icon>
-        <p>Tu carrito está vacío</p>
-        <p class="explore-text">¿Qué esperas? Explora nuestro menú y empieza a comprar.</p>
-      </ion-card-header>
-    </ion-card>
+    <div class="empty-cart-container">
+      <ion-card>
+        <ion-card-header>
+          <ion-icon name="cart-outline" class="cart-icon"></ion-icon>
+          <p>Tu carrito está vacío</p>
+          <p class="explore-text">¿Qué esperas? Explora nuestro menú y empieza a comprar.</p>
+        </ion-card-header>
+      </ion-card>
+    </div>
   </ng-template>
 </ion-content>
 

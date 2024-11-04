@@ -34,6 +34,44 @@ ion-toolbar {
         margin-left: auto;
         font-size: 18px;
         font-weight: normal;
-       
+
     }
+}
+
+/* Estilos de tarjetas de detalle */
+.detalles-container {
+    padding: 15px;
+}
+
+.detalle-card {
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo negro con transparencia */
+    color: #ffffff; /* Texto blanco */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2); /* Sombra suave */
+}
+
+.card-header {
+    background-color: #FFD700; /* Fondo dorado */
+    color: #000000; /* Texto negro */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 8px;
+}
+
+ion-card-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #000000; /* Texto blanco en el título */
+}
+
+ion-card-content p {
+    margin: 6px 0;
+    font-size: 0.95em;
+    color: #ffffff; /* Texto blanco en los contenidos */
+}
+
+.card-text {
+    color: #ffffff; /* Texto blanco para los detalles */
+    font-weight: normal;
 }

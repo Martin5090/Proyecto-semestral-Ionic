@@ -24,7 +24,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido"
+          <ion-input label="Apellido" labelPlacement="floating" placeholder="Ingrese su apellido"e
             [(ngModel)]="apellido"></ion-input>
         </ion-item>
         <ion-item>
@@ -48,8 +48,16 @@
         </ion-item>
 
         <ion-item>
-          <ion-input label="¿Cómo se llamaba tu primera mascota?" labelPlacement="floating" placeholder="Ingrese su respuesta"
-            [(ngModel)]="respuesta"></ion-input>
+          <ion-select placeholder="Seleccione una pregunta">
+            <ion-select-option>¿Cómo se llamaba tu primera mascota?</ion-select-option>
+            <ion-select-option>¿Cuál es el nombre de tu primera escuela?</ion-select-option>
+            <ion-select-option>¿Cuál es tu color favorito?</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        
+        <ion-item>
+          <ion-input label="Respuesta" labelPlacement="floating" placeholder="Ingrese su respuesta" [(ngModel)]="respuesta"></ion-input>
         </ion-item>
 
         <ion-button (click)="irLogin()" class="submit-button" expand="block">
