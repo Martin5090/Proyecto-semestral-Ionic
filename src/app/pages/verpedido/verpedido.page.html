@@ -10,51 +10,48 @@
 </ion-header>
 
 <ion-content class="order-details-content">
-  
-  <ion-card *ngIf="boletaActiva; else noBoleta">
-    <ion-card-header>
-      <ion-icon name="receipt-outline" class="receipt-icon"></ion-icon>
-      <ion-card-title>Información del Pedido</ion-card-title>
-    </ion-card-header>
+  <ng-container *ngIf="boletaActiva; else noBoleta">
+    <!-- Recorremos todas las ventas del usuario y las mostramos en tarjetas separadas -->
+    <ion-card *ngFor="let venta of ventas" class="venta-card">
+      <ion-card-header>
+        <ion-icon name="receipt-outline" class="receipt-icon"></ion-icon>
+        <ion-card-title>Boleta del dia {{ venta.f_venta }}</ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content>
-      
-      <p><strong>Nombre del Cliente:</strong> {{ nombre }} {{ apellido }}</p>
-      <p><strong>Dirección:</strong> {{ direccion }}</p>
-      <p><strong>Teléfono:</strong> {{ telefono }}</p>
-      <br>  
-      <ion-list>
-        <ion-item *ngFor="let producto of productosUltimaVenta">
-          <div class="product-container">
-            <ion-avatar slot="start">
-              <img [src]="producto.foto_producto" alt="{{ producto.nombre_producto }}">
-            </ion-avatar>
-            <ion-label>
-              <h2 class="product-name">{{ producto.nombre_producto }}</h2>
-              <p class="cantidad-overlay">Cantidad: {{ producto.cantidad }}</p>
-            </ion-label>
-          </div>
-        </ion-item>
-      </ion-list>
-      
-      <p><strong>Total de la Venta:</strong> {{ total_venta | currency }}</p>
-      
-     
-      <br>
-      <ion-button (click)="Confirmar()" expand="block" color="warning">Confirmar Pedido</ion-button>
-      
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <p><strong>Nombre:</strong> {{ nombre }} {{ apellido }}</p>
+        <p><strong>Dirección:</strong> {{ direccion }}</p>
+        <p><strong>Teléfono:</strong> {{ telefono }}</p>
+        <br>  
 
+        <ion-list>
+          <ion-item *ngFor="let producto of venta.productos">
+            <div class="product-container">
+              <ion-avatar slot="start">
+                <img [src]="producto.foto_producto" alt="{{ producto.nombre_producto }}">
+              </ion-avatar>
+              <ion-label>
+                <h2 class="product-name">{{ producto.nombre_producto }}</h2>
+                <p class="cantidad-overlay">Cantidad: {{ producto.cantidad }}</p>
+              </ion-label>
+            </div>
+          </ion-item>
+        </ion-list>
+        
+        <p><strong>Total de la Venta:</strong> {{ venta.total_venta | currency }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- Mensaje cuando no hay boletas activas -->
   <ng-template #noBoleta>
     <ion-card>
       <ion-card-header>
         <ion-icon name="alert-circle-outline" class="alert-icon"></ion-icon>
-        <ion-card-title>Sin boleta activa</ion-card-title>
+        <ion-card-title>No se encontraron boletas</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>No hay boleta activa en este momento.</p>
-        <ion-button (click)="cargarDatosUsuario()" expand="block" color="warning">Generar Boleta</ion-button>
+        <p>No tienes boletas activas en este momento.</p>
       </ion-card-content>
     </ion-card>
   </ng-template>

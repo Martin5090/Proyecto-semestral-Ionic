@@ -47,7 +47,7 @@ export class ServicebdService {
 
   //variables para los insert por defecto en nuestras tablas
   registroRol: string = "INSERT or IGNORE INTO rol(rol_id, nombre_rol) VALUES (1,'usuario'), (2,'admin');";
-  registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
+  registroComunas: string = "INSERT OR IGNORE INTO comuna (nombre_comuna, calle) VALUES ('Santiago','Av Providencia 123'), ('Cerrillos', 'Avenida General Velásquez'), ('Cerro Navia', 'Avenida José Joaquín Pérez'), ('Conchalí', 'Avenida Independencia'), ('El Bosque', 'Gran Avenida José Miguel Carrera'), ('Estación Central', 'Avenida Alameda Libertador Bernardo OHiggins'), ('Huechuraba', 'Avenida Recoleta'), ('Independencia', 'Avenida Independencia'), ('La Cisterna', 'Gran Avenida José Miguel Carrera'),('La Florida', 'Avenida Vicuña Mackenna'),('La Granja', 'Avenida Santa Rosa'),('La Pintana', 'Avenida Santa Rosa'),('La Reina', 'Avenida Larraín'),('Las Condes', 'Avenida Apoquindo'),('Lo Barnechea', 'Avenida Lo Barnechea'),('Lo Espejo', 'Avenida Central'),('Lo Prado', 'Avenida San Pablo'),('Macul', 'Avenida Macul'),('Maipú', 'Avenida Pajaritos'),('Ñuñoa', 'Avenida Irarrázaval'), ('Pedro Aguirre Cerda', 'Avenida Departamental'),('Peñalolén', 'Avenida Grecia'),('Providencia', 'Avenida Providencia'), ('Pudahuel', 'Avenida San Pablo'),('Quilicura', 'Avenida Matta'),('Quinta Normal', 'Avenida Carrascal'),('Recoleta', 'Avenida Recoleta'),('Renca', 'Avenida Domingo Santa María'),('San Joaquín', 'Avenida Vicuña Mackenna'),('San Miguel', 'Gran Avenida José Miguel Carrera'),('San Ramón', 'Avenida Santa Rosa'),('Santiago', 'Avenida Alameda Libertador Bernardo OHiggins'),('Vitacura', 'Avenida Vitacura'),('Puente Alto', 'Avenida Concha y Toro'),('Pirque', 'Avenida Virginia Subercaseaux'),('San José de Maipo', 'Camino al Volcán'),('Colina', 'Avenida General San Martín'),('Lampa', 'Avenida Lampa'),('Tiltil', 'Avenida Tiltil'),('San Bernardo', 'Avenida Colón'),('Buin', 'Avenida San Martín'),('Calera de Tango', 'Avenida Calera de Tango'),('Paine', 'Avenida Paine'),('Melipilla', 'Avenida Vicuña Mackenna'),('Alhué', 'Calle Principal Alhué'),('Curacaví', 'Avenida OHiggins'),('Maria Pinto', 'Calle Maria Pinto'),('San Pedro', 'Calle San Pedro'),('Talagante', 'Avenida Bernardo OHiggins'),('El Monte', 'Avenida Los Libertadores'),('Isla de Maipo', 'Avenida Jaime Guzmán'),('Padre Hurtado', 'Avenida Padre Hurtado'),('Peñaflor', 'Avenida Vicuña Mackenna');";
   registroUsuario: string = "INSERT or IGNORE INTO usuario(iduser, nombre, apellido, telefono, correo, contra, comuna_id, rol_id, respuesta) VALUES (1,'admin', 'admin', '990801152', 'admin@gmail.com', 'Admin12345@', '1', '2', 'admin');";
   registroCategoria: string = "INSERT or IGNORE INTO categoria(categoria_id, nombre_categoria) VALUES (1, 'combo'), (2, 'snack');";
   registroIngredientes: string = "INSERT or IGNORE INTO ingredientes(id_ingrediente, nombre_ingrediente, categoria_id) VALUES (1, 'pepinillos', 1), (2, 'mayo', 1), (3, 'tomate', 1), (4, 'ketchup', 1), (5, 'cebolla', 1), (6, 'agua', 1), (7, 'bebida', 1), (8, 'jugo', 1);";
@@ -165,7 +165,8 @@ export class ServicebdService {
   async crearTablas() {
     try {
       //ejecuto la creación de Tablas
-      //await this.database.executeSql('DROP TABLE IF EXISTS usuario', []);
+      //await this.database.executeSql('DROP TABLE IF EXISTS venta', []);
+      //await this.database.executeSql('DROP TABLE IF EXISTS comuna', []);
 
 
       await this.database.executeSql(this.tablaCupones, []);
@@ -650,68 +651,56 @@ export class ServicebdService {
     });
   }
 
-  obtenerUltimaVenta(iduser: number): Promise<{ total_venta: number; productos: { producto_id: number; nombre_producto: string; foto_producto: string; cantidad: number; }[] } | null> {
+  obtenerVentasPorUsuario(iduser: number): Promise<{ total_venta: number; venta_id: number; productos: { producto_id: number; nombre_producto: string; foto_producto: string; cantidad: number; }[] }[] | null> {
     const query = `
-      SELECT v.total_venta, v.venta_id
+      SELECT v.venta_id, v.total_venta
       FROM VENTA v
       WHERE v.iduser = ? AND v.total_venta > 0
-      ORDER BY v.f_venta DESC
-      LIMIT 1;
+      ORDER BY v.f_venta DESC;
     `;
 
-    return this.database.executeSql(query, [iduser]).then(res => {
-      if (res.rows.length > 0) {
-        const venta_id = res.rows.item(0).venta_id; // Obtener el ID de la venta
-        const total_venta = res.rows.item(0).total_venta;
+    return this.database.executeSql(query, [iduser]).then(async res => {
+      const ventas = [];
 
-        // Ahora obtener los detalles de esa venta, incluyendo información del producto
+      for (let i = 0; i < res.rows.length; i++) {
+        const venta_id = res.rows.item(i).venta_id;
+        const total_venta = res.rows.item(i).total_venta;
+
+        // Obtener los detalles de cada venta
         const detallesQuery = `
-                SELECT d.cantidad, p.producto_id, p.nombre_producto, p.foto_producto
-                FROM DETALLE d
-                JOIN PRODUCTO p ON d.producto_id = p.producto_id
-                WHERE d.venta_id = ?;
-            `;
+          SELECT d.cantidad, p.producto_id, p.nombre_producto, p.foto_producto
+          FROM DETALLE d
+          JOIN PRODUCTO p ON d.producto_id = p.producto_id
+          WHERE d.venta_id = ?;
+        `;
 
-        return this.database.executeSql(detallesQuery, [venta_id]).then(detallesRes => {
-          const productos = [];
-          for (let i = 0; i < detallesRes.rows.length; i++) {
-            productos.push({
-              producto_id: detallesRes.rows.item(i).producto_id,
-              nombre_producto: detallesRes.rows.item(i).nombre_producto,
-              foto_producto: detallesRes.rows.item(i).foto_producto,
-              cantidad: detallesRes.rows.item(i).cantidad,
-            });
-          }
+        const detallesRes = await this.database.executeSql(detallesQuery, [venta_id]);
+        const productos = [];
+        
+        for (let j = 0; j < detallesRes.rows.length; j++) {
+          productos.push({
+            producto_id: detallesRes.rows.item(j).producto_id,
+            nombre_producto: detallesRes.rows.item(j).nombre_producto,
+            foto_producto: detallesRes.rows.item(j).foto_producto,
+            cantidad: detallesRes.rows.item(j).cantidad,
+          });
+        }
 
-          return {
-            total_venta: total_venta,
-            productos: productos,
-          };
+        ventas.push({
+          total_venta: total_venta,
+          venta_id: venta_id,
+          productos: productos,
         });
-      } else {
-        return null;
       }
+
+      return ventas;
     }).catch(e => {
-      console.error('Error al obtener la última venta:', JSON.stringify(e));
+      console.error('Error al obtener las ventas del usuario:', JSON.stringify(e));
       return null;
     });
   }
 
-  actualizarVentaAVacia(ventaId: number): Promise<void> {
-    const query = `
-      UPDATE VENTA
-      SET total_venta = 0
-      WHERE venta_id = ?;
-    `;
 
-    return this.database.executeSql(query, [ventaId]).then(() => {
-      console.log('Boleta vaciada correctamente');
-    }).catch(error => {
-      console.error('Error al vaciar la boleta:', error);
-    });
-  }
-
-  
   seleccionarTodosLosDetalles() {
     return this.database.executeSql(
         `SELECT 

@@ -111,7 +111,6 @@ export class PagoPage implements OnInit {
     });
 }
 
-
 limpiarCarrito() {
   return this.storage.setItem('productos_carrito', [])
     .then(() => {
@@ -122,6 +121,7 @@ limpiarCarrito() {
       throw error; 
     });
 }
+
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,

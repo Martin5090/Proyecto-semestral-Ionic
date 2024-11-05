@@ -52,34 +52,21 @@ export class PerfilPage implements OnInit {
   }
 
   cerrarSesion() {
-    this.limpiarCarrito()  
-      .then(() => {
-        return this.storage.remove('isLoggedIn'); 
-      })
-      .then(() => {
-        return this.storage.remove('usuario'); 
-      })
+    this.storage.remove('isLoggedIn')
+      .then(() => this.storage.remove('usuario'))
       .then(() => {
         this.isLoggedIn = false; 
         this.router.navigate(['/login']); 
       })
       .catch(error => {
-        console.error('Error al cerrar sesión o limpiar el carrito:', error);
+        console.error('Error al cerrar sesión:', error);
         this.presentAlert('Error', 'No se pudo cerrar sesión correctamente.');
       });
   }
   
+  
 
-  limpiarCarrito() {
-    return this.storage.setItem('productos_carrito', [])
-      .then(() => {
-        console.log('Carrito limpiado correctamente');
-      })
-      .catch(error => {
-        console.error('Error al limpiar el carrito', error);
-        throw error; 
-      });
-  }
+  
 
 
 
