@@ -29,23 +29,27 @@ export class RecuperarcontraPage implements OnInit {
   }
 
   Ircontra() {
+    // Aplicar trim() para eliminar espacios antes y después de los campos
+    this.correo = this.correo.trim();
+    this.respuesta = this.respuesta.trim();
+
     if (!this.validarEmail(this.correo)) {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
-  
+
     this.bd.verificarCorreo(this.correo).then(exists => {
       if (!exists) {
         this.presentAlert('Correo no registrado', 'El correo electrónico ingresado no está registrado.');
         return;
       }
-  
+
       this.bd.verificarRespuesta(this.correo, this.respuesta).then(respuestaCorrecta => {
         if (!respuestaCorrecta) {
           this.presentAlert('Respuesta incorrecta', 'La respuesta ingresada no coincide con la registrada.');
           return;
         }
-  
+
         this.storage.setItem('correoRecuperacion', this.correo).then(() => {
           this.presentAlert('Verificación exitosa', 'Puede proceder a cambiar su contraseña.');
           this.router.navigate(['/cambiarcontra']);

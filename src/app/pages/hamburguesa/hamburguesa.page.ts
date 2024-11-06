@@ -16,15 +16,13 @@ export class HamburguesaPage {
   ingredientes: Ingredientes[] = [];
   ingredienteSeleccionadoId!: number;
 
-
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private bd: ServicebdService,
     private route: ActivatedRoute,
     private alertController: AlertController,
     private storage: NativeStorage
-
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     const productoId = this.route.snapshot.paramMap.get('id') || '';
@@ -44,64 +42,90 @@ export class HamburguesaPage {
     });
   }
 
-
-
-
   cargarProducto() {
-   // Definir los datos del producto para el carrito
-   const productoParaCarrito = {
-    id: this.producto.producto_id,
-    nombre: this.producto.nombre_producto,
-    precio: this.producto.precio_producto,
-    foto: this.producto.foto_producto,
-    stock: this.producto.stock_producto,
-    cantidad: 1 // Inicia con 1 unidad del producto
-  };
+    const productoParaCarrito = {
+      id: this.producto.producto_id,
+      nombre: this.producto.nombre_producto,
+      precio: this.producto.precio_producto,
+      foto: this.producto.foto_producto,
+      stock: this.producto.stock_producto,
+      cantidad: 1
+    };
 
-  // Obtener el carrito actual o crear uno nuevo
-  this.storage.getItem('productos_carrito').then((productos: any[]) => {
-    if (productos) {
-      const productoExistente = productos.find(p => p.id === productoParaCarrito.id);
+    // Obtener el objeto de usuario logueado
+    this.storage.getItem('usuario').then((usuario: any) => {
+      if (usuario) {
+        const iduser = usuario.iduser;  // Extraer el iduser del objeto de usuario
+        console.log('ID del usuario logueado:', iduser); // Mostrar iduser en la consola
 
-      if (productoExistente) {
-        if (productoExistente.cantidad < productoExistente.stock) {
-          productoExistente.cantidad++;
-          productoExistente.precio += productoParaCarrito.precio; 
-        } else {
-          console.log('No se puede agregar más, se ha alcanzado el límite de stock');
-        }
+        const carritoKey = `productos_carrito_${iduser}`;
+
+        // Obtener el carrito actual o crear uno nuevo
+        this.storage.getItem(carritoKey).then((productos: any[]) => {
+          if (productos) {
+            // Verificar si el producto ya está en el carrito
+            const productoExistente = productos.find(p => p.id === productoParaCarrito.id);
+            
+            if (productoExistente) {
+              // Si el producto ya está en el carrito, aumentar la cantidad si hay stock disponible
+              if (productoExistente.cantidad < productoExistente.stock) {
+                productoExistente.cantidad++;
+                productoExistente.precio += productoParaCarrito.precio;
+              } else {
+                console.log('No se puede agregar más, se ha alcanzado el límite de stock');
+                this.presentAlert('Advertencia', 'No se puede agregar más, se ha alcanzado el límite de stock.');
+              }
+            } else {
+              // Si el producto no está en el carrito, agregarlo
+              productos.push(productoParaCarrito);
+            }
+
+            // Actualizar el carrito
+            this.storage.setItem(carritoKey, productos)
+              .then(() => {
+                console.log('Producto añadido al carrito correctamente');
+                this.presentAlert('Éxito', 'Producto añadido al carrito');
+                this.router.navigate(['/menu-caja']);
+              })
+              .catch(error => {
+                console.error('Error al actualizar el carrito', error);
+                this.presentAlert('Error', 'Hubo un problema al actualizar el carrito.');
+              });
+          } else {
+            // Si no hay carrito guardado, creamos uno vacío
+            this.storage.setItem(carritoKey, [productoParaCarrito])
+              .then(() => {
+                console.log('Carrito creado y producto añadido correctamente');
+                this.presentAlert('Éxito', 'Producto añadido al carrito');
+                this.router.navigate(['/menu-caja']);
+              })
+              .catch(error => {
+                console.error('Error al crear el carrito', error);
+                this.presentAlert('Error', 'Hubo un problema al crear el carrito.');
+              });
+          }
+        }).catch(() => {
+          // Si no se puede obtener el carrito, lo creamos vacío
+          this.storage.setItem(carritoKey, [productoParaCarrito])
+            .then(() => {
+              console.log('Carrito creado y producto añadido correctamente');
+              this.presentAlert('Éxito', 'Producto añadido al carrito');
+              this.router.navigate(['/menu-caja']);
+            })
+            .catch(error => {
+              console.error('Error al crear el carrito', error);
+              this.presentAlert('Error', 'Hubo un problema al crear el carrito.');
+            });
+        });
       } else {
-        productos.push(productoParaCarrito);
+        console.error('No se encontró el objeto de usuario logueado');
+        this.presentAlert('Error', 'No se encontró el usuario logueado.');
       }
-
-      this.storage.setItem('productos_carrito', productos)
-        .then(() => {
-          console.log('Producto añadido al carrito correctamente');
-          this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
-          this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
-        })
-        .catch(error => console.error('Error al actualizar el carrito', error));
-    } else {
-      this.storage.setItem('productos_carrito', [productoParaCarrito])
-        .then(() => {
-          console.log('Carrito creado y producto añadido correctamente');
-          this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
-          this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
-        })
-        .catch(error => console.error('Error al crear el carrito', error));
-    }
-  }).catch(() => {
-    this.storage.setItem('productos_carrito', [productoParaCarrito])
-      .then(() => {
-        console.log('Carrito creado y producto añadido correctamente');
-        this.presentAlert('Éxito', 'Producto añadido al carrito'); // Mostrar alerta
-        this.router.navigate(['/menu-caja']); // Redirigir a menu-caja
-      })
-      .catch(error => console.error('Error al crear el carrito', error));
-  });
-}
-
-  
+    }).catch(error => {
+      console.error('Error al obtener el objeto de usuario logueado', error);
+      this.presentAlert('Error', 'Hubo un problema al verificar la sesión del usuario.');
+    });
+  }
 
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
@@ -112,6 +136,4 @@ export class HamburguesaPage {
 
     await alert.present();
   }
-
-
 }

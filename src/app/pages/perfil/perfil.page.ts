@@ -52,11 +52,14 @@ export class PerfilPage implements OnInit {
   }
 
   cerrarSesion() {
+    const carritoKey = 'productos_carrito_' + 'id_del_usuario';  // Reemplaza 'id_del_usuario' por el valor dinámico si es necesario
+  
     this.storage.remove('isLoggedIn')
       .then(() => this.storage.remove('usuario'))
+      .then(() => this.storage.setItem(carritoKey, []))  // Vacía el carrito visible
       .then(() => {
         this.isLoggedIn = false; 
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/inicio']); 
       })
       .catch(error => {
         console.error('Error al cerrar sesión:', error);
@@ -64,6 +67,7 @@ export class PerfilPage implements OnInit {
       });
   }
   
+
   
 
   

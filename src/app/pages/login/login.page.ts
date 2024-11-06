@@ -32,6 +32,9 @@ export class LoginPage implements OnInit {
   }
 
   irInicio() {
+    this.correo = this.correo.trim();
+    this.contra = this.contra.trim();
+
     if (!this.correo || !this.contra) {
       this.presentAlert('Error', 'Por favor, ingrese su correo y contraseña.');
     } else if (!this.isValidEmail(this.correo)) {
@@ -45,7 +48,7 @@ export class LoginPage implements OnInit {
             .then(() => {
               this.storage.setItem('isLoggedIn', true)
                 .then(() => {
-                  this.router.navigate(['/perfil']);
+                  this.router.navigate(['/inicio']);
                 });
             })
             .catch(error => {

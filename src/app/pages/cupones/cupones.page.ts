@@ -31,20 +31,23 @@ export class CuponesPage implements OnInit {
   }
 
   Canjearcupon() {
+    // Aplicar trim al campo de cupon para eliminar espacios al principio y al final
+    this.cupon = this.cupon.trim();
+  
     if (this.cuponesValidos.includes(this.cupon)) {
       this.presentAlert('¡Cupón válido!', 'El cupón sigue activo. ¡Puedes disfrutar de tu descuento!');
-
-    
+  
       this.storage.setItem('cupon_aplicado', this.cupon).then(() => {
-      
+        // Aquí puedes realizar otras acciones si es necesario
       }).catch(error => {
         console.error('Error al guardar el cupón en el storage', error);
       });
-
+  
     } else {
-      this.presentAlert('Cupón no válido', 'El cupón que has ingresado no es válido ya que no esta o caduco.');
+      this.presentAlert('Cupón no válido', 'El cupón que has ingresado no es válido ya que no está o está caducado.');
     }
   }
+  
 
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({

@@ -37,6 +37,12 @@ export class RegisterPage implements OnInit {
 
 
   irLogin() {
+    // Aplicar trim a los campos de texto para eliminar espacios al principio y al final
+    this.nombre = this.nombre.trim();
+    this.apellido = this.apellido.trim();
+    this.correo = this.correo.trim();
+    this.respuesta = this.respuesta.trim();
+  
     // Verificar campos obligatorios
     if (!this.nombre || !this.apellido || !this.telefono || !this.correo || !this.contra || !this.recontra || !this.respuesta) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos de forma correcta.');
@@ -69,36 +75,45 @@ export class RegisterPage implements OnInit {
       return;
     }
   
-    // Validar longitud de la contraseña
-    if (this.contra.length < 8) {
-      this.presentAlert('Contraseña corta', 'La contraseña debe tener al menos 8 caracteres.');
-      return;
-    }
+    // Verificar si el correo ya existe
+    this.bd.verificarCorreoExistente(this.correo).then(existe => {
+      if (existe) {
+        this.presentAlert('Correo ya registrado', 'El correo electrónico ya está registrado. Por favor, intente con otro.');
+        return;
+      }
   
-    // Validar fortaleza de la contraseña
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(this.contra)) {
-      this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
-      return;
-    }
+      // Validar longitud de la contraseña
+      if (this.contra.length < 8) {
+        this.presentAlert('Contraseña corta', 'La contraseña debe tener al menos 8 caracteres.');
+        return;
+      }
   
-    // Verificar si las contraseñas coinciden
-    if (this.contra !== this.recontra) {
-      this.presentAlert('Contraseñas no coinciden', 'Las contraseñas no coinciden.');
-      return;
-    }
+      // Validar fortaleza de la contraseña
+      const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(this.contra)) {
+        this.presentAlert('Contraseña débil', 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.');
+        return;
+      }
   
-    // Validar formato de la respuesta
-    if (!nombreRegex.test(this.respuesta)) {
-      this.presentAlert('Respuesta inválida', 'La respuesta solo debe contener letras, espacios y guiones.');
-      return;
-    }
+      // Verificar si las contraseñas coinciden
+      if (this.contra !== this.recontra) {
+        this.presentAlert('Contraseñas no coinciden', 'Las contraseñas no coinciden.');
+        return;
+      }
   
-    // Si todo es válido, insertar el usuario y navegar al login
-    this.bd.insertarUsuario(this.nombre, this.apellido, this.telefono, this.correo, this.contra, this.comuna_id, this.rol_id, this.respuesta);
-    this.router.navigate(['/login']);
+      // Validar formato de la respuesta
+      if (!nombreRegex.test(this.respuesta)) {
+        this.presentAlert('Respuesta inválida', 'La respuesta solo debe contener letras, espacios y guiones.');
+        return;
+      }
+  
+      // Si todo es válido, insertar el usuario y navegar al login
+      this.bd.insertarUsuario(this.nombre, this.apellido, this.telefono, this.correo, this.contra, this.comuna_id, this.rol_id, this.respuesta);
+      this.router.navigate(['/login']);
+    }).catch(error => {
+      this.presentAlert('Error', 'Hubo un problema al verificar el correo. Intente nuevamente.');
+    });
   }
-
 
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({

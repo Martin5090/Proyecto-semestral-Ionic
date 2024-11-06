@@ -423,6 +423,18 @@ export class ServicebdService {
       });
   }
 
+  verificarCorreoExistente(correo: string): Promise<boolean> {
+    return this.database.executeSql('SELECT COUNT(*) AS count FROM usuario WHERE correo = ?', [correo])
+      .then((data) => {
+        return data.rows.item(0).count > 0; // Si count > 0, el correo ya está registrado
+      })
+      .catch((error) => {
+        console.error('Error al verificar el correo:', error);
+        throw error;
+      });
+  }
+  
+
   verificarCorreo(correo: string) {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ?', [correo]).then(res => {
       if (res.rows.length > 0) {
@@ -435,6 +447,8 @@ export class ServicebdService {
       return false;
     });
   }
+
+  
 
   verificarRespuesta(correo: string, respuesta: string) {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo = ? AND respuesta = ?', [correo, respuesta])

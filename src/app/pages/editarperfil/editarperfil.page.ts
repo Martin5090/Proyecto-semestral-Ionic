@@ -55,33 +55,39 @@ export class EditarperfilPage implements OnInit {
   }
 
   Aceptar() {
+    // Aplicar trim para eliminar espacios al principio y al final de los campos de texto
+    this.nombre = this.nombre.trim();
+    this.apellido = this.apellido.trim();
+    this.correo = this.correo.trim();
+  
     if (!this.nombre || !this.apellido || !this.correo || !this.telefono) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
+  
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
-
+  
     if (!nombreRegex.test(this.nombre)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-
+  
     if (!nombreRegex.test(this.apellido)) {
       this.presentAlert('Apellido inválido', 'El apellido solo debe contener letras, espacios y guiones.');
       return;
     }
-
+  
     if (!this.validarEmail(this.correo)) {
       this.presentAlert('Correo inválido', 'Por favor, ingrese un correo electrónico válido.');
       return;
     }
-
+  
     const numeroStr = this.telefono.toString();
     if (isNaN(Number(this.telefono)) || numeroStr.length > 12 || numeroStr.length < 6) {
       this.presentAlert('Número inválido', 'El número de teléfono debe ser válido y tener entre 6 y 12 dígitos.');
       return;
     }
-
+  
     this.bd.modificarUsuario(this.iduser, this.nombre, this.apellido, this.telefono, this.correo, this.rol_id)
       .then(() => {
         this.router.navigate(['/perfil']);
@@ -91,6 +97,7 @@ export class EditarperfilPage implements OnInit {
         console.error(error);
       });
   }
+  
 
   public alertButtons = [
     {

@@ -36,39 +36,41 @@ export class AgregarPage implements OnInit {
 
 
   Agregar() {
+    // Aplicar trim a los campos de texto para eliminar espacios al principio y al final
+    this.nombre_producto = this.nombre_producto.trim();
+    this.descripcion_producto = this.descripcion_producto.trim();
+    this.foto_producto = this.foto_producto.trim();  // Si la foto es una URL, también puede tener espacios que conviene eliminar
+  
     if (!this.nombre_producto || !this.descripcion_producto || !this.foto_producto || !this.precio_producto || !this.stock_producto || !this.categoria_id) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
+  
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
     if (!nombreRegex.test(this.nombre_producto)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-
+  
     const numeroStr = this.precio_producto.toString();
-    if (isNaN(Number(this.precio_producto))||
-    this.precio_producto <= 0 ||   
-    numeroStr.length > 5) {
+    if (isNaN(Number(this.precio_producto)) || this.precio_producto <= 0 || numeroStr.length > 5) {
       this.presentAlert('Número inválido', 'Debe ingresar un precio apropiado.');
       return;
-    };
-
+    }
+  
     const numeroStock = this.stock_producto.toString();
-
-   
-    if (isNaN(Number(this.stock_producto)) ||
-      this.stock_producto <= 0 ||   
-      numeroStock.length > 2) {     
+    if (isNaN(Number(this.stock_producto)) || this.stock_producto <= 0 || numeroStock.length > 2) {
       this.presentAlert('Número inválido', 'Debe ingresar un stock apropiado mayor a 0 y menor a 100.');
       return;
     }
-
-
+  
+    // Si todo es válido, insertar el producto
     this.bd.insertarProducto(this.nombre_producto, this.descripcion_producto, this.foto_producto, this.precio_producto, this.stock_producto, this.categoria_id);
     this.router.navigate(['/menu-crud']);
-
   };
+  
+  
+  
 
   onFileSelected(event: any) {
     const file = event.target.files[0];  

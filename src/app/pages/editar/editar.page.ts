@@ -36,38 +36,41 @@ export class EditarPage implements OnInit {
 
 
   Editar() {
+    // Aplicar trim para eliminar espacios al principio y al final de los campos de texto
+    this.producto.nombre_producto = this.producto.nombre_producto.trim();
+    this.producto.descripcion_producto = this.producto.descripcion_producto.trim();
+  
     if (!this.producto.nombre_producto || !this.producto.descripcion_producto ||
       !this.producto.foto_producto || !this.producto.precio_producto ||
       !this.producto.stock_producto || !this.producto.categoria_id) {
       this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
       return;
     }
-
+  
     const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
     if (!nombreRegex.test(this.producto.nombre_producto)) {
       this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
       return;
     }
-
+  
     const precioRegex = /^[1-9]\d{0,4}$/;
     if (!precioRegex.test(this.producto.precio_producto.toString())) {
       this.presentAlert('Precio inválido', 'El precio debe ser un número positivo y no debe exceder 5 dígitos.');
       return;
     }
-
+  
     const stockRegex = /^[1-9]\d*$/;
     if (!stockRegex.test(this.producto.stock_producto.toString())) {
       this.presentAlert('Stock inválido', 'El stock debe ser un número entero positivo.');
       return;
     }
-
-
+  
     this.bd.modificarProducto(this.producto.producto_id, this.producto.nombre_producto, this.producto.descripcion_producto, this.producto.foto_producto,
       this.producto.precio_producto, this.producto.stock_producto, this.producto.categoria_id
     );
     this.router.navigate(['/menu-crud']);
-
   };
+  
 
 
   onFileSelected(event: any) {
