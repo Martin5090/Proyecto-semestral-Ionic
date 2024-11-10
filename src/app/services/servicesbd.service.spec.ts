@@ -1,13 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ServicesbdService } from './servicesbd.service';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { ServicebdService } from './servicesbd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
-describe('ServicesbdService', () => {
-  let service: ServicesbdService;
+describe('ServicebdService', () => {
+  let service: ServicebdService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(ServicesbdService);
+    TestBed.configureTestingModule({
+      providers: [
+        ServicebdService,
+        SQLite,
+        NativeStorage  
+      ]
+    });
+    service = TestBed.inject(ServicebdService);
   });
 
   it('should be created', () => {

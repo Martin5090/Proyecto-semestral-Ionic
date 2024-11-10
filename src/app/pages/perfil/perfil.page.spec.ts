@@ -1,17 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PerfilPage } from './perfil.page';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 describe('PerfilPage', () => {
-  let component: PerfilPage;
-  let fixture: ComponentFixture<PerfilPage>;
+  
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PerfilPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PerfilPage],
+      providers:[NativeStorage]
+    }).compileComponents();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(PerfilPage);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
+
 });
