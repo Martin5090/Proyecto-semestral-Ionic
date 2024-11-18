@@ -69,8 +69,7 @@ export class HamburguesaPage {
             if (productoExistente) {
               // Si el producto ya está en el carrito, aumentar la cantidad si hay stock disponible
               if (productoExistente.cantidad < productoExistente.stock) {
-                productoExistente.cantidad++;
-                productoExistente.precio += productoParaCarrito.precio;
+                productoExistente.cantidad++; // Incrementar la cantidad
               } else {
                 console.log('No se puede agregar más, se ha alcanzado el límite de stock');
                 this.presentAlert('Advertencia', 'No se puede agregar más, se ha alcanzado el límite de stock.');

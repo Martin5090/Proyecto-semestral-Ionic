@@ -25,7 +25,7 @@
         <p><strong>Nombre del Producto:</strong> <span class="card-text">{{ detalle.nombre_producto }}</span></p>
         <p><strong>Cantidad:</strong> <span class="card-text">{{ detalle.cantidad }}</span></p>
         <p><strong>Subtotal:</strong> <span class="card-text">${{ detalle.subtotal.toFixed(2) }}</span></p>
-        <p><strong>Fecha de Venta:</strong> <span class="card-text">{{ detalle.f_venta }}</span></p>
+        <p><strong>Fecha de Venta:</strong> <span class="card-text">{{ detalle.f_venta | date:'dd/MM/yyyy' }}</span></p>
         <p><strong>Total de Venta:</strong> <span class="card-text">${{ detalle.total_venta.toFixed(2) }}</span></p>
         <p><strong>Nombre del Usuario:</strong> <span class="card-text">{{ detalle.nombre_usuario }}</span></p>
         <p><strong>Nombre del Estado:</strong> <span class="card-text">{{ detalle.nombre_estado }}</span></p>

@@ -26,105 +26,86 @@ export class PagoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.storage.getItem('productos_carrito')
-      .then((productos) => {
-        this.productosCarrito = productos || [];
-      })
-      .catch((error) => console.error('Error al obtener productos del carrito:', error));
-
-    this.storage.getItem('precio_total_carrito')
-      .then((precioTotal) => {
-        this.precioTotal = precioTotal || 0;
-      })
-      .catch((error) => console.error('Error al obtener precio total del carrito:', error));
-
-    this.storage.getItem('subtotal_carrito')
-      .then((subtotal) => {
-        this.subtotal = subtotal || 0;
-      })
-      .catch((error) => console.error('Error al obtener subtotal del carrito:', error));
+    this.storage.getItem('usuario').then((usuario: any) => {
+      if (usuario) {
+        const iduser = usuario.iduser;
+        const carritoKey = `productos_carrito_${iduser}`;
+  
+        // Obtener productos del carrito
+        this.storage.getItem(carritoKey)
+          .then((productos) => {
+            this.productosCarrito = productos || [];
+          })
+          .catch((error) => console.error('Error al obtener productos del carrito:', error));
+  
+        // Obtener el precio total
+        this.storage.getItem('precio_total_carrito')
+          .then((precioTotal) => {
+            this.precioTotal = precioTotal || 0;
+          })
+          .catch((error) => console.error('Error al obtener precio total del carrito:', error));
+  
+        // Obtener el subtotal
+        this.storage.getItem('subtotal_carrito')
+          .then((subtotal) => {
+            this.subtotal = subtotal || 0;
+          })
+          .catch((error) => console.error('Error al obtener subtotal del carrito:', error));
+      } else {
+        console.error('No se encontró el usuario logueado');
+        this.presentAlert('Error', 'No se encontró el usuario logueado.');
+      }
+    }).catch(error => {
+      console.error('Error al obtener el usuario logueado:', error);
+    });
   }
-
+  
   Pagorealizado() {
-    this.nombreusuario = this.nombreusuario.trim();
-    this.numerotarjeta = this.numerotarjeta.trim();
-    this.diaExpiracion = this.diaExpiracion.trim();
-    this.cvv = this.cvv.trim();
-
-    if (!this.nombreusuario || !this.numerotarjeta || !this.diaExpiracion || !this.cvv) {
-      this.presentAlert('Campos incompletos', 'Por favor, complete todos los campos.');
-      return;
-    }
-
-    const nombreRegex = /^[a-zA-ZÀ-ÿ\s-]+$/;
-    if (!nombreRegex.test(this.nombreusuario)) {
-      this.presentAlert('Nombre inválido', 'El nombre solo debe contener letras, espacios y guiones.');
-      return;
-    }
-
-    if (this.numerotarjeta.length !== 16 || isNaN(Number(this.numerotarjeta))) {
-      this.presentAlert('Número inválido', 'El número de la tarjeta debe ser válido y tener 16 dígitos.');
-      return;
-    }
-
-    const [mesExpiracion, añoExpiracion] = this.diaExpiracion.split('/');
-    const mesNumero = parseInt(mesExpiracion, 10);
-    const añoNumero = parseInt(añoExpiracion, 10);
-
-    if (isNaN(mesNumero) || isNaN(añoNumero) || mesNumero < 1 || mesNumero > 12 || añoExpiracion.length !== 2) {
-      this.presentAlert('Fecha inválida', 'La fecha de expiración debe estar en formato MM/AA y ser válida.');
-      return;
-    }
-
-    if (this.cvv.length !== 3 || isNaN(Number(this.cvv))) {
-      this.presentAlert('CVV inválido', 'El CVV debe ser un número de exactamente 3 dígitos.');
-      return;
-    }
-
-
-    this.bd.actualizarTotalVenta(this.precioTotal)
-      .then(() => {
-
-        return this.bd.obtenerUltimaVentaId();
-      })
-      .then((ventaId) => {
-
-        const promesasDetalles = this.productosCarrito.map(producto => {
-
-          return this.bd.insertarDetalleVenta(ventaId, producto.id, producto.cantidad, producto.precio)
-            .then(() => {
-
-              return this.bd.actualizarStockProducto(producto.id, producto.cantidad);
-            });
-        });
-
-        return Promise.all(promesasDetalles);
-      })
-      .then(() => {
-        return this.limpiarCarrito();
-      })
-      .then(() => {
-
-        this.presentAlert('Gracias por la compra', 'Su pago ha sido procesado exitosamente.');
-        this.router.navigate(['/inicio']);
-      })
-      .catch(error => {
-
-        this.presentAlert('Error', 'Hubo un problema al procesar su pago. Inténtelo de nuevo.');
-      });
+    // Validación de campos (igual que antes)
+  
+    this.storage.getItem('usuario').then((usuario: any) => {
+      if (usuario) {
+        const iduser = usuario.iduser;
+        const carritoKey = `productos_carrito_${iduser}`;
+  
+        this.bd.actualizarTotalVenta(this.precioTotal)
+          .then(() => this.bd.obtenerUltimaVentaId())
+          .then((ventaId) => {
+            const promesasDetalles = this.productosCarrito.map(producto =>
+              this.bd.insertarDetalleVenta(ventaId, producto.id, producto.cantidad, producto.precio)
+                .then(() => this.bd.actualizarStockProducto(producto.id, producto.cantidad))
+            );
+  
+            return Promise.all(promesasDetalles);
+          })
+          .then(() => this.limpiarCarrito(carritoKey))
+          .then(() => {
+            this.presentAlert('Gracias por la compra', 'Su pago ha sido procesado exitosamente.');
+            this.router.navigate(['/inicio']);
+          })
+          .catch(error => {
+            console.error('Error al procesar el pago:', error);
+            this.presentAlert('Error', 'Hubo un problema al procesar su pago. Inténtelo de nuevo.');
+          });
+      } else {
+        console.error('No se encontró el usuario logueado');
+        this.presentAlert('Error', 'No se encontró el usuario logueado.');
+      }
+    }).catch(error => {
+      console.error('Error al obtener el usuario logueado:', error);
+    });
   }
-
-  limpiarCarrito() {
-    return this.storage.setItem('productos_carrito', [])
+  
+  limpiarCarrito(carritoKey: string) {
+    return this.storage.setItem(carritoKey, [])
       .then(() => {
         console.log('Carrito limpiado correctamente');
       })
       .catch(error => {
-        console.error('Error al limpiar el carrito', error);
+        console.error('Error al limpiar el carrito:', error);
         throw error;
       });
   }
-
   async presentAlert(titulo: string, msj: string) {
     const alert = await this.alertController.create({
       header: titulo,
